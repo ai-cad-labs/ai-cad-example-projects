@@ -1,0 +1,2 @@
+{"ts":"2026-07-21T00:00:00Z","role":"cad_designer","mode":"fresh","part":"hasp_plate","approach":"flat box 40x4x50 centered XY bottom Z=0; 3 Y-axis through-holes via Solid.makeCylinder cutters (latch d6 @X0 Z42, 2 mount d3.2 @X+-14 Z10)","outcome":"success","fix_cycles":0,"failure_reason":null}
+{"agent":"assembly_resolver","interface":"hasp latch<->lid latch","change":"proposal latch_hole_z 42.0->34.0","why":"local latch-to-mount spacing 32mm vs required 24mm; latch missed lid by 8mm (Z94 vs Z86)","conflict":"CONFLICT-001"}

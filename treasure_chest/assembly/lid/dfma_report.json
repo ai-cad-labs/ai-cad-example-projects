@@ -1,0 +1,77 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/treasure_chest/assembly/lid",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 5,
+  "rules_passed": 2,
+  "rules_failed": 1,
+  "rules_uncertain": 2,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls/shells: every wireframe view (front_wireframe, right_wireframe, top_wireframe, iso_wireframe) shows a dashed inner outline offset from the outer outline, confirming the lid is a shelled hollow with a constant-thickness wall. The offset gap is visibly non-zero and proportionally modest but not razor-thin. However, the renders carry no scale/dimensions, so absolute wall thickness in mm cannot be measured from images alone \u2014 a proportionally-thin wall on a large part could still fall below 0.8mm (FDM).",
+      "recommendation": "Verify the shell wall thickness against constraints.md / the part's actual .shell() value. Confirm it is >= 0.8mm for FDM (>= 0.4mm for SLA); if the shell was created with .shell(-t), ensure t meets the process minimum."
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhanging/bridging surfaces. The right_clean/right_wireframe views show the part cross-section is a semicircle (D-profile: flat diameter on one side, curved arch on the other), and iso views confirm a barrel/arch that rises from a flat rectangular base. In the natural flat-face-down print orientation, the curved arch surface transitions from ~0 degrees from vertical at the sides to ~90 degrees (fully horizontal) at the apex. The entire upper portion of the arch, above the 45-degree tangent point, exceeds the 45-degrees-from-vertical limit. No support structures or self-supporting chamfers are visible, and because the part is shelled, the interior arch ceiling is also an unsupported downward-facing overhang.",
+      "recommendation": "Address the arched overhang: (a) reorient the print so the semicircular flat face lies on the bed and the arch axis is horizontal, converting the dome into a bridging/side profile, or (b) add support structures for the apex region, or (c) redesign the top as a self-supporting profile (segmented facets <= 45 degrees). For FDM the apex WILL sag without one of these."
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for small protrusions, pins, and fine holes. The top_clean/iso_clean views show 4 small holes along the top edge (pin/latch holes) plus a single hole at the bottom-center; the front_clean view shows one clearly-sized circular hole through the face. The front-face hole renders as a distinct, comfortably-sized circle. The 4 top-edge holes render as very small dots \u2014 they are the smallest negative features on the part. As with wall thickness, no scale is present, so I cannot confirm these small holes are >= 0.5mm in diameter; sub-0.5mm holes will not print open on FDM.",
+      "recommendation": "Verify the diameter of the small top-edge pin/latch holes against the design values; ensure each is >= 0.5mm (in practice >= 1mm for reliably-open FDM holes). Increase any that fall below the process minimum."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for enclosed cavities, blind pockets, and inaccessible features. The shell is open on its underside (it is a lid that seats onto a box body), so the hollow interior is fully open and reachable \u2014 not a sealed cavity that would trap support material or uncured resin. All holes pass through the walls and are reachable from the exterior. For additive manufacturing there is no subtractive tooling that must reach the geometry; every surface is deposited layer-by-layer with the open underside providing clear access.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for overall symmetry and feature-placement patterns. The barrel/arch body is fundamentally symmetric about its long axis (confirmed by the symmetric semicircular right-view profile and the symmetric arch in iso). The 4 top-edge holes appear placed as two mirrored pairs. The front-face hole and bottom-center hole are asymmetrically placed, but these serve a directional latch/hinge function rather than being arbitrary asymmetry, and additive manufacturing incurs no setup/fixturing penalty for them.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "geometry",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "Curved domes/arches printed apex-up should be evaluated for print orientation before flagging the apex overhang as unfixable, since reorienting often eliminates the overhang entirely.",
+      "look_for": "Semicircular or dome cross-sections where the top surface becomes horizontal at the apex; check whether an alternative build orientation (flat/diameter face on bed) converts the overhang into a self-supporting or bridgeable profile.",
+      "pass_criteria": "An orientation exists in which no surface exceeds 45 degrees from vertical, OR supports are explicitly accounted for.",
+      "fail_criteria": "The apex overhang exceeds 45 degrees in every practical orientation and no supports are provided.",
+      "severity": "major"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "9556537a44907822",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T09:09:45.722208+00:00"
+  }
+}

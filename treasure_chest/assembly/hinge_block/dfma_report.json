@@ -1,0 +1,90 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/treasure_chest/assembly/hinge_block",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 5,
+  "rules_passed": 4,
+  "rules_failed": 1,
+  "rules_uncertain": 0,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin shells, membranes, and narrow webs between features. The part is a SOLID cuboid, not a shelled/hollow body \u2014 no membrane-like features exist. In front_clean the four 2x2 mounting holes are separated from each other and from the outer edges by many hole-diameters of solid material. right_clean shows the central pin bore surrounded by generous solid material on all sides. The thinnest region is the web where the horizontal pin bore passes between the two columns of vertical mounting holes (front_wireframe central dashed band), but the dashed geometry shows clear separation \u2014 the bore sits between the hole columns, not tangent to them. No wall appears near the 0.8mm FDM limit. Note: absolute mm cannot be measured from renders, but the solid-block topology with wide feature spacing is affirmative evidence of adequate thickness.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhanging surfaces, bridges, and horizontal bores. The part contains TWO perpendicular hole groups: a 2x2 set of vertical mounting holes (shown as circles on the top face in iso_clean, as vertical dashed bores in top_wireframe/right_wireframe) and ONE transverse pin bore running horizontally through the block (the single centered circle in right_clean, the side hole in iso_clean, the central band in front_wireframe). The transverse pin bore is a HORIZONTAL round hole: its top crown is an unsupported arc that far exceeds 45 degrees from vertical and will sag/droop during FDM printing with no support. Critically, because the two hole sets are orthogonal, NO print orientation can make both vertical \u2014 reorienting to print the pin bore vertically forces the four mounting holes horizontal instead. At least one round bore is always a >45deg overhang. No teardrop/self-supporting profile or support geometry is visible on any bore.",
+      "recommendation": "Give every bore that must print horizontally a self-supporting profile: replace the circular hole with a teardrop/diamond top (add a small triangular peak over the top of the bore, e.g. via a polyline profile or a chamfered top) so the crown never exceeds 45deg. Alternatively, split the block so the pin bore is a separate downstream drilling/reaming op, or accept and pre-plan support removal inside the pin bore. If a press-fit/bearing bore, drilling post-print is preferable to as-printed for the pin axis."
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for thin pins, embossed text, and fine protrusions. There are no protruding pins, ribs, or text anywhere on the part \u2014 all features are subtractive (holes). The smallest features are the hole diameters and the solid webs between them; the mounting holes and pin bore all render as clearly resolved circles spanning many pixels, well above the 0.5mm reliable-print floor. No feature approaches the minimum-size limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for enclosed cavities and unreachable features. For additive manufacturing, 'access' means every feature connects to the exterior so it can be formed and cleaned. Every hole here is a THROUGH hole opening to two exterior faces (confirmed by the dashed bores traversing the full body in top_wireframe and right_wireframe). There is no sealed internal cavity or blind pocket that would trap unfused powder/support. The pin bore and mounting bores intersect openly and all vent to the surface.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at overall symmetry and feature placement. The four mounting holes form a symmetric 2x2 rectangular pattern (mirror-symmetric about both the vertical and horizontal center planes, per front_clean). The single pin bore is centered on the side face (right_clean shows it centered). The block itself is a regular cuboid. Placement is regular and mirror-symmetric \u2014 no gratuitous asymmetry that would add setups.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "features",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "Horizontal cylindrical bores in FDM should use a self-supporting (teardrop/diamond) top profile instead of a plain circle.",
+      "look_for": "Round through-holes or bores whose axis is horizontal relative to the print bed, with a plain circular top arc and no teardrop peak.",
+      "pass_criteria": "Horizontal bores have a teardrop/diamond or chamfered top so the crown never exceeds 45 degrees, OR the bore axis is vertical.",
+      "fail_criteria": "A horizontal circular bore with an unmodified round crown that will sag/droop without support.",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-002",
+      "category": "geometry",
+      "manufacturing": [
+        "3D_printing",
+        "CNC"
+      ],
+      "description": "Parts with two or more mutually-perpendicular through-bore groups should flag that no single fabrication setup/orientation serves all axes.",
+      "look_for": "Two or more hole/bore groups whose axes are orthogonal (e.g. vertical mounting holes plus a transverse pin bore).",
+      "pass_criteria": "Only one bore axis, or a documented multi-setup/reorientation plan exists.",
+      "fail_criteria": "Orthogonal bore groups present with an implicit single-orientation assumption, guaranteeing at least one non-ideal (overhanging for FDM / re-fixtured for CNC) bore.",
+      "severity": "minor"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "9556537a44907822",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T09:10:05.214497+00:00"
+  }
+}

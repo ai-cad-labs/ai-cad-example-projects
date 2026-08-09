@@ -1,0 +1,116 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/shade",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 9,
+  "rules_passed": 8,
+  "rules_failed": 0,
+  "rules_uncertain": 1,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a hollow cone, forming a single continuous wall. The wireframe and clean views show this wall thickness from the top and side. However, without any scale or dimensional annotations on the drawings, it is impossible to verify if the wall thickness meets the 1.5mm minimum requirement. It does not appear excessively thin, but a visual check is insufficient for confirmation.",
+      "recommendation": "Provide a dimensioned drawing or a cross-section view with a scale to allow for quantitative assessment of the wall thickness."
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part's primary feature is a large, open, central cavity. It does not contain any features that would be classified as a 'pocket' or 'slot' where the depth-to-width ratio would be a concern for tool access or chip evacuation. The main cavity is wide and shallow.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The geometry is a simple truncated cone. All external and internal surfaces are tapered but directly accessible. There are no overhanging features, T-slots, or internal cavities that would be inaccessible to a standard tool approaching from the top or bottom. The part can be machined from two sides (outside and inside) without requiring undercutting operations.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a single large central hole. The depth of this hole (the height of the part) is significantly smaller than its diameter. The depth-to-diameter ratio is very low, well below the 10:1 limit. No other holes are present in the geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part is a monolithic shell and does not contain any features that could be characterized as ribs or webs. This rule is not applicable to the given geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part has four primary edges: the inner and outer circular edges at the top and bottom. All of these edges are fully exposed and easily accessible for manual or automated deburring tools. There are no internal, enclosed, or hard-to-reach edges.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The provided images show no evidence of any holes intended to be tapped. The part consists of a single hollow body. This rule is not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part's geometry is simple and open. The external surface is fully accessible. The internal conical cavity is large and provides ample clearance for tool access from one end. There are no recessed or obstructed features.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is axisymmetric, exhibiting full rotational symmetry around its central axis. This high degree of symmetry is ideal for manufacturing, particularly for turning operations, as it simplifies setup and fixturing.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "severity": "minor",
+      "description": "Part geometry should facilitate secure workholding without damaging cosmetic surfaces.",
+      "category": "fixturing",
+      "fail_criteria": "Part relies on clamping on tapered, curved, or delicate surfaces, which may lead to instability, deformation, or cosmetic damage.",
+      "look_for": "Tapered or curved surfaces without any flat or straight sections for clamping; thin walls that could deform under pressure.",
+      "manufacturing": "CNC_milling",
+      "id": "PROPOSED-001",
+      "pass_criteria": "Part includes parallel flat surfaces, straight cylindrical sections, or dedicated fixturing features for clamping."
+    },
+    {
+      "severity": "major",
+      "manufacturing": "CNC_milling",
+      "description": "Part must be sufficiently rigid to withstand clamping and machining forces without deformation.",
+      "fail_criteria": "Part is thin-walled or lacks obvious features for secure workholding, risking deformation or vibration (chatter).",
+      "pass_criteria": "Part has features suitable for secure clamping or a thick enough cross-section to resist machining forces.",
+      "look_for": "Thin walls, large unsupported sections, delicate features.",
+      "category": "workholding",
+      "id": "PROPOSED-001"
+    }
+  ]
+}

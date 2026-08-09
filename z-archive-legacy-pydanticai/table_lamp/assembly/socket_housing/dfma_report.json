@@ -1,0 +1,107 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/socket_housing",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 8,
+  "rules_passed": 7,
+  "rules_failed": 0,
+  "rules_uncertain": 1,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a central stepped bore. The wireframe views (front, right, iso) show the depth of the smaller hole is approximately equal to its diameter, and the larger bore has a depth of approximately 2-3 times its diameter. Neither ratio appears to approach 10:1.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The images show a part with a smooth central bore. There are no visual indicators of threads, such as schematic lines or callouts, that would designate a tapped hole.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a central, stepped internal bore. The provided images are 2D line drawings and lack any scale or dimensional information, making it impossible to verify if the bore diameters are greater than or equal to the 3mm minimum.",
+      "recommendation": "Provide a dimensioned drawing or a reference scale in the image to allow for verification of the internal bore diameter against the 3mm minimum requirement."
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Based on the front and right views, the overall length of the part is approximately 1.5 times its outer diameter. This L/D ratio is well below the 8:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The wireframe views clearly show a stepped internal bore. All internal features (the two bore diameters and the shoulder between them) are accessible from the front opening of the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part geometry consists of a cylinder with a stepped bore. There are no external or internal grooves, such as for O-rings or retaining clips.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a simple turned component. The outer cylindrical profile is fully accessible. The internal stepped bore is accessible from one end. There are no recessed or obstructed features that would prevent tool access.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is fully axisymmetric (symmetrical about its central axis), which is ideal for CNC turning and requires minimal setup complexity.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "description": "Internal vertical corners should have a fillet radius to accommodate tool nose radius.",
+      "severity": "major",
+      "look_for": "Sharp 90-degree internal corners where two surfaces meet.",
+      "pass_criteria": "An internal radius/fillet is present at the corner.",
+      "manufacturing": "CNC_turning",
+      "category": "features",
+      "fail_criteria": "The internal corner is perfectly sharp (0-radius).",
+      "id": "PROPOSED-001"
+    },
+    {
+      "severity": "major",
+      "description": "Avoid sharp internal corners; add a radius to improve tool life and reduce stress concentration.",
+      "look_for": "Internal corners where two surfaces meet at 90 degrees.",
+      "category": "features",
+      "fail_criteria": "Any internal corner is perfectly sharp (0-radius).",
+      "id": "PROPOSED-001",
+      "pass_criteria": "All internal corners have a visible radius.",
+      "manufacturing": "CNC_turning"
+    }
+  ]
+}

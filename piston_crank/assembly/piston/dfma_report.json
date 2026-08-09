@@ -1,0 +1,248 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/piston_crank/assembly/piston",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "engineering_domain",
+  "rules_evaluated": 26,
+  "rules_passed": 19,
+  "rules_failed": 7,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The walls of the piston skirt and the top crown appear to be sufficiently thick, well over 1.5mm relative to the overall part size.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The internal cavity is deep, but its depth does not appear to exceed 4 times its diameter. The ratio looks to be around 1:1 to 1.5:1.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The internal cavity can be machined from the bottom, and the cross-hole can be machined from the sides. There are no hidden undercuts that would require special tooling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The wrist pin cross-hole passes through the part, but its depth (length) relative to its diameter is small, well under the 10:1 ratio.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "There are no tall, thin ribs or webs in the design. The internal bosses are thick and sturdy.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "All machined edges, including the intersections of the cross-hole and internal cavity, appear accessible for deburring tools.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "There are no tapped holes visible in the design.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "All features, including the internal cavity and cross-hole, have clear access paths for standard milling tools and drills from the bottom and sides.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is highly symmetric, which simplifies fixturing and reduces the number of required setups.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The wrist pin cross-hole is perfectly circular and oriented horizontally relative to the main vertical axis of the piston.",
+      "recommendation": "If 3D printing in a vertical orientation, modify the circular hole to a teardrop profile to prevent sagging, or ensure supports are generated."
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The internal wrist pin bosses meet the inner cylindrical wall of the piston skirt at sharp angles without any visible fillets or transition features.",
+      "recommendation": "Add fillets or gussets where the internal bosses meet the piston skirt to distribute stress and prevent delamination."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-001",
+      "rule_description": "Lids and mating enclosures should have alignment features such as a lip, flange, or pins to ensure proper registration.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is not a lid or mating enclosure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-003",
+      "rule_description": "Sharp internal corners should be filleted to reduce stress concentrations and prevent cracking.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are sharp 90-degree internal corners where the internal flat bosses meet the cylindrical skirt, and where the internal cavity meets the flat bottom of the piston crown.",
+      "recommendation": "Add fillets to all internal corners within the piston cavity to reduce stress concentrations."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part does not contain hinge knuckles.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-USABILITY-001",
+      "rule_description": "Lids and doors should have a handle, tab, or indentation to facilitate user opening.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This part is not a lid or door.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-GEN-001",
+      "rule_description": "Sharp external edges should be chamfered or filleted for handling safety and to reduce chipping.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The top and bottom outer edges of the piston cylinder, as well as the outer edges of the wrist pin hole, are perfectly sharp 90-degree edges.",
+      "recommendation": "Add chamfers or fillets to the top and bottom outer edges of the piston and the entrances of the wrist pin hole for safe handling."
+    },
+    {
+      "rule_id": "PROPOSED-CNC-001",
+      "rule_description": "Internal vertical corners must have a minimum radius to accommodate the cylindrical shape of an end mill.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The internal vertical corners where the flat faces of the wrist pin bosses intersect the cylindrical inner wall of the skirt are perfectly sharp.",
+      "recommendation": "Add a radius to these internal vertical corners that is greater than or equal to the radius of the intended end mill."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-003",
+      "rule_description": "Holes intended for pin or shaft insertion should have a chamfered lead-in to facilitate assembly.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The entrances to the wrist pin cross-hole have perfectly sharp 90-degree edges with no lead-in chamfer.",
+      "recommendation": "Add a chamfer to both entrances of the wrist pin hole to facilitate the insertion of the wrist pin during assembly."
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part has non-symmetric features (cross-hole, internal bosses). However, the specified manufacturing process is CNC milling, which can accommodate these features.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This part is a piston, not a cylindrical pin.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The wrist pin hole is closed-loop, but it is intended for a pin to be inserted through it, not assembled over a captive shaft.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The outer cylindrical surface of the piston is completely smooth and lacks any circumferential grooves for piston rings.",
+      "recommendation": "Add circumferential grooves near the top of the piston to accommodate compression and oil control rings for proper sealing."
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The walls of the piston appear sufficiently thick to withstand machining forces.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-005",
+      "rule_description": "Pins and shafts intended for insertion into holes should have chamfered or radiused ends to facilitate assembly and prevent binding.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This part is not a pin or shaft.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This part is a piston, not a connecting rod.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin to balance rotational inertia.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is a piston, not a crankshaft.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": []
+}

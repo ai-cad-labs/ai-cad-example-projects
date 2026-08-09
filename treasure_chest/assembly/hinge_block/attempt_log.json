@@ -1,0 +1,1 @@
+{"ts":"2026-07-21T00:00:00Z","role":"cad_designer","mode":"fresh","part":"hinge_block","approach":"solid 30x25x30 block; pin bore d4 along X at Z=15; 4x mount d3.2 along Y at X=+-8, Z=7/23; feature-decomposed cutters with both=True","outcome":"success","fix_cycles":0,"failure_reason":null}

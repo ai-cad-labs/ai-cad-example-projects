@@ -1,0 +1,1 @@
+{"ts":"2026-07-13T00:00:00+05:30","role":"cad_designer","mode":"fresh","part":"gudgeon_pin","approach":"annulus profile (OD 15.99 + coaxial ID 9.0 circles) extruded both=True 25mm each way, centered on Z per convention; volume matched analytic value exactly","outcome":"success","fix_cycles":0,"failure_reason":null}

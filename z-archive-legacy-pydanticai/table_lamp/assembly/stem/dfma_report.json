@@ -1,0 +1,107 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/stem",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 8,
+  "rules_passed": 5,
+  "rules_failed": 2,
+  "rules_uncertain": 1,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part is a long tube. The central bore's length, as seen in the front and right views, appears to be significantly greater than 10 times its diameter, as seen in the top view. This extreme ratio makes drilling from solid material impractical.",
+      "recommendation": "The part's geometry is not suitable for drilling from a solid bar. It should be manufactured from standard hollow tube stock and cut to length. If it must be machined from solid, the design needs to be re-evaluated for a much shorter length or larger diameter."
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The rendered images, including wireframes, show a simple tube with no indications of threads or tapped holes.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a large internal bore, but the images lack any scale or reference dimensions. It is impossible to visually confirm if the diameter is greater than or equal to the required 3mm minimum.",
+      "recommendation": "Provide a dimensioned drawing or a scale reference in the image to allow for verification of absolute feature sizes."
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part is a long, slender cylinder. Comparing the length in the front/right views to the outer diameter in the top view, the length-to-diameter ratio visually appears to be well in excess of 8:1.",
+      "recommendation": "This part will deflect and vibrate excessively if turned without support. The manufacturing plan must include a tailstock or steady rest. Alternatively, shorten the part or increase its diameter if the design allows. The best option is to make this part from standard tubing."
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The wireframe views show a simple, straight, constant-diameter through-bore. There are no internal grooves, steps, or features that would be inaccessible to a boring tool from either end.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is a simple cylinder with no external or internal grooves visible in any of the rendered views.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a simple cylinder. All external surfaces are accessible for turning, and the internal bore is a straight through-hole accessible from both ends. While tool rigidity for the bore is a major issue, it is covered by rules DFM-CNC-005 and DFM-TURN-002. The geometric access itself is clear.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is a cylinder, which is perfectly axisymmetric. This is the ideal geometry for a turning operation, requiring only a single setup.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "description": "For parts with simple hollow cross-sections, consider using standard structural tubing or pipe stock.",
+      "category": "process_selection",
+      "pass_criteria": "The design uses standard stock dimensions where possible.",
+      "look_for": "Parts that are simple tubes, pipes, or hollow extrusions.",
+      "fail_criteria": "The design specifies a custom tube profile that could be replaced by a standard, off-the-shelf stock material, requiring unnecessary and costly machining from solid bar.",
+      "id": "PROPOSED-001",
+      "severity": "minor",
+      "manufacturing": "CNC_turning"
+    },
+    {
+      "fail_criteria": "The wall appears thin relative to the part's diameter and length, risking vibration, chatter, or deformation during turning.",
+      "manufacturing": "CNC_turning",
+      "description": "Wall thickness on turned parts must be sufficient to withstand machining forces without distortion.",
+      "id": "PROPOSED-001",
+      "look_for": "Thin-walled tubular sections on turned parts.",
+      "category": "geometry",
+      "severity": "major",
+      "pass_criteria": "The wall thickness is visually robust and uniform."
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "eval_type": "dfa",
+  "target_path": "projects/piston_crank/assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 11,
+  "rules_passed": 5,
+  "rules_failed": 6,
+  "rules_uncertain": 0,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count — challenge whether each part is truly independent",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The assembly consists of a crankshaft, connecting rod, piston pin, piston, and rings. All parts have relative motion or different material requirements, justifying their separate existence.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The piston pin (green) sits in the piston and connecting rod bores but lacks any visible axial locating features such as snap ring grooves, circlips, or shoulders to prevent it from sliding out during operation.",
+      "recommendation": "Add retaining ring grooves to the piston bores and use circlips to axially locate the piston pin, or use press-fit pins with a locating shoulder."
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The three piston rings (purple, cyan, brown) are thin, flexible components that are notoriously difficult to expand and slide over the piston without breaking or scratching the surfaces.",
+      "recommendation": "Since rings are functionally required to be flexible, ensure the piston top has a slight taper or provide specialized ring-expander tooling for assembly."
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "While the piston can be lowered onto the connecting rod from above, the piston pin (green) must be inserted from the side (perpendicular to the piston's vertical axis), violating strict top-down assembly.",
+      "recommendation": "Side insertion is inherent to this mechanism, but requires a fixture to hold the piston and rod aligned while the pin is inserted horizontally."
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "There are no fasteners (bolts, nuts, screws) visible in this assembly.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The assembly requires working from multiple axes: top-down for the piston, side-access for the piston pin, and radial access for the piston rings.",
+      "recommendation": "Use a multi-axis assembly fixture to allow access to the side for pin insertion without having to manually reorient the entire subassembly."
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types — minimize unique fastener count",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "There are no fasteners used in this assembly.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The ends of the piston pin (green) and the entrances to the bores in the piston (orange) and connecting rod (blue) appear as sharp 90-degree corners in the wireframe views, with no visible chamfers.",
+      "recommendation": "Add lead-in chamfers to both ends of the piston pin and the outer edges of the piston pin bores to guide insertion and prevent binding."
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The connecting rod (blue) has a solid, closed circular big end. The crankshaft (red) is a single solid piece with large webs on either side of the crankpin. The crank webs completely block the insertion path, making it physically impossible to slide the connecting rod onto the crankpin.",
+      "recommendation": "Split the connecting rod big end into two pieces (a rod and a cap) secured by bolts, or redesign the crankshaft as a multi-piece built-up assembly that can be pressed together after the rod is in place."
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "There are no bolt patterns in this assembly.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-001",
+      "rule_description": "Avoid features that trap debris and hinder service access to fasteners.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are no fasteners or deep pockets intended for fasteners that would trap debris.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": []
+}

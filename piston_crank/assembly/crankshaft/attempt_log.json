@@ -1,0 +1,1 @@
+{"ts":"2026-07-13T00:00:00+05:30","role":"cad_designer","mode":"fresh","part":"crankshaft","approach":"single-throw crank as union of 5 cylinders (2 journals + 2 full-disc webs + offset pin) on Z axis at origin, 1mm internal embed overlaps for boolean robustness, feature-decomposed functions","outcome":"success","fix_cycles":0,"failure_reason":null}

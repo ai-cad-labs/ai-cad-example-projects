@@ -1,0 +1,230 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/piston_crank/assembly/gudgeon_pin",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 22,
+  "rules_passed": 20,
+  "rules_failed": 2,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part is a hollow cylinder. The length of the internal bore appears to be roughly 6 to 8 times its diameter, which is under the 10:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "There are no tapped holes visible on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The internal bore is a large through-hole that visibly exceeds the 3mm minimum diameter requirement.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The overall length of the pin appears to be approximately 3 to 4 times its outer diameter, well within the 8:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The internal bore is a straight through-hole with no internal grooves or steps, fully accessible from both ends.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "There are no grooves present on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a simple tube with fully accessible outer and inner surfaces.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is perfectly rotationally and axially symmetric.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This is a turned part, not a 3D printed part with horizontal holes.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no protrusions on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-001",
+      "rule_description": "Lids and mating enclosures should have alignment features such as a lip, flange, or pins to ensure proper registration.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is not a lid or mating enclosure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-003",
+      "rule_description": "Sharp internal corners should be filleted to reduce stress concentrations and prevent cracking.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are no internal corners in the straight bore.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no hinge knuckles on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-USABILITY-001",
+      "rule_description": "Lids and doors should have a handle, tab, or indentation to facilitate user opening.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This part is not a lid or door.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-GEN-001",
+      "rule_description": "Sharp external edges should be chamfered or filleted for handling safety and to reduce chipping.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The circular edges at both ends of the pin (both inner and outer diameters) appear to be perfectly sharp 90-degree edges with no visible chamfers or fillets.",
+      "recommendation": "Add chamfers to the outer and inner edges at both ends of the pin to remove sharp edges, improve handling safety, and facilitate assembly."
+    },
+    {
+      "rule_id": "PROPOSED-CNC-001",
+      "rule_description": "Internal vertical corners must have a minimum radius to accommodate the cylindrical shape of an end mill.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no internal vertical corners on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-003",
+      "rule_description": "Holes intended for pin or shaft insertion should have a chamfered lead-in to facilitate assembly.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part does not contain holes intended for pin insertion; it is the pin itself.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is fully rotationally symmetric.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The pin is a smooth cylinder with no retaining ring grooves or other axial retention features visible.",
+      "recommendation": "If this pin is intended for a floating assembly, add retaining ring grooves near the ends or cross-holes for axial retention."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is not a closed-loop bearing hole.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is a gudgeon pin, not a piston.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The wall thickness of the hollow pin is substantial and does not appear thin enough to deform during machining.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "category": "assembly",
+      "id": "PROPOSED-ASSY-005",
+      "manufacturing_process": "CNC_turning",
+      "pass_criteria": "Ends of the pin have a visible chamfer or radius.",
+      "fail_criteria": "Ends of the pin are perfectly sharp 90-degree edges.",
+      "severity": "minor",
+      "description": "Pins and shafts intended for insertion into holes should have chamfered or radiused ends to facilitate assembly and prevent binding.",
+      "look_for": "Sharp edges on the ends of cylindrical pins or shafts.",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "manufacturing": [],
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

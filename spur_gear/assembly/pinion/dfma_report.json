@@ -1,0 +1,73 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/spur_gear/assembly/pinion",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 6,
+  "rules_passed": 5,
+  "rules_failed": 0,
+  "rules_uncertain": 1,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls, shells, or membrane-like features across all 8 views. The part is a solid revolved/prismatic gear blank with a central bore \u2014 no shelled cavities or thin membranes are visible in either clean or wireframe renders. This is an absence-of-thin-walls pass, not a measured one (no dimensional scale available), but a solid blank has no wall-thickness failure mode regardless of scale.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhanging surfaces, bridges, and features angling away from vertical. The gear is a prismatic extruded profile with axis vertical to the build plate; tooth flanks are vertical walls (self-supporting) and the top/bottom faces are flat. No overhangs exceeding 45 degrees are visible in the front, right, or isometric views.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for small protrusions, fine detail, and thin tooth tips. The gear teeth are the smallest features; their tip-land and root-fillet width are the risk. Cannot confirm >= 0.5mm because the renders carry no dimensional scale \u2014 tooth-tip thickness is scale-dependent (module and pitch/outside diameter determine it).",
+      "recommendation": "Read constraints.md for the gear module and outside/root diameters, then compute tooth-tip land width; if module is small (e.g. < ~1mm) verify tip land >= 0.5mm and increase module or tooth thickness if it falls short."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for recessed features, internal cavities, and deep holes with no access path. The only internal feature is the central through-bore, which is open on both faces (visible in top and wireframe views). 3D printing builds additively so tool-access is inherently satisfied for this open geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for overall symmetry and feature placement. The part is rotationally symmetric (even tooth spacing about the axis) with a concentric central bore, as seen in the top view. No asymmetric features requiring extra setups.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for circular holes oriented horizontally (parallel to the build plate). The only hole is the central bore, whose axis is coincident with the gear axis (vertical / perpendicular to the build plate in the natural print orientation). No horizontal holes present, so no teardrop profile is required.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [],
+  "_meta": {
+    "ruleset_hash": "4c46e5ce6c2a799b",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T11:20:31.205265+00:00"
+  }
+}

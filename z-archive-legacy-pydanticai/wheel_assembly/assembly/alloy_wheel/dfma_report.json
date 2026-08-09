@@ -1,0 +1,116 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/alloy_wheel",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 9,
+  "rules_passed": 7,
+  "rules_failed": 0,
+  "rules_uncertain": 2,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part's walls, spokes, and rim appear robust in all views. However, without any dimensional scale, it is impossible to visually confirm that the thickness is greater than the required 1.5mm. The relative proportions seem correct, but a definitive pass requires measurement.",
+      "recommendation": "Provide a dimensioned drawing or a 3D model with a measurement tool to verify that all walls, especially in the spokes and outer rim, meet the 1.5mm minimum thickness requirement."
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The primary pockets are the large open areas between the five spokes. These areas are very wide relative to their depth, as seen by comparing the TOP view with the FRONT/RIGHT views. The depth-to-width ratio is clearly very low, much less than 4:1.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "All features of the wheel are accessible from either the front face or the back face using a standard 3-axis machine. The wireframe views show no internal geometry that would be hidden or require a tool to enter from the side under an overhang.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The central bore and the five smaller bolt holes are the only holes. In the FRONT and RIGHT views, the material thickness (hole depth) is clearly not excessive compared to the hole diameters shown in the TOP view. The depth-to-diameter ratio for all holes appears to be significantly less than 10:1.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The spokes are the main rib-like features. They are wide and robust, not thin. Their height (the depth of the part) is small compared to their thickness, meaning they are not at risk of vibration or deflection during machining.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The design is very open. All machined edges, including those at the intersection of the spokes with the hub and rim, are fully exposed and easily accessible for manual or automated deburring tools.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The five holes on the central hub are for mounting. It is unclear from the drawing whether they are intended to be tapped or are clearance holes for studs. Assuming they are tapped, the material thickness shown in the FRONT view appears adequate, but it cannot be confirmed without dimensions for the hole diameter and material depth.",
+      "recommendation": "Clarify if the mounting holes are tapped. If so, provide dimensions to confirm that the material thickness allows for a thread depth of at least 1.5 times the bolt's nominal diameter."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "All features, including the pockets, spokes, hub, and holes, have clear and unobstructed access from either the front or the back of the part. There are no recessed or enclosed areas that would prevent a cutting tool from reaching them.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part exhibits 5-fold rotational symmetry. The spokes and bolt holes are arranged in a regular, symmetric pattern around the central axis. This symmetry simplifies manufacturing, fixturing, and programming.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "pass_criteria": "All internal corners have a fillet with a radius larger than the tool radius.",
+      "look_for": "Sharp inside corners where two surfaces meet.",
+      "manufacturing": "CNC_milling",
+      "id": "PROPOSED-001",
+      "severity": "major",
+      "description": "All internal vertical corners must have a fillet radius to accommodate the cutting tool.",
+      "category": "features",
+      "fail_criteria": "Any internal corner is perfectly sharp (radius of 0)."
+    },
+    {
+      "severity": "major",
+      "fail_criteria": "Any internal corner appears perfectly sharp (0-radius).",
+      "category": "geometry",
+      "id": "PROPOSED-001",
+      "pass_criteria": "All internal corners have a visible fillet or radius appropriate for an end mill.",
+      "look_for": "Sharp internal corners where two vertical walls meet, such as where spokes meet the hub or rim.",
+      "description": "Internal vertical corners must have a radius greater than or equal to the cutting tool radius.",
+      "manufacturing": "CNC_milling"
+    }
+  ]
+}

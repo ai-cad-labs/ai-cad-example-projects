@@ -1,0 +1,221 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/piston_crank/assembly/piston_ring",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 21,
+  "rules_passed": 19,
+  "rules_failed": 2,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "No holes are present in the part geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "No threaded holes are present in the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The internal diameter of the ring is significantly larger than 3mm.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part is a thin ring; its axial length is much smaller than its diameter, well within the 8:1 ratio.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a simple ring with no internal enclosed features or grooves.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "There are no grooves on the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "All surfaces of the simple ring geometry are easily accessible for machining.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is symmetric except for the functional slit required for a piston ring.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "No horizontal holes are present.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "No protrusions are attached to the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-001",
+      "rule_description": "Lids and mating enclosures should have alignment features such as a lip, flange, or pins to ensure proper registration.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is not a lid or enclosure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-003",
+      "rule_description": "Sharp internal corners should be filleted to reduce stress concentrations and prevent cracking.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are no internal pockets or cutouts with sharp corners (the slit is a through-cut).",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "No hinge knuckles are present.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-USABILITY-001",
+      "rule_description": "Lids and doors should have a handle, tab, or indentation to facilitate user opening.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is not a lid or door.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-GEN-001",
+      "rule_description": "Sharp external edges should be chamfered or filleted for handling safety and to reduce chipping.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The inner and outer edges of the ring, as well as the edges at the slit, appear perfectly sharp (90 degrees) without any chamfers or fillets.",
+      "recommendation": "Add small chamfers or fillets to the external edges to prevent stress concentrations and improve handling safety."
+    },
+    {
+      "rule_id": "PROPOSED-CNC-001",
+      "rule_description": "Internal vertical corners must have a minimum radius to accommodate the cylindrical shape of an end mill.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no internal vertical corners in pockets.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-003",
+      "rule_description": "Holes intended for pin or shaft insertion should have a chamfered lead-in to facilitate assembly.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "No holes for pin insertion are present.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The ring features a slit (gap), making it non-rotationally symmetric.",
+      "recommendation": "Acknowledge that a secondary slitting operation (e.g., using a slitting saw or wire EDM) will be required after the primary turning operation."
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is not a cylindrical pin.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is a split ring, not a closed-loop bearing hole.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is a piston ring, not a piston.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "category": "geometry",
+      "manufacturing_process": "CNC_turning",
+      "id": "PROPOSED-TURN-006",
+      "description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "pass_criteria": "Wall thickness is sufficient to withstand chucking and cutting forces.",
+      "fail_criteria": "Extremely thin walls that may crush in a chuck or deflect away from the cutting tool.",
+      "look_for": "Very thin radial or axial sections on turned parts.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "manufacturing": [],
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

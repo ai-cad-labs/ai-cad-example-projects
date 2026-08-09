@@ -1,0 +1,8 @@
+Assembly color legend (part -> stroke color):
+  crankshaft: red (RGB 220,40,40)
+  connecting_rod: blue (RGB 40,40,220)
+  gudgeon_pin: green (RGB 40,160,40)
+  piston: orange (RGB 220,140,20)
+  piston_ring_1: purple (RGB 160,40,200)
+  piston_ring_2: teal (RGB 40,180,180)
+  piston_ring_3: brown (RGB 180,120,40)

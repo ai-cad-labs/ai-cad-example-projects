@@ -1,0 +1,256 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/impeller_assembly/assembly/bearing_housing",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "single_pass",
+  "rules_evaluated": 22,
+  "rules_passed": 18,
+  "rules_failed": 3,
+  "rules_uncertain": 1,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin sections in all four views. The top/front views show two concentric circles at the bore (the \u00d840 pocket and the \u00d834 back-bore), and the right-side wireframe shows the pocket stopping short of the far face. Measured against the model: the thinnest sections are the annular retention shoulder (\u00d840 -> \u00d834 = 3.0 mm radial land, 4.0 mm axial web at Z = -12...-16) and the 15 mm of plate above the bore (plate top Y=+35, bore R20). Bolt-hole edge margins are 8 mm (side) and 7 mm (front/rear). Nothing approaches 1.5 mm; the 4 mm shoulder web is the governing section and is 2.7x the limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The only pocket is the bearing seat, visible in iso_clean as a stepped counterbore and in top_clean as the outer of the two concentric circles. \u00d840 x 12 deep gives depth:width = 0.30:1, far inside the 4:1 limit. A short \u00d840 end mill or boring head has essentially zero deflection risk here. No other cavities, slots, or recesses appear in any view.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Inspected iso_clean and iso_wireframe for overhangs, T-slots, or trapped volumes. The part is an upright plate unioned to a base foot; every feature opens to a different outside face by a straight tool path: the \u00d840 pocket enters the +Z (impeller-side) face, the \u00d834 back-bore enters the -Z face, the four \u00d85.5 holes are drilled along -Y from the foot top. The foot's forward/rear reach past the plate (Z = -28...+12 vs plate -16...0) lies entirely BELOW the plate root, so nothing overhangs it. No hook tool, undercut mill, or 5-axis motion is implied. Note (not a failure): the concave corner where the plate root meets the foot top will carry the cutter radius; it cannot be produced sharp, which is normal for a milled-from-solid part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for deep holes in the wireframe views. Two hole families exist: the four \u00d85.5 foot bolt holes (front_clean corners, iso_clean spotfaced circles) drilled through 10 mm of foot -> 1.8:1; and the \u00d834 back-bore through 16 mm of plate -> 0.47:1. Both are far short of 10:1; no drill-wander or breakage exposure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Searched all views for ribs, fins, or web sections. There are none: the geometry is one 16 mm thick upright plate plus one 10 mm thick foot, with no stiffeners of any kind (constraints.md line 44 explicitly excludes gussets). The 4 mm annular shoulder behind the bearing pocket is the only web-like feature and it is a fully-supported annulus, not an unsupported rib. This rule's 2 mm threshold is not approached. The plate's height-to-thickness ratio is addressed separately under PROPOSED-002/PROPOSED-004.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Traced every machined edge visible in iso_clean/iso_wireframe. The pocket-mouth edge is on an open outside face; the \u00d840 -> \u00d834 shoulder edge sits at the bottom of a 12 mm deep, 40 mm wide bore (aspect 0.3) and is reachable by a hand or spindle deburring tool through the open mouth; the back-bore edge is on the open -Z face; all four bolt holes are open at both ends. No enclosed or blind internal edge exists. Every edge is sharp by explicit project constraint (constraints.md line 43, chamfers deferred project-wide) so a manual deburr operation is required, but nothing blocks it.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked specifically for threaded features: none exist on this part. The four holes in the foot are \u00d85.5 M5 CLEARANCE through-holes (bolt_hole_dia = 5.5 for M5, hardware not modeled), which the renders confirm as plain through-holes with no thread relief or blind bottom - iso_clean shows both the entry ring on the foot top and daylight through to the ground face. With no tapped hole present the thread-engagement criterion cannot be violated. This is a vacuous pass, not evidence of adequate thread depth.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Checked each feature for a reachable tool path. Bore family: the plate face at Z=0 is fully exposed in iso_clean, so a \u00d840 boring/milling tool enters unobstructed; the -Z face is equally open for the \u00d834 back-bore. Bolt holes: at X = +/-46 they sit outboard of the plate's +/-40 X span and outside the plate's Z span, so the drill and chuck never foul the 85 mm tall upright - front_clean shows all four holes clear of the plate footprint. Stock removal above the foot (Z -28...-16 and 0...+12, full 85 mm height) is open-sided and reachable from +Y and both +/-X. Three standard setups, all with clear approach.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Checked symmetry planes against feature placement. The part is mirror-symmetric about the YZ plane (X=0): plate, foot, bore, and both bolt columns at X = +/-46 all mirror. In Z the bolt rows (Z = -21 and Z = +5) are symmetric about the foot mid-plane Z = -8, which is also the plate mid-plane - front_clean confirms a clean rectangular 4-hole pattern with equal corner spacing. The one deliberate asymmetry (foot 108 wide vs plate 80 wide) is a functional DFA-005 repair for socket access, not a fixturing burden. No extra setup is created by asymmetry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for hinge-like or bracket-like protrusions off thin walls. None exist - the part is a milled monolith of two prismatic bodies (16 mm plate, 10 mm foot) with no attached protrusions in any view. The rule is also a 3D-printing/layer-delamination rule and this part is CNC milled from solid, so there is no layer interface to delaminate. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Searched all four views for hinge knuckles, pivot blocks, or any rotating joint feature. There are none - the only round feature is the stationary bearing seat, which does not rotate relative to the housing. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This is a prismatic milled housing, not a turned part - the right and front views show a rectangular plate and foot with no axis of revolution. The declared process is CNC_milling and constraints.md line 62 lists no secondary processes. The rule's premise (a lathe-produced part) does not hold. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or axial retention features",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for pins or shafts belonging to this part: none. This part is the housing that RECEIVES a bearing; it carries no cylindrical pin. Axial retention for the mating bearing outer race is provided by the \u00d840 -> \u00d834 step (3.0 mm annular shoulder at Z = -12), visible as the inner concentric circle in top_clean. Not applicable to the part under evaluation.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split with a removable cap",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The bore is indeed a solid continuous ring (top_clean shows an unbroken pair of concentric circles, no split line, no cap bolts). Tested the rule's precondition: is the mating shaft captive? No - this is an impeller support housing where the \u00d814 shaft passes straight through the \u00d834 back-bore and the 6203 bearing is inserted axially into the \u00d840 pocket from the impeller-side face. There is no crank-throw or other feature preventing axial assembly, so a one-piece ring is the correct construction. The rule's failure condition does not apply.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is a bearing housing, not a piston - no outer cylindrical running surface exists in any view. The only cylindrical surfaces are internal (\u00d840 pocket, \u00d834 bore) and both are static seats, not sealing surfaces. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Not a turned part (no revolved geometry, no chucking axis). Even reading the rule's spirit against the milled sections: the governing thin section is the 4 mm axial web / 3 mm radial shoulder behind the bearing pocket, fully supported by the surrounding 80 x 95 plate, so there is no chuck-crush or deflect-away-from-tool exposure. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "No connecting rod, no beam, no big/small end pair anywhere in the four views - the part is a plate-and-foot bracket. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "No crankshaft, web, or crankpin exists on this part; it is a stationary housing and does not rotate, so rotational balance is not a property it can violate. Not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-001",
+      "rule_description": "Press-fit bores (bearing seats, dowel bores) must have a lead-in chamfer at the entry face",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked specifically for a third concentric ring at the bore mouth that would indicate a chamfer, distinct from the \u00d840 -> \u00d834 counterbore step. top_clean and front-facing views show EXACTLY two concentric circles (\u00d840 pocket, \u00d834 back-bore) and iso_clean shows the pocket mouth meeting the Z=0 face as a sharp 90-degree edge with no bevel band. The model confirms it: the pocket is a plain circle-extrude cut with no chamfer, and constraints.md line 43 states sharp edges throughout, NO chamfers, deferred project-wide. This is a 6203 bearing seat - inserting the outer race past a sharp-edged bore mouth shaves the race OD, pushes a burr into the seat, and invites a cocked press. The project-wide chamfer deferral explains the omission but does not remove the assembly risk.",
+      "recommendation": "Add a 0.5-1.0 mm x 45 deg lead-in at the Z=0 pocket mouth when the project-wide chamfer deferral lifts. Cheapest CadQuery route is a conical cutter unioned into the pocket cutter (workplane at Z=0, .circle(20+0.8) tapered to .circle(20) over 0.8 mm via .loft()), or select the mouth edge after the cut: result.faces('>Z').edges(cq.selectors.RadiusNthSelector(1)).chamfer(0.6). Keep the chamfer OUTSIDE the 12 mm seat land so the effective grip length is not reduced."
+    },
+    {
+      "rule_id": "PROPOSED-002",
+      "rule_description": "A cantilevered plate carrying a bearing bore should be gusseted when unsupported height exceeds ~4x thickness",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This is exactly the geometry the rule targets. right_clean shows the T-profile plainly: a thin upright stem standing on a wide flat foot with a bare 90-degree junction - no triangular gusset, no rib, no fillet anywhere along the root. Measured on the render, stem thickness is ~155 px against ~800 px of free stem length (~5.2:1); the model confirms 16 mm plate thickness against 85 mm of free height (foot top Y=-50 to plate top Y=+35) = 5.3:1, exceeding the ~4:1 threshold by 33%. The bearing bore sits 50 mm above the foot top, so the radial impeller load acts through a 50 mm moment arm into a sharp internal corner that is simultaneously the maximum-bending-stress location and the stress concentrator. constraints.md line 44 explicitly excludes gussets ('fairly simple and straight' per user), so this is a knowingly accepted risk rather than an oversight - but it remains a real structural finding.",
+      "recommendation": "Three options in increasing intrusiveness: (1) thicken the plate to >= 21 mm (85/4) - plate_thickness is a single parameter and the pocket/back-bore depths key off it, so verify the 12 mm seat + 4 mm shoulder stack is re-derived, not left at 16; (2) add two triangular gussets on the pulley side (-Z), e.g. a right-triangle profile ~30 mm x 30 mm x 8 mm thick at X = +/-28, kept clear of the Z=0 datum face and the impeller sweep; (3) if the no-gusset constraint holds, add a generous root fillet (R6-R8) at the plate/foot junction to at least remove the stress concentrator. Option 3 is the smallest change compatible with the stated 'simple and straight' constraint."
+    },
+    {
+      "rule_id": "PROPOSED-003",
+      "rule_description": "Bearing-seat bores must declare a fit class and the seat depth must be shorter than the bearing outer-race width",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "probationary",
+      "observation": "Checked both halves of the criterion. (a) FIT CLASS: the bore is modeled at nominal \u00d840.0 with no tolerance carried anywhere in the geometry; constraints.md line 32 reads '\u00d840.0 (D_MB_OD, H7 transition-fit intent, model nominal)' and line 62 says 'pocket bored to H7 intent in the same setup'. An 'intent' noted in prose is not a declared dimension - a shop receiving nominal-only geometry works to general machining tolerance, which is 5-10x looser than H7 (+0.025/0) and will produce either a spinning outer race or a crushed one. (b) SEAT DEPTH: pocket depth is 12.0 mm and the 6203 race width is 12.0 mm - exactly equal, deliberately, so the bearing lands flush with the Z=0 datum. The rule's 'bottoms out unpredictably' failure mode is mitigated here because the pocket floor IS the intended locating shoulder (the \u00d840->\u00d834 step, 3.0 mm land, visible as the inner circle in top_clean), but depth == width leaves ZERO tolerance margin on the flushness that the whole assembly's 0.8 mm impeller running clearance is referenced from. Both sub-criteria miss, so the rule fails on the letter and (a) fails on the substance.",
+      "recommendation": "(1) Carry the fit class as a real dimension, not prose: annotate the \u00d840 seat as 40 H7 (+0.025/0) in constraints.md as a hard interface tolerance and echo it in the part.py D_MB_OD comment block so downstream STEP/drawing export can pick it up. (2) Give the 12 mm pocket depth a directional tolerance biased so the race can never stand proud of the Z=0 datum (e.g. 12.0 +0.05/0), since a proud race eats the 0.8 mm impeller clearance directly. (3) State the shaft-side fit too (the 6203 bore to \u00d814 shaft) so the pair is not left half-specified."
+    },
+    {
+      "rule_id": "PROPOSED-004",
+      "rule_description": "Thin cantilevered features must be evaluated for machining deflection and chatter, not only static minimum thickness",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Ambiguous case. By the letter of the metric the part trips it: the upright's unsupported height is 85 mm against 16 mm thickness = 5.3x, over the ~4x ceiling. By the rule's intent it does not: the rule targets ribs, blades, vanes, and fins anchored on ONE edge with a free tip and free top edge, and this is a full-width 80 mm plate anchored continuously along its entire bottom edge into a 108 mm foot - iso_clean shows a slab, not a blade. Bending stiffness scales with thickness cubed, so a 16 mm section is roughly 500x stiffer than the 2-3 mm blade the rule was written for, and the only cutting on the upright is face/profile milling plus a low-force \u00d840 bore on the stiff axis. I cannot resolve this from renders alone - it turns on the rule's scope, not on the geometry, which is fully known. Calling it a pass would hide a real ratio exceedance; calling it a fail would double-count the finding already raised under PROPOSED-002.",
+      "recommendation": "Resolve at the rule level rather than the part level: tighten PROPOSED-004's look_for to require a FREE TIP (unsupported on at least two of three non-anchored edges), which would cleanly exclude continuously-rooted plates like this one and leave the structural concern to PROPOSED-002. If the rule is meant to cover plates too, then this part needs the same remedy as PROPOSED-002 (thicker plate or root support), plus a light-finish-pass note for the bore operation."
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-005",
+      "category": "tolerances",
+      "manufacturing": [
+        "CNC_milling",
+        "turning"
+      ],
+      "description": "A component seat whose nominal depth exactly equals the nominal width of the component it receives must carry a directional (one-sided) tolerance when the seat's open face is a clearance or assembly datum.",
+      "look_for": "Any counterbore, pocket, or shoulder whose depth parameter is set equal to a purchased component's nominal width, where the resulting flush face is referenced by a downstream running clearance, gasket gap, or mating-face dimension.",
+      "pass_criteria": "The seat depth carries a one-sided tolerance biased in the safe direction (component recessed rather than proud, or vice versa as the function demands), and the resulting worst-case flushness error is stated against the clearance it feeds.",
+      "fail_criteria": "Seat depth equals component width at nominal with a symmetric or unstated tolerance, so a normal machining deviation makes the component stand proud and consume the downstream clearance with no design margin.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-006",
+      "category": "features",
+      "manufacturing": [
+        "CNC_milling",
+        "drilling"
+      ],
+      "description": "Through-holes that exit on a locating or mounting datum face must be chamfered or explicitly called out for exit-side deburring.",
+      "look_for": "Drilled through-holes whose exit face is the part's mounting/ground plane or any other face that seats against a mating flat; check for an exit chamfer or a deburr callout.",
+      "pass_criteria": "Exit edges on datum faces carry a chamfer (typically 0.3-0.5 mm) or the drawing/constraints explicitly requires deburring that face after drilling.",
+      "fail_criteria": "Sharp drilled exits on a seating face with no chamfer and no deburr callout - the raised burr ring lifts the part off its mounting surface, causing rock, non-repeatable seating, and angular misalignment of any bore the part carries.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "cd90b8a29ebcb5db",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-08-05T10:50:10.822691+00:00"
+  }
+}

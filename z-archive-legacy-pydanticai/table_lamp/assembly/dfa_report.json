@@ -1,0 +1,130 @@
+{
+  "eval_type": "dfa",
+  "target_path": "assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 11,
+  "rules_passed": 6,
+  "rules_failed": 3,
+  "rules_uncertain": 2,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count — challenge whether each part is truly independent",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The wall plate, arm, and socket holder are depicted as three separate, static components that do not move relative to each other.",
+      "recommendation": "Combine the wall plate, arm, and socket holder into a single part. This can be achieved through manufacturing processes like casting, forging, or machining from a single block, which would eliminate two assembly steps and reduce inventory."
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The cylindrical arm inserts into simple, unfeatured holes in both the wall plate and the socket holder. There are no visible shoulders, bosses, or chamfers to control insertion depth, prevent rotation, or guide alignment.",
+      "recommendation": "Add geometric locating features. For example, add a shoulder to the arm where it meets the wall plate to provide a positive stop for insertion depth. A small flat or keyway could be added to prevent rotation."
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "All components appear to be rigid and of sufficient size and simple geometry to be easily grasped and handled. The arm is slender but appears to be a solid rod, not unduly fragile.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "As a wall-mounted fixture, the assembly is built horizontally out from a vertical surface. No parts can be inserted downwards with the assistance of gravity; they must be held in place against gravity during fastening.",
+      "recommendation": "This is a constraint of the product type. However, consider adding features that allow parts to temporarily snap or hang in place before being permanently fastened, reducing the need for an extra hand or complex fixtures."
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "No fasteners (e.g., set screws, bolts) are visible for securing the arm to the wall plate or the socket holder to the arm. The mounting slots on the wall plate for attaching to the wall appear clear, but the method of assembling the fixture itself is not shown.",
+      "recommendation": "Update the drawings to clearly show all fasteners used in the assembly. Provide detailed views of the connection points to allow for an evaluation of tool access."
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Assuming the wall plate is mounted first, the rest of the components are added in a linear sequence (arm, socket, bulb, shade) without needing to flip or reorient the base assembly.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types — minimize unique fastener count",
+      "verdict": "uncertain",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "No fasteners are visible in the drawings, making it impossible to assess the variety and standardization of fasteners used.",
+      "recommendation": "The design documentation should be updated to specify all fasteners. This is required to perform a full DFA evaluation."
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The wireframe views show that the ends of the arm meet the holes in the wall plate and socket holder with sharp 90-degree corners. There are no visible lead-in chamfers to guide insertion for a potential press-fit or interference fit.",
+      "recommendation": "Add a small chamfer (e.g., 0.5mm x 45°) to the ends of the arm and the entry of the mating holes to prevent damage and reduce the force required for assembly."
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The assembly sequence is simple and linear. Each part can be installed along a straight path without being blocked by any previously installed component.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The only visible fastener locations are the two mounting slots on the wall plate. These are arranged in a standard, linear pattern with ample space between them.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-001",
+      "rule_description": "Avoid features that trap debris and hinder service access to fasteners.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The design has a smooth, simple exterior. There are no deep recesses or pockets where dirt, moisture, or other debris could accumulate and obstruct service access.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "pass_criteria": "The method for joining each part to the assembly is visually identifiable (e.g., visible bolt heads, weld symbols, threaded connections).",
+      "id": "PROPOSED-002",
+      "category": "clarity",
+      "manufacturing": "general_assembly",
+      "look_for": "Interfaces between parts to see if fasteners, welds, threads, or other joining methods are shown.",
+      "description": "Assembly method between components must be clearly defined.",
+      "severity": "major",
+      "fail_criteria": "Parts are shown mated together with no visible or indicated means of attachment, making the assembly method ambiguous.",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

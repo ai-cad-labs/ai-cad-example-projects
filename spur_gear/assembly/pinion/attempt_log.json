@@ -1,0 +1,1 @@
+{"ts":"2026-07-21T00:00:00Z","role":"cad_designer","mode":"fresh","part":"pinion","approach":"involute spur gear m2 z18 alpha20 face10, teeth built from Python point-sampled involute flanks as closed polylines (golden arc-stitch method failed wire closure), rotated x18 + unioned onto hub, cut D8.2 bore, centred on Z","outcome":"success","fix_cycles":1,"failure_reason":null}

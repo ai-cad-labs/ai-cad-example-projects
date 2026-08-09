@@ -1,0 +1,1 @@
+{"ts":"2026-07-21T00:00:00Z","role":"cad_designer","mode":"fresh","part":"gear","approach":"involute spur gear m2/z30/20deg from point math; whole-gear single closed polyline of flanks+tip+root arcs then one extrude + bore cut (golden per-tooth wire-combine failed as outer-wire-not-closed)","outcome":"success","fix_cycles":1,"failure_reason":null}

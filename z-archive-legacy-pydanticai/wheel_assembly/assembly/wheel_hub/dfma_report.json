@@ -1,0 +1,116 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/wheel_hub",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 9,
+  "rules_passed": 8,
+  "rules_failed": 0,
+  "rules_uncertain": 1,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a solid, flanged hub. The main cylindrical walls and the flange itself are visually robust and appear to be significantly thicker than the 1.5mm minimum requirement. There are no thin sections, webs, or fins.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The only feature that could be considered a pocket is the circular recess on the flange face. Visually comparing its depth (from the front/right views) to its width/diameter (from the top view), the depth-to-width ratio is very low, much less than the 4:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "All features of the part (the central bore, the outer profile, the flange holes, and the circular face pocket) are accessible via standard top-down or side milling operations. There are no overhanging features, T-slots, or internal cavities that would require multi-axis machining or special tooling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a large central bore and smaller holes on the flange. For the central bore, the depth is approximately equal to the diameter (1:1 ratio). For the flange holes, the depth (flange thickness) appears to be approximately 1.5 to 2 times the hole diameter. Both are well below the 10:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part geometry does not contain any features that would be classified as thin ribs or webs. The design is solid and blocky.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "All machined edges on the part are on the exterior or at the entrance of holes and pockets. There are no enclosed or recessed areas where deburring tools could not easily reach.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The wireframe and clean views do not use standard conventions to indicate if the flange holes are tapped or clearance holes. If they are clearance holes, this rule does not apply. If they are intended to be tapped, the flange thickness appears adequate (visually estimated at >1.5x the hole diameter), but this cannot be confirmed from the image alone.",
+      "recommendation": "Update the drawing or model to clarify if the flange holes are tapped or for clearance. If tapped, confirm the material thickness meets the >= 1.5x diameter requirement for full thread engagement."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "All features are on the exterior surfaces of the part and have clear, unobstructed paths for tool access. There are no deep cavities or recessed areas that would present a challenge for standard CNC tooling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is rotationally symmetric about its central axis, and the bolt hole pattern on the flange is also radially symmetric. This design is ideal for manufacturing, simplifying fixturing and machining operations.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "severity": "major",
+      "pass_criteria": "All internal corners have a fillet radius larger than the tool radius (e.g., > 1mm).",
+      "look_for": "Sharp internal corners where two vertical walls meet, or where a vertical wall meets a floor.",
+      "category": "features",
+      "id": "PROPOSED-001",
+      "manufacturing": "CNC_milling",
+      "fail_criteria": "Any internal corner is perfectly sharp (0mm radius).",
+      "description": "Internal vertical corners must have a radius appropriate for the cutting tool."
+    },
+    {
+      "severity": "major",
+      "manufacturing": "CNC_milling",
+      "pass_criteria": "All internal corners have a visible fillet or radius.",
+      "look_for": "Sharp 90-degree internal corners where a vertical wall meets a horizontal floor.",
+      "description": "Internal vertical corners must have a radius larger than the tool radius.",
+      "category": "features",
+      "fail_criteria": "Any internal corner is perfectly sharp (0-radius).",
+      "id": "PROPOSED-001"
+    }
+  ]
+}

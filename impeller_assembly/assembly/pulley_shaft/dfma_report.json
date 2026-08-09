@@ -1,0 +1,210 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/impeller_assembly/assembly/pulley_shaft",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "single_pass",
+  "rules_evaluated": 17,
+  "rules_passed": 14,
+  "rules_failed": 3,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for through-holes and blind holes in all 8 views. The front_wireframe view is visually identical to front_clean \u2014 no hidden (dashed) edges appear along the shaft axis, which for a hidden-line render means there is no axial bore or drilled feature inside the body. The top_wireframe view shows only one dashed circle, at the V-groove root diameter (a silhouette of the external groove), and the three concentric solid circles at center are the three stepped shaft diameters seen end-on, not a bore. No drilled hole exists anywhere in the part, so no depth-to-diameter ratio can be violated.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for tapped/threaded holes, bolt circles, and fastener features on the flange faces and both shaft ends. The top views (both styles) show no bolt circle and no hole pattern on the pulley disc face; the front/right views show no hidden-line indications of blind holes at either shaft end. The part is a solid turned body with zero fastener holes, so no thread-engagement depth can be inadequate.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for internal bores in the axial views. The pulley is INTEGRAL with the shaft (one monolithic turned body) rather than a separate hubbed wheel, so there is no mounting bore. Confirmed by the front hidden-line view showing no internal dashed edges along the axis, and by the iso views showing a solid hub blending directly into the shaft. With no internal bore present, no sub-3mm boring operation is required.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Measured proportionally off front_clean.png (all views are consistent). Overall axial extent spans roughly 1200 px. The smallest turned diameter (the leftmost end stub) measures about 88 px, giving L/Dmin of approximately 13.6:1. Even measured against the long intermediate shaft diameter (about 116 px, the section occupying more than half the part length), the ratio is approximately 10.4:1. Both exceed the 8:1 limit. The condition is aggravated by mass distribution: the large-diameter pulley disc (OD about 495 px, roughly 4.3x the shaft diameter) sits at the far right end with only a short stub beyond it, so the slender shaft is effectively cantilevered with a heavy flywheel-like mass at the free end \u2014 the classic chatter and deflection geometry for turning.",
+      "recommendation": "Reduce slenderness or add support. Options in order of preference: (1) increase the intermediate shaft diameter so overall L/D <= 8:1; (2) shorten the plain shaft length; (3) if the length and diameters are functionally fixed, explicitly call out tailstock center support plus a steady rest in the process notes and add center-drill features to both ends so the part can be turned between centers. In CadQuery, adjust the shaft diameter parameter (.circle(r).extrude(L) for the mid section) so that total_length / (2*min_radius) <= 8. Also consider machining the pulley disc last, after the slender turning is complete, to keep the cantilevered mass off the part during the most deflection-sensitive cuts."
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for internal grooves, internal shoulders, or steps inside a bore. There is no bore and there are no internal features at all \u2014 the hidden-line front view shows zero interior dashed geometry. Every feature on this part (three external diameter steps, the two pulley flanges, the V-groove, the end stubs) is an external surface of revolution reachable by a standard OD turning or grooving tool. No enclosed internal cavity exists.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The single groove is the V-belt groove between the two pulley flanges, clearly visible in front_clean and right_clean. Measured proportionally: the groove opening between the flange inner faces is about 68 px against a pulley OD of about 495 px, i.e. roughly 14% of the pulley diameter. Groove depth (OD radius about 247 px down to root radius about 202 px) is about 45 px, so the depth-to-width ratio is approximately 0.66 \u2014 a shallow, wide groove, not a narrow parting slot. For any physically plausible pulley OD (>= 22mm) this groove is >= 3mm wide, and a standard form/grooving tool will clear it. No narrow parting or O-ring-width grooves exist elsewhere on the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Traced tool access for every feature. All three shaft diameter steps face outward with open axial approach. The V-groove between the flanges has a wide, shallow profile (depth/width about 0.66) and open radial approach \u2014 a standard grooving or form tool enters radially with substantial side clearance; there is no undercut or re-entrant profile hiding material behind the flanges. Both flange outer faces are fully exposed in the iso and top views. The right-end stub past the pulley is a plain cylinder reachable in a second (flipped) setup. No feature sits in a pocket, blind recess, or behind obstructing geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Both top views show perfectly concentric circles with no angular features, flats, lobes, or off-axis holes \u2014 the part is fully rotationally symmetric about the turning axis, which is the ideal symmetry case for a lathe. It is not mirror-symmetric axially (features differ left vs right of the pulley), so a flip for a second setup is required to finish the right-hand stub, but that is inherent to a stepped shaft with features at both ends and is not the asymmetry this rule targets. No feature placement forces an extra setup that a symmetric alternative would avoid.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Scope check first: this rule targets layer-delamination in additive manufacturing, and the declared process here is CNC_turning from solid stock, where there are no layer boundaries to delaminate. Feature check anyway: there are no hinge-class or bracket-class protrusions attached to thin walls in any view. The one geometrically analogous junction \u2014 the pulley flange meeting the hub with a square, un-filleted root \u2014 is a genuine stress-riser concern but is a turned-part issue rather than a layer-adhesion issue, so it is raised separately as PROPOSED-001 rather than force-fitted into this rule.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for hinge knuckles, square pivot blocks, and any articulating joint. The part is a single rotationally symmetric turned body \u2014 a stepped shaft with an integral V-groove pulley. There are no knuckles, no pivot bores, and no articulating interface anywhere in the 8 views. Rule is not applicable and cannot be violated by this geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Both top views (clean and wireframe) show only concentric circles \u2014 no flats, no keyway slot, no cross-hole, no spline, no off-axis feature of any kind. Every surface in the front and right views is a straight profile revolved about the axis. The part can be produced entirely on a 2-axis lathe with no secondary milling. Note that this perfect symmetry is a manufacturing pass but a functional flag: it means there is no torque-transmission feature on a shaft that carries a belt pulley \u2014 raised separately as PROPOSED-002.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for circlip/retaining-ring grooves, cross-holes, or threaded ends near the shaft extremities. Found none: the leftmost end stub (about 88 px diameter) and the rightmost stub past the pulley (about 116 px diameter) are both plain, square-ended cylinders with no grooves, no cross-holes, no chamfers, and no threads. The three diameter steps do provide shoulders, but each shoulder constrains motion in only ONE axial direction \u2014 anything mounted on the stubs (bearings, the impeller, a spacer) has nothing preventing it from walking off the free end. For a rotating shaft in an impeller assembly this is a real axial-retention gap.",
+      "recommendation": "Add axial retention at each mounting journal. Cut a standard retaining-ring groove on the journal outboard of each mounted component: .faces('>Z').workplane(offset=-groove_position).circle(shaft_r).circle(shaft_r - groove_depth).cutBlind(groove_width) \u2014 or, simpler for a lathe, revolve a rectangular groove profile. Alternatively thread the right-hand stub for a locknut, or add a cross-hole for a roll pin. Retaining-ring groove dimensions must follow the ring standard for the journal diameter (typically groove depth about 0.04x shaft diameter, width about 1.1x ring thickness)."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for continuous unsplit rings that would have to be threaded over a captive journal. This part contains no bearing hole at all \u2014 there is no bore of any kind (confirmed by the absence of interior hidden lines in front_wireframe). The part IS the shaft, not the member wrapping a shaft, so the assemble-over-a-captive-journal failure mode this rule guards against does not arise here.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Checked whether any cylindrical section functions as a piston needing ring seals. The part is a pulley shaft: the only large-diameter feature is a two-flange V-belt pulley disc (the groove between the flanges has a curved, belt-profile root visible in front_clean, not a rectangular seal-ring seat), and the remaining diameters are plain bearing/mounting journals. No piston crown, no cylinder-fit land, and no sealing duty is implied by this geometry, so the rule does not apply.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Measured the pulley flanges in front_clean. Each flange is a disc roughly 32 px thick standing at a pulley OD of about 495 px \u2014 an aspect ratio of roughly 15:1 diameter-to-thickness, and each flange projects radially about 45 px beyond the groove root as a completely unsupported rim (no boss, no back rib, no taper toward the OD; the flanges are parallel-sided, confirmed in both the front and right views). Cutting the V-groove applies a radial and axial load directly between these two unsupported thin discs, and the outer rim has nothing behind it to react the tool pressure. This is the classic thin-flange chatter and bell-mouthing case: the rim will deflect away from the tool, leaving an out-of-tolerance groove profile and a wavy finish, and the same flanges are vulnerable to being sprung if the pulley OD is ever gripped in a chuck. The concern compounds with the DFM-TURN-002 slenderness failure \u2014 a floppy rim on a deflecting shaft.",
+      "recommendation": "Thicken or support the flanges. Preferred: increase flange thickness so the diameter-to-thickness ratio is at or below about 10:1, or taper each flange so it is thickest at the hub and thinnest at the rim (revolve a trapezoidal profile rather than extruding a constant-thickness disc). If the flange geometry is fixed by the belt standard, add a root fillet at the hub junction (see PROPOSED-001) to stiffen the disc in bending, and specify that the V-groove is finished with light finishing passes at reduced depth of cut. Never chuck on the flange OD."
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Checked whether the part is a connecting rod. It is not \u2014 there is no beam, no big end, no small end, and no pair of parallel bores. The part is a body of revolution (a stepped shaft with an integral pulley), confirmed by the perfectly concentric circles in both top views. The rule's geometry class is absent, so it cannot be violated.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Checked for crank webs and an offset crankpin. There is no offset feature anywhere: every diameter in the front and right views is centered on the single turning axis, and both top views confirm concentricity with no eccentric mass. The pulley disc is a symmetric, balanced flange, not an unbalanced crank web, so no counterweight is required. Note that this is inherently balanced geometry \u2014 a genuine advantage for a rotating shaft.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "geometry",
+      "manufacturing": [
+        "CNC_turning",
+        "CNC_milling"
+      ],
+      "description": "Integral flanges, collars, and disc features on turned shafts should have a root fillet or a relief undercut where the flange meets the hub, rather than a sharp 90-degree internal corner.",
+      "look_for": "The internal corner where a large-diameter disc, flange, or collar meets the smaller shaft it is integral with; inspect the front or side profile view at that junction.",
+      "pass_criteria": "The flange-to-hub junction shows a visible radius (fillet) or a deliberate relief undercut, so the corner is neither perfectly sharp nor a stress concentration.",
+      "fail_criteria": "The junction is a sharp square internal corner. This is both a fatigue stress riser at the highest-bending-moment location on a rotating shaft, and a machining fiction: a turning insert has a finite nose radius and physically cannot produce a perfectly sharp internal corner, so the as-built part will differ from the model unless the radius or an undercut is specified.",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-002",
+      "category": "features",
+      "manufacturing": [
+        "CNC_turning"
+      ],
+      "description": "A shaft that carries a torque-transmitting element (belt pulley, gear, sprocket, coupling, impeller) must include a positive torque feature \u2014 keyway, flat, spline, cross-pin hole, or a designed interference fit called out in constraints.",
+      "look_for": "Keyway slots, machined flats, splines, or cross-holes on the journals where a driven or driving component mounts; check the axial (top) view for any departure from a plain circle.",
+      "pass_criteria": "At least one positive torque-transmission feature exists on each driving/driven journal, or the constraints explicitly specify an interference/press fit sized for the transmitted torque.",
+      "fail_criteria": "All mounting journals are plain smooth cylinders with no keyway, flat, spline, or pin hole, and no interference fit is specified \u2014 the joint then relies on friction alone and will slip under belt tension or startup torque.",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-003",
+      "category": "features",
+      "manufacturing": [
+        "CNC_turning"
+      ],
+      "description": "Shaft ends and diameter steps that receive press-fit or slip-fit components should carry lead-in chamfers, and shoulders that seat a bearing or hub should have a corner relief.",
+      "look_for": "The square end faces of shaft stubs and the outside corners at each diameter transition; check the front and right profile views for any 45-degree break in the outline.",
+      "pass_criteria": "Shaft ends show a lead-in chamfer (typically 0.5-1.5mm x 45 degrees) and seating shoulders show either a chamfer or a corner relief groove.",
+      "fail_criteria": "All ends and steps are perfectly square with no chamfer. Bearings and hubs then cock and gall during assembly, burrs from the turning operation stay on the mating surface, and a component pressed to a sharp shoulder will not seat flat because the shoulder's real corner radius interferes with the component's own corner.",
+      "severity": "minor"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "16f76c0753f479df",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-08-05T10:48:24.494271+00:00"
+  }
+}

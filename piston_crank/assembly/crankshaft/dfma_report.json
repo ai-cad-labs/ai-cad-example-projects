@@ -1,0 +1,257 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/piston_crank/assembly/crankshaft",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "engineering_domain",
+  "rules_evaluated": 25,
+  "rules_passed": 21,
+  "rules_failed": 4,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part consists of solid cylindrical shafts and a thick circular web. No thin walls or fragile features are visible.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "There are no pockets, slots, or cavities in the part geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "All features (shafts and web) are accessible from the top or bottom directions. There are no undercuts or inaccessible overhangs.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "There are no holes visible in the part geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The web is a thick solid disk, and there are no thin ribs or fins.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "All edges are external and easily accessible for deburring tools.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "There are no tapped holes in the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is completely open and all surfaces can be reached by standard milling tools from the top or bottom setups.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part requires an offset crankpin for its function, so it cannot be fully symmetric. However, the design is as simple as possible for its function.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are no horizontal holes in the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no thin walls in the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-001",
+      "rule_description": "Lids and mating enclosures should have alignment features such as a lip, flange, or pins to ensure proper registration.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is not a lid or mating enclosure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-003",
+      "rule_description": "Sharp internal corners should be filleted to reduce stress concentrations and prevent cracking.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The intersections where the main shaft and crankpin meet the circular web are perfectly sharp 90-degree internal corners.",
+      "recommendation": "Add a fillet at the base of the main shaft and crankpin where they meet the web to reduce stress concentrations."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part does not contain hinge knuckles.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-USABILITY-001",
+      "rule_description": "Lids and doors should have a handle, tab, or indentation to facilitate user opening.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is not a lid or door.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-GEN-001",
+      "rule_description": "Sharp external edges should be chamfered or filleted for handling safety and to reduce chipping.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The outer perimeter of the circular web and the ends of the shafts have sharp 90-degree external edges.",
+      "recommendation": "Add chamfers or fillets to all sharp external edges for safety and to prevent chipping."
+    },
+    {
+      "rule_id": "PROPOSED-CNC-001",
+      "rule_description": "Internal vertical corners must have a minimum radius to accommodate the cylindrical shape of an end mill.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "There are no internal vertical corners in pockets or cavities.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-003",
+      "rule_description": "Holes intended for pin or shaft insertion should have a chamfered lead-in to facilitate assembly.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "There are no holes intended for pin insertion.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is a crankshaft and inherently requires an offset crankpin, making it non-rotationally symmetric. However, the specified manufacturing process is CNC milling, not turning.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The crankpin and main shaft are smooth cylinders with no retaining ring grooves or threaded ends for axial retention.",
+      "recommendation": "Add retaining ring grooves or threaded ends to the shafts for axial retention of mating components like bearings or connecting rods."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is a shaft, not a bearing hole.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is not a piston.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The part is not thin-walled.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-005",
+      "rule_description": "Pins and shafts intended for insertion into holes should have chamfered or radiused ends to facilitate assembly and prevent binding.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The ends of the main shaft and crankpin have perfectly sharp 90-degree edges.",
+      "recommendation": "Add chamfers to the ends of the main shaft and crankpin to facilitate assembly into bearings or mating parts."
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The part is not a connecting rod.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "pass_criteria": "Web has additional mass (counterweight) opposite the crankpin.",
+      "id": "PROPOSED-FUNC-003",
+      "manufacturing_processes": true,
+      "look_for": "Mass distribution on the crank web relative to the crankpin.",
+      "category": "geometry",
+      "description": "Crankshaft webs should incorporate counterweights opposite the crankpin to balance rotational inertia.",
+      "severity": "major",
+      "fail_criteria": "Web is a simple centered disk with no counterbalancing mass.",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "manufacturing": [],
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "eval_type": "dfa",
+  "target_path": "projects/spur_gear/assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 10,
+  "rules_passed": 6,
+  "rules_failed": 2,
+  "rules_uncertain": 2,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count \u2014 challenge whether each part is truly independent",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for parts that could be merged. The assembly has 4 parts: a small red pinion (~18 teeth) and a large blue gear (~30 teeth) meshing (top view), each carrying its own shaft (green shaft in the red pinion bore, orange shaft in the blue gear bore, visible as central rings in top view and axial cylinders in iso/front/right). The two gears MUST be separate \u2014 they have relative rotational motion and different tooth counts (it is a reduction pair). Each shaft being distinct from its gear is standard practice (shaft is the load-bearing axle, typically different material/hardness than the gear and extends to bearing seats). Every part has a clear functional reason to be separate.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked at the shaft-to-gear mating interfaces. In every view the gear bores (green/orange rings) are plain cylindrical holes and the shafts are plain cylinders \u2014 there is no visible shoulder, step, key, D-flat, spline, or locating boss on either the shaft or the hub. The gear-to-gear interface (tooth mesh) is self-locating, but the shaft-hub joint is not: the gear has nothing to seat axially against and nothing to transmit torque, so it would require a jig/fixture to set axial position and cannot resist rotation on the shaft.",
+      "recommendation": "Add a shoulder/step on each shaft for axial location (.faces(...).workplane().circle(shoulder_r).extrude(...)) and a keyway or D-flat on the shaft+bore for torque transmission and rotational self-location, so the gear seats positively instead of floating on a plain cylinder."
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for thin/flexible/slender parts. All four parts are rigid solids: two thick toothed gear discs and two solid cylindrical shafts (front/right views show them as substantial prisms/bars, not thin sheets or wire). No gaskets, shims, springs, or wires. Gear rims and shaft bodies provide adequate graspable surfaces for manual or robotic handling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at insertion direction. The top view shows both gears as circular toothed faces with central bores, indicating their rotation axes are parallel and normal to the mesh plane. Each gear can be dropped onto its shaft along that axis, with gravity holding it against a seat once shoulders are added. No part needs to be held against gravity from below during placement.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for bolt heads, nuts, screws, or set screws in all 8 views. NONE are present \u2014 the assembly shows only the two gears and two shafts with no fasteners or visible retention features (no retaining-ring grooves, set-screw holes, or nut faces). With no fasteners modeled, fastener-tool clearance cannot be evaluated; more importantly, no method of retaining the gears axially on the shafts is shown at all, so 'access to the retention feature' has nothing to assess.",
+      "recommendation": "Add the intended retention (retaining-ring groove, set screw, or shaft nut) to the model, then re-render so tool/driver clearance around it can be verified; a fastener-free assembly leaves both retention and access unverifiable."
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at whether the assembly must be flipped between steps. Both shafts are parallel and point the same direction (both bores appear as coaxial rings in the top view; both shafts run the same way in the elevation views). Both gears therefore install from the same direction in a single orientation \u2014 no flipping or re-fixturing needed.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types \u2014 minimize unique fastener count",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for the number of distinct fastener types/sizes. Zero fasteners are present in any view, so the assembly trivially uses \u22643 unique fastener types (there are none to mix). No inventory or tool-change burden from fastener variety.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked at the shaft-into-bore press/close-fit interfaces. The bore openings (green/orange rings) and the shaft ends read as sharp square edges in the top and iso views \u2014 no lead-in chamfer or taper is visible on either the shaft ends or the bore mouths. A gear-on-shaft close/press fit with sharp edges on both sides makes insertion difficult, risks galling/shaving the bore, and can cock the part during entry.",
+      "recommendation": "Add a lead-in chamfer to at least one mating part \u2014 a chamfer on each shaft end (.chamfer(0.5)) and/or on the bore mouth \u2014 so the press-fit self-guides during insertion."
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked at insertion paths and the gear mesh. Each gear drops onto its own parallel shaft along a clear axial path, so the assembly-insertion paths themselves are unobstructed. However, at the red/blue mesh region (top and iso views) the two tooth profiles interpenetrate deeply \u2014 the overlap looks larger than the normal addendum/dedendum engagement, suggesting the center distance may be smaller than the sum of the pitch radii (tooth interference). If the center distance is too tight, the second gear could collide with the first's teeth during placement and the pair would bind in operation. I cannot measure the pitch/center distance from renders alone to confirm normal vs. interfering mesh.",
+      "recommendation": "Verify center distance = (pinion pitch radius + gear pitch radius) against the actual placement; if teeth overlap beyond one addendum, increase the shaft-to-shaft spacing so the mesh engages with backlash rather than interfering."
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for groups of bolts/screws and their spacing. No bolt patterns exist anywhere in the assembly \u2014 there are no fastener holes or fastener groups in any view, so there is no irregular or too-tight spacing to flag.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "features",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Gears and pulleys mounted on shafts must have an explicit axial retention feature (shoulder + retaining-ring groove, shaft nut, or set screw).",
+      "look_for": "A rotating disc on a plain shaft with no groove, shoulder, threaded end, or set-screw boss to stop axial walk-off.",
+      "pass_criteria": "Every hub-on-shaft joint shows at least one positive axial stop plus a removable/permanent retainer.",
+      "fail_criteria": "A gear/hub sits on a plain cylindrical shaft with no visible means of preventing it from sliding off.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-002",
+      "category": "features",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Torque-transmitting hub-shaft joints must include a rotational drive feature (keyway, spline, D-flat, or specified press fit).",
+      "look_for": "A round bore on a round shaft carrying load with no key, flat, or spline to transmit torque.",
+      "pass_criteria": "The interface shows a key/spline/D-flat or is explicitly annotated as an interference fit sized for the torque.",
+      "fail_criteria": "A load-bearing gear rides a plain round shaft with no rotational lock, relying on friction alone.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-003",
+      "category": "tolerances",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Meshing gear pairs must be placed at center distance = sum of pitch radii, verified against tooth geometry to avoid interference.",
+      "look_for": "Overlap of the two gears' tooth profiles at the mesh beyond normal single-tooth engagement.",
+      "pass_criteria": "Tooth tips of one gear clear the root of the other with visible backlash; center distance matches pitch radii.",
+      "fail_criteria": "Addendum circles overlap so far that teeth appear to collide/interpenetrate, indicating too-small center distance.",
+      "severity": "critical",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "5064e503fea6d6b4",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T11:40:20.571236+00:00"
+  }
+}

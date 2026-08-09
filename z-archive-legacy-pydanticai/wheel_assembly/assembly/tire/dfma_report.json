@@ -1,0 +1,59 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/tire",
+  "manufacturing_process": "",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 2,
+  "rules_passed": 2,
+  "rules_failed": 0,
+  "rules_uncertain": 0,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a simple ring with a central bore. All surfaces are externally accessible, presenting no tool access challenges for standard manufacturing processes like turning or milling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part exhibits full axial symmetry around its central axis and is also symmetric across its central plane, as seen in the top, front, and right views. This high degree of symmetry is ideal for manufacturing.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "manufacturing": "machining",
+      "severity": "minor",
+      "id": "PROPOSED-001",
+      "look_for": "Rounded or complex external surfaces without any flat areas for clamping.",
+      "category": "features",
+      "pass_criteria": "The part has sufficient flat, parallel surfaces to be securely held in a vise or chuck.",
+      "description": "Parts should include stable fixturing surfaces for manufacturing operations.",
+      "fail_criteria": "The part's primary locating and clamping surfaces are rounded, tapered, or irregular, complicating fixturing.",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-001",
+      "description": "Maintain uniform wall thickness to prevent sink marks, warping, and uneven cooling.",
+      "category": "geometry",
+      "severity": "major",
+      "pass_criteria": "Wall thickness is consistent throughout the part.",
+      "manufacturing": "molding",
+      "fail_criteria": "Thick sections abruptly transition to thin sections.",
+      "look_for": "Cross-sections of the part, looking for significant variations in thickness."
+    }
+  ]
+}

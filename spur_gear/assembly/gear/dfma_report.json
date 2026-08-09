@@ -1,0 +1,94 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/spur_gear/assembly/gear",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 6,
+  "rules_passed": 5,
+  "rules_failed": 0,
+  "rules_uncertain": 1,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls, shells, or membrane features. Front and right edge-on views show a solid, uniformly-filled rectangular cross-section (a solid disc seen on edge), not a hollow shell. Top and iso views show a solid spur-gear body: solid rim carrying the teeth, solid web between the central bore and the rim, no shelled cavities. No thin-wall or membrane geometry present; all sections are bulk solid, comfortably above the 0.8mm FDM floor.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhangs, bridges, and away-from-vertical surfaces. In the standard flat-on-plate print orientation for a spur gear, the two large faces are flat (parallel to the build plate), the tooth flanks are vertical extrusions (self-supporting), and the central bore is an axial through-hole running in the build direction (a vertical hole, self-supporting). No surfaces angled beyond 45deg from vertical are visible. Note: the bore rims are not perfectly concentric in the top view (see PROPOSED-3DP-001) \u2014 if that reflects a tilted bore rather than a render artifact, the hole's upper side would become an overhang; verdict assumes an axial bore.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for small protrusions, thin pins, text, and fine detail. The smallest repeated features are the gear teeth (~30 around the perimeter). In the top and iso views the teeth read as substantial, blocky features with clear width at both root and tip \u2014 not hair-thin pins or knife-edges. Tooth tips and roots appear well above the 0.5mm reliability floor relative to the overall part scale. No sub-0.5mm detail features (embossed text, fine ribs) present.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for recessed features, internal cavities, and deep unreachable pockets. For an additive (3D printing) process there is no cutting-tool reach constraint \u2014 every surface is built up layer by layer. All features here (external teeth, flat faces, single central through-bore) are open and externally accessible with no enclosed voids or trapped internal cavities. Fully manufacturable additively.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for overall symmetry and feature-placement patterns. The part is a spur gear: rotationally symmetric about its axis with a regular repeating tooth pattern and a centered through-bore. This is near-ideal symmetry, requiring no special fixturing or multi-setup handling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "uncertain",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for horizontal circular holes that would sag. The only hole is the central bore. In the standard flat print orientation the bore is axial/vertical, so the teardrop rule would not apply. However, the top clean view shows the bore as two non-concentric rims (a crescent), and the iso wireframe shows an offset dashed (hidden) circle beside the solid bore \u2014 consistent with either a slightly tilted/non-axial bore or a rendering artifact. If the bore is genuinely tilted toward horizontal it could sag on its upper side.",
+      "recommendation": "Confirm the bore is a straight axial through-hole concentric on both faces (inspect the CadQuery bore cut / part.py). If the gear is intended to print on-edge (bore horizontal), apply a teardrop profile to the bore. If printed flat with an axial bore, no action needed."
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-GEO-BORE-001",
+      "category": "geometry",
+      "manufacturing": [
+        "3D_printing",
+        "CNC",
+        "injection_molding"
+      ],
+      "description": "A part's central/through bore must be concentric and axially aligned on both faces (rims coincident in the axial view).",
+      "look_for": "In the axial (top) orthographic view, the near and far rims of a through-bore should render as a single concentric circle; a crescent or offset inner circle indicates a tilted or non-concentric bore.",
+      "pass_criteria": "Both bore rims are concentric in the axial view; hidden-line rim coincides with visible rim.",
+      "fail_criteria": "Bore rims are laterally offset (crescent in the axial clean view, or an offset dashed rim in wireframe), indicating a skewed/non-axial or non-concentric bore.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "4c46e5ce6c2a799b",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T11:38:37.113524+00:00"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "eval_type": "dfa",
+  "target_path": "assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 10,
+  "rules_passed": 9,
+  "rules_failed": 1,
+  "rules_uncertain": 0,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count — challenge whether each part is truly independent",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The assembly consists of a tire, a rim, and a central hub. The tire (flexible material) and rim (rigid material) must be separate. The hub contains bearings for relative motion, so it must be separate from the rim. All parts appear to have a distinct functional purpose.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The top and iso wireframe views show that the central hub has a stepped diameter, creating a shoulder that mates with the inner bore of the rim. This feature positively locates the hub within the rim before fasteners are installed. The bolt holes also provide final alignment.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The primary components are a tire, a metal rim, and a hub assembly. All of these are substantial, rigid parts with ample surface area for gripping. There are no visible thin, flexible, or fragile components like gaskets or shims.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The assembly is axially symmetric. The rim can be laid flat, and the hub assembly can be inserted from the top, assisted by gravity. The fasteners can then be inserted and tightened from the top. This is a classic top-down assembly sequence.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The top and iso views show six fasteners recessed in deep counterbored holes. The radial clearance between the edge of these counterbores and the adjacent wheel spokes is very small. It appears that the wall of a standard socket wrench would not fit in this space.",
+      "recommendation": "Increase the clearance between the fastener counterbores and the adjacent spokes. This can be achieved by redesigning the spokes to provide more room or by using fasteners that require less radial tool clearance, such as socket head cap screws."
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The assembly can be completed in a single orientation. The rim is placed, the hub is inserted, and the fasteners are installed, all from the same direction (top-down). No flipping or reorientation of the main assembly is required.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types — minimize unique fastener count",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The top and iso views clearly show a single pattern of six identical fasteners. No other fasteners are visible in the assembly. This indicates excellent fastener standardization.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The wireframe views (top and iso) show that the central hub, which appears to be a press-fit or close-fit into the rim, has a small chamfer on its leading edge. This feature will guide the hub into the rim's bore during insertion.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Each component has a clear, linear path to its installed position. The hub inserts directly into the center of the rim, and the fasteners insert directly into their holes without being obstructed by other features.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The top view shows the six fasteners are arranged in a standard, evenly spaced circular bolt pattern. The spacing is consistent and does not create any tool interference issues with adjacent fasteners.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "severity": "minor",
+      "pass_criteria": "Fasteners are flush with the surface, protected by a cap, or the recesses are self-draining.",
+      "id": "PROPOSED-001",
+      "manufacturing": null,
+      "fail_criteria": "Fasteners are located in deep, open recesses where dirt, water, or ice can accumulate and block tool access.",
+      "look_for": "Deep pockets, recesses, or counterbores around fasteners that are open to the environment.",
+      "description": "Avoid features that trap debris and hinder service access to fasteners.",
+      "category": "serviceability",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

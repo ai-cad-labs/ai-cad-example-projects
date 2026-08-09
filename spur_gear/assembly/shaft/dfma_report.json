@@ -1,0 +1,104 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/spur_gear/assembly/shaft",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 6,
+  "rules_passed": 6,
+  "rules_failed": 0,
+  "rules_uncertain": 0,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls, shells, or membrane features. The part is a SOLID cylinder (plain shaft): front and right clean views show fully filled rectangular profiles with no inner outline, and the top view is a solid disc silhouette with no concentric bore ring. The iso wireframe shows only the hidden far end-face edge (dashed arc), not a shelled cavity. With no shell/hollow anywhere, the entire cross-section is bulk material, far exceeding the 0.8mm FDM minimum. No thin-wall risk exists.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhanging surfaces, bridges, and >45-degree slopes. The part is an axisymmetric cylinder whose axis is on Z (top view is the circular cross-section; front/right are the rectangular side profiles). In its natural axis-vertical print orientation the cylindrical wall is 0 degrees from vertical (fully self-supporting) and the only horizontal face is the flat top, which is not an overhang. No unsupported overhang geometry is present. (Note: if the slicer were to lay the shaft on its side, the upper curved quadrants would exceed 45 degrees \u2014 but that is a setup/orientation choice, and the geometry is trivially self-supporting when printed on-axis.)",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for small protrusions, thin pins, embossed text, and fine detail. Across all 8 views the part is a single monolithic cylinder with no pins, ribs, text, chamfers, or micro-features. The smallest dimension present is the cylinder diameter, which is a large bulk dimension. No sub-0.5mm feature exists to be at risk.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for recessed features, internal cavities, and deep/blind holes where a tool (or, for 3DP, the deposition path) could not reach. The part is a fully external convex cylinder with no bores, pockets, undercuts, or hidden internal geometry (confirmed by the wireframe views showing no internal solid edges beyond the far end-face silhouette). Every surface is openly accessible from outside; nothing is occluded.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at overall symmetry and feature placement. A right circular cylinder is fully axisymmetric about its Z axis and mirror-symmetric across every plane through that axis, which is the maximally symmetric case. No asymmetric feature placement exists that would add setups or fixturing complexity.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for circular holes oriented parallel to the build plate. The part contains NO holes of any orientation \u2014 it is a solid shaft with no bore. The rule is therefore satisfied vacuously (no horizontal circular holes present to sag).",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-3DP-002",
+      "category": "surfaces",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "Cylindrical functional surfaces on FDM-printed shafts suffer layer-stepping (poor roundness/surface finish), degrading press-fit and rotating-fit interfaces.",
+      "look_for": "Load-bearing or rotating cylindrical surfaces (shaft journals, bearing seats, gear bores) that will contact a mating part.",
+      "pass_criteria": "Cylindrical fit surfaces are called out for post-print machining/reaming, printed on SLA, or the interface tolerance accommodates FDM layer-stepping (approx +/- 0.2-0.3mm).",
+      "fail_criteria": "A tight rotating/press fit relies on the as-printed FDM cylindrical surface with no allowance for layer-stepping or roundness error.",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-3DP-003",
+      "category": "structural",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "FDM shafts loaded in bending/torsion are weakest along the inter-layer bond; print axis relative to load direction is load-bearing for strength.",
+      "look_for": "Slender shafts intended to transmit torque or carry transverse load.",
+      "pass_criteria": "Print orientation aligns primary stress with in-plane (intra-layer) direction, or the shaft is sized with a safety factor covering ~50% inter-layer strength loss.",
+      "fail_criteria": "A torque/bending shaft printed such that the failure plane coincides with a layer boundary, with no strength derating.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "4c46e5ce6c2a799b",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T11:38:39.278835+00:00"
+  }
+}

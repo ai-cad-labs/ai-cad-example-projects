@@ -1,0 +1,134 @@
+{
+  "eval_type": "dfa",
+  "target_path": "projects/treasure_chest/assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 10,
+  "rules_passed": 7,
+  "rules_failed": 1,
+  "rules_uncertain": 2,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count \u2014 challenge whether each part is truly independent",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for adjacent parts that could merge without losing function. The assembly has 5 parts: a rectangular body (red), a curved/domed lid (blue, seen as the D-profile in the right view), two identical top-rear hinge blocks (green + orange), and one front latch/clasp (purple). The body and lid must be separate (the lid pivots), the latch must be separate (it releases), and the two hinges carry the pivot at two discrete points along the rear edge. No two adjacent parts share material AND lack relative motion, so none is a valid merge candidate.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked at every mating interface for locating geometry. The green and orange hinges seat as flat blocks directly on the flat top surface (top/iso views) and are retained only by 2x2 clearance holes; the purple latch seats on the flat front face the same way. No shoulders, locating bosses, dowel pins, or lead-in chamfers are visible on any mating face \u2014 the hinges and latch mate flat-on-flat and rely on the screw holes alone for position. Before the first fastener bites, each part must be held in exact position by hand or a jig.",
+      "recommendation": "Add a locating feature to each hinge/latch footprint: e.g. a shallow recess pocket in the body top (.faces('>Z').workplane().rect(w,h).cutBlind(-0.5)) that captures the hinge leaf, or a small boss/pin (.circle(pin_r).extrude(pin_h)) engaging a matching hole. This removes the need for a positioning jig."
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for thin gaskets/shims, springs, wires, or parts lacking graspable surfaces. All parts are solid rectangular volumes: the body and lid are large, the two hinges are compact cube-like blocks (clear box outlines in iso), and the latch is a stubby plate with visible thickness in the top and iso views. None reads as thin/flexible/fragile, and all have adequate rigid surfaces for pick-and-place.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at insertion direction per part. The lid drops onto the body top and both hinges seat onto the top surface \u2014 all Z-axis, gravity-assisted (top/iso views). Only the purple latch mounts on a vertical front face, requiring horizontal insertion and hand-holding during fastening. That is one part of five, so the majority remain top-down.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for geometry crowding any fastener head. The hinge fastener holes sit on the exposed top surface with open space above them in all views (top/iso) \u2014 a driver approaches straight down unobstructed. The latch holes face outward on the front with clear frontal approach. No neighbouring wall or part encroaches on a fastener location closely enough to block a standard screwdriver or hex driver.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at whether the assembly must be flipped between steps. With the chest sitting upright, the lid and both hinges install from the top and the latch installs on the exposed vertical front \u2014 both directions are reachable without inverting or rotating the assembly. No step requires the part to be turned over.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types \u2014 minimize unique fastener count",
+      "verdict": "uncertain",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at hole sizes across the assembly. Both hinges show four small, apparently equal-diameter holes (uniform). The latch (front view) shows one LARGE central circle plus smaller holes \u2014 the large one is most likely a keyhole/lock aperture rather than a fastener, but the renders carry no dimensions, so I cannot confirm whether the latch screws match the hinge screws or whether multiple fastener sizes are in play.",
+      "recommendation": "Provide fastener diameters/specs (or a BOM) so hole sizes can be verified. Confirm the latch's large aperture is a lock feature, not a fastener, and standardize all actual screws on one size (e.g. M4 or M5)."
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for shaft-bore / pin press-fit interfaces. The hinges are rendered as solid blocks with through-holes and show no knuckle/pivot-pin geometry, and no press-fit shaft is visible anywhere in the eight views. If the hinges are meant to pivot on a pressed-in pin, neither the pin nor any lead-in chamfer is resolvable in these renders; if all connections are screw clearance holes, the rule does not apply. Cannot determine which.",
+      "recommendation": "Clarify the hinge mechanism. If a pivot pin is press-fit, add a lead-in chamfer to the pin end (.chamfer(0.5)) and/or the bore mouth. If the hinges are purely bolted brackets, this rule is not applicable and can be marked N/A."
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Traced each part's insertion path for the natural order body -> lid -> hinges -> latch. The lid lowers onto the open body top with nothing above it; each hinge then drops onto the (now co-located) lid/body seam from directly above; the latch slides onto the front face last. No part must curve around another and no previously placed part blocks a later one's linear path.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at fastener groupings. Each hinge uses a clean, symmetric 2x2 rectangular hole pattern (clear in front and top views) with even row/column spacing, and the two hinges share the same pattern. Spacing appears wide enough that a screwdriver can engage each hole without fouling its neighbour.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "features",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Hinge/pivot parts must show functional articulation geometry (knuckle, pin bore, or leaf split), not just a solid mounting block",
+      "look_for": "Whether parts labelled/positioned as hinges actually contain a pivot axis \u2014 knuckles, a pin bore, or a two-leaf split \u2014 versus being a solid block with only mounting holes",
+      "pass_criteria": "The hinge exhibits a resolvable pivot feature (interleaved knuckles or a through pin bore) allowing lid rotation",
+      "fail_criteria": "A part required to pivot is modelled as a solid block with mounting holes only, providing no actual rotational degree of freedom",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-002",
+      "category": "tolerances",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Mating parts should contact their seating face, not float above/beside it, in the assembled render",
+      "look_for": "Visible gaps between a part and the face it is supposed to seat on (e.g. a latch hanging below/outside the body edge, or hinges standing proud of the top surface)",
+      "pass_criteria": "Each mounted part's mating face is coincident with its target surface with no visible standoff gap",
+      "fail_criteria": "A part visibly floats away from or overhangs its intended seating face, indicating a placement/location error",
+      "severity": "major"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "5064e503fea6d6b4",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T09:19:15.140837+00:00"
+  }
+}

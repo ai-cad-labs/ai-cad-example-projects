@@ -1,0 +1,248 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/piston_crank/assembly/connecting_rod",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 24,
+  "rules_passed": 19,
+  "rules_failed": 5,
+  "rules_uncertain": 0,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls or webs. The central web of the connecting rod and the walls around the big and small end holes appear substantial and visually exceed 1.5mm in thickness relative to the overall part size.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for deep pockets. The rectangular pockets on the sides of the connecting rod beam are shallow, with a depth significantly less than their width.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for undercuts or inaccessible features. All features, including the pockets, holes, and outer profile, are fully accessible from the top and bottom faces using standard 3-axis milling.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for deep holes. The big end and small end holes are through-holes with a depth (part thickness) roughly equal to or less than their diameters.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for tall, thin ribs. The central web of the I-beam profile is relatively thick compared to its depth and does not pose a vibration risk.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for inaccessible edges. All machined edges are on the exterior profile or in open pockets/holes, making them easily accessible for deburring.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for tapped holes. There are no tapped holes visible on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for restricted tool access. All features can be reached by standard end mills and drills from the top or bottom directions.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for part symmetry. The connecting rod is symmetric across its longitudinal mid-plane and the plane of the web, simplifying fixturing.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-001",
+      "rule_description": "Horizontal holes should use a teardrop profile to prevent sagging at the top of the hole.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for horizontal holes. Assuming the part is machined or printed flat, the main holes are vertical.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for protrusions on thin walls. There are no such features on this part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-001",
+      "rule_description": "Lids and mating enclosures should have alignment features such as a lip, flange, or pins to ensure proper registration.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for mating enclosure features. This part is not an enclosure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-003",
+      "rule_description": "Sharp internal corners should be filleted to reduce stress concentrations and prevent cracking.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for sharp internal corners. The rectangular pockets on the connecting rod beam have perfectly sharp 90-degree internal corners, which will cause stress concentrations.",
+      "recommendation": "Add fillets to the internal corners of the pockets on the beam."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for hinge knuckles. This part does not have hinge features.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-USABILITY-001",
+      "rule_description": "Lids and doors should have a handle, tab, or indentation to facilitate user opening.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for handles or tabs. This part is not a lid or door.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-GEN-001",
+      "rule_description": "Sharp external edges should be chamfered or filleted for handling safety and to reduce chipping.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for sharp external edges. The entire outer perimeter of the connecting rod, as well as the edges of the pockets and holes, have perfectly sharp 90-degree edges.",
+      "recommendation": "Add a small chamfer or fillet (e.g., 0.5mm) to all external edges for safe handling and to prevent chipping."
+    },
+    {
+      "rule_id": "PROPOSED-CNC-001",
+      "rule_description": "Internal vertical corners must have a minimum radius to accommodate the cylindrical shape of an end mill.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for sharp internal vertical corners. The rectangular pockets on the beam, as well as the intersections where the beam meets the circular end bosses, have perfectly sharp internal corners that cannot be machined by a rotating cylindrical end mill.",
+      "recommendation": "Add fillets to all internal vertical corners with a radius greater than the intended end mill radius (e.g., >3mm)."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-003",
+      "rule_description": "Holes intended for pin or shaft insertion should have a chamfered lead-in to facilitate assembly.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for chamfered lead-ins on holes. Both the big end and small end bearing holes have perfectly sharp 90-degree edges at their entrances.",
+      "recommendation": "Add a chamfer (e.g., 1mm x 45deg) to the top and bottom edges of both bearing holes to facilitate pin/shaft insertion."
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for non-symmetric features on a turned part. This is a milled part, not a turned part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for retaining grooves on a pin. This part is not a pin.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for solid continuous rings intended for captive shafts. The big end of the connecting rod is a solid, continuous ring. In a typical engine assembly, this must be assembled over a captive crankshaft journal, which is impossible without splitting the bearing hole.",
+      "recommendation": "Split the big end into a rod and a removable cap, and add features (bosses and tapped holes) for fastening bolts."
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for piston ring grooves. This part is a connecting rod, not a piston.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for thin walls on a turned part. This is not a turned part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-005",
+      "rule_description": "Pins and shafts intended for insertion into holes should have chamfered or radiused ends to facilitate assembly and prevent binding.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for chamfered ends on pins/shafts. This part is not a pin or shaft.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution.",
+      "severity": "minor",
+      "look_for": "The width of the beam connecting the big and small ends.",
+      "manufacturing_processes": "['CNC_milling', 'casting', 'forging']",
+      "fail_criteria": "The beam has a constant width along its entire length.",
+      "id": "PROPOSED-FUNC-002",
+      "category": "geometry",
+      "pass_criteria": "The beam is wider at the big end and tapers towards the small end.",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "manufacturing": [],
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/treasure_chest/assembly/base",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 5,
+  "rules_passed": 5,
+  "rules_failed": 0,
+  "rules_uncertain": 0,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for thin walls/membranes across all 8 views. The top_clean and top_wireframe views show a clear, uniform nested-rectangle band (outer edge to inner cavity edge) representing the wall, and the right_wireframe + iso views show a consistent visible gap between the outer solid outline and the dashed inner cavity. The wall band is a substantial, even proportion of the overall box footprint (visually on the order of several mm relative to the box width, not a hairline), and the floor reads as a solid slab in the iso views. No membrane-like or single-perimeter walls are visible on any face. Absolute thickness cannot be measured from renders alone, but proportionally the walls are well clear of the 0.8mm FDM floor.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for overhangs, bridges, and surfaces angling away from vertical. The part is an open-top rectangular chest base: all four side walls are vertical (self-supporting), and the base floor sits flat \u2014 printed open-side-up it is the first layer on the bed with no overhang. The only non-vertical feature is the set of small circular holes through the wall (visible ~2 solid holes plus faint hidden holes in front_wireframe/iso). Horizontal-axis round holes create a >45deg overhang at their crown, but the holes are small in diameter and will bridge/self-support reliably at FDM resolution. No large unsupported spans, cantilevers, or shallow-angle roofs are present.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for small pins, embossed detail, and fine features. The only small features are the hinge/pin holes, which render as clearly resolved circles (visually ~several mm diameter) in front_clean and iso views. There is no embossed text, no thin pins, and no protrusions below the reliable-print threshold. Wall and floor thicknesses (per DFM-3DP-001) are also well above 0.5mm. All discrete features are comfortably above the 0.5mm minimum.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "For 3D printing this maps to feature accessibility / no trapped enclosed voids. The interior is a fully open-top cavity (confirmed in iso_clean and iso_wireframe), so the inside is completely accessible and any support material could be removed. The through-holes pass entirely through the wall and are reachable from both faces. There are no sealed internal cavities that would trap uncured resin or unremovable support, and no re-entrant pockets hidden behind other geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The overall body is a symmetric rectangular prism (left-right and front-back mirror symmetry of the shell itself, confirmed by the matching outlines in front/right/top views). The only asymmetry is the hinge-hole cluster localized to one rim (rear/top), which is a functional requirement of the chest hinge line and cannot be mirrored without adding non-functional holes. Symmetry is exploited everywhere the function allows; the single asymmetric feature group is justified.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "features",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "Circular holes whose axis is horizontal (parallel to the build plate) should have their crown flagged as an unsupported bridge and constrained to a printable diameter or converted to a self-supporting teardrop/diamond profile.",
+      "look_for": "Round through-holes oriented with their axis in the print's XY plane (horizontal), where the top of the bore forms a >45deg overhang.",
+      "pass_criteria": "Horizontal holes are below the reliable-bridge diameter (roughly <=8mm) OR use a self-supporting (teardrop/hexagonal) top profile OR the design specifies an orientation that makes the hole axis vertical.",
+      "fail_criteria": "Large-diameter horizontal holes with a plain circular crown and no self-supporting profile, which will sag or need internal support that cannot be removed.",
+      "severity": "minor"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "9556537a44907822",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T09:05:29.007623+00:00"
+  }
+}

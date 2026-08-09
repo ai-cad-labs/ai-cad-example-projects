@@ -1,0 +1,116 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/base",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 9,
+  "rules_passed": 7,
+  "rules_failed": 0,
+  "rules_uncertain": 2,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a solid disc. The thinnest sections are the walls around the central slot and hole. Without a dimensional scale, it is impossible to visually confirm if the thickness is greater than or less than the required 1.5mm. The walls appear robust relative to the overall part size, but this is a guess.",
+      "recommendation": "Provide a dimensioned drawing or a 3D model with measurement tools to verify the wall thickness."
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part has a wide slot across its diameter. The depth of the slot, visible in the front and right views, is clearly less than its width, visible in the top view. The depth-to-width ratio is approximately 0.5:1, which is well below the 4:1 limit.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "All features on the part (outer diameter, faces, central slot, and hole) are accessible from the top, bottom, or sides using standard 3-axis toolpaths. There are no overhanging features, T-slots, or other geometries that would constitute an undercut.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "There is a single through-hole in the center of the part. Its depth is the thickness of the part. Visually comparing the part's thickness (front/right views) to the hole's diameter (top view), the depth appears to be 2-3 times the diameter, which is well within the 10:1 limit for standard drills.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The part geometry does not contain any features that would be classified as thin ribs or webs. The main body is solid.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "All machined edges on the part are externally accessible or located within the wide, open central slot. There are no enclosed or recessed areas where deburring tools would be unable to reach.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The wireframe views do not explicitly indicate that the central hole is tapped. Assuming it is, the material thickness (hole depth) appears to be at least 1.5 times the hole diameter. However, this cannot be confirmed without a specification or callout.",
+      "recommendation": "Clarify if the hole is a clearance hole or a tapped hole. If tapped, provide dimensions to confirm thread depth."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "All features are on the exterior or in a simple open slot and through-hole. There is clear and unobstructed access for milling cutters, drills, and facing tools from multiple directions (top, bottom, sides).",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part is highly symmetrical. It is symmetrical about both the horizontal and vertical axes in the top view. This symmetry simplifies fixturing and reduces the number of unique machining setups required.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "look_for": "Internal pockets, slots, and intersections with sharp 90-degree corners.",
+      "description": "Avoid sharp internal vertical corners; use a radius matching the cutting tool.",
+      "severity": "major",
+      "pass_criteria": "All internal vertical corners have a radius (fillet).",
+      "manufacturing": "CNC_milling",
+      "category": "features",
+      "fail_criteria": "Any internal vertical corner is perfectly sharp, which cannot be produced by a rotating cutting tool."
+    },
+    {
+      "category": "features",
+      "severity": "major",
+      "look_for": "Sharp internal corners in pockets, slots, and other milled features.",
+      "manufacturing": "CNC_milling",
+      "id": "PROPOSED-001",
+      "pass_criteria": "All internal vertical corners have a fillet radius greater than zero.",
+      "description": "Internal vertical corners must have a radius appropriate for the cutting tool.",
+      "fail_criteria": "Any internal vertical corner is perfectly sharp (radius of zero)."
+    }
+  ]
+}

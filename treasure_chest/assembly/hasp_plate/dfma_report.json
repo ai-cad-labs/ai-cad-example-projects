@@ -1,0 +1,77 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/treasure_chest/assembly/hasp_plate",
+  "manufacturing_process": "3D_printing",
+  "pass_label": "single_pass",
+  "rules_evaluated": 5,
+  "rules_passed": 5,
+  "rules_failed": 0,
+  "rules_uncertain": 0,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-3DP-001",
+      "rule_description": "Minimum wall thickness >= 0.8mm (FDM) or >= 0.4mm (SLA)",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for membrane-thin walls, shells, or fragile ligaments. The part is a solid rectangular slab (right and iso views show a continuous, uniformly thick cross-section with no hollowing or shelling). It is not a shelled body, so there are no membrane walls to fail. The only thin regions are the material ligaments between the three through-holes and the plate edges; in the front/top views these ligaments show visibly continuous material at least on the order of a hole radius, and no wall appears knife-edge or translucent-thin. No absolute scale is present in the renders, so this is a relative geometric assessment, but there is positive evidence of a solid slab rather than mere absence of a visible defect.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-002",
+      "rule_description": "Overhang angle should not exceed 45 degrees from vertical without support",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for sloped faces, bridges, and unsupported overhangs. The part is a flat prismatic plate with only orthogonal faces (front/right views are clean rectangles; iso confirms flat top and bottom). The three holes are through-holes normal to the broad face, so in the natural flat-on-bed orientation their walls are vertical and self-supporting and require no bridging (through, not blind). No angled or cantilevered geometry is present anywhere in the four views.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-3DP-003",
+      "rule_description": "Minimum feature size >= 0.5mm for reliable printing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for thin pins, embossed text, or fine protrusions near the print resolution. The only discrete features are three circular through-holes: one larger central hole and two smaller holes clustered toward the right edge. Even the two smaller holes read as several times the diameter of a typical FDM feature-size limit relative to the overall plate, and there are no pins, ribs, text, or sub-millimetre protrusions. Smallest features are comfortably above the 0.5mm threshold.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for recessed features, blind pockets, internal cavities, or geometry that would occlude a feature. All three features are simple through-holes fully open on both faces (confirmed by dashed hidden-line pairs spanning the full thickness in the top/right wireframe views). There are no internal cavities or blind recesses. For the additive process every surface is reachable by deposition, and even for a subtractive re-make each hole is accessible along its axis from at least one side.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked at overall symmetry and hole placement. The hole pattern is intentionally asymmetric: a single larger hole offset to the left-of-centre (the hasp staple/latch aperture) plus two smaller mounting holes grouped toward the right edge. This asymmetry is dictated by the part's function as a hasp plate (staple opening vs. fastener pattern), so symmetry is not a functional option, which satisfies the rule's PASS criterion ('takes advantage of symmetry where functional requirements allow'). Additionally, for single-build 3D printing there is no multi-setup/fixturing penalty for asymmetric feature placement.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "features",
+      "manufacturing": [
+        "3D_printing"
+      ],
+      "description": "Through-holes must maintain a minimum edge ligament (hole-edge to part-edge distance) of at least the wall-thickness minimum to prevent edge blowout and cracking.",
+      "look_for": "Mounting/fastener holes placed close to a part edge or corner; measure the remaining material between the hole and the nearest edge.",
+      "pass_criteria": "Ligament between hole edge and part edge is at least 0.8mm (FDM) / 0.4mm (SLA), and preferably >= one hole radius, so the edge does not blow out under fastener load or during printing.",
+      "fail_criteria": "Any hole whose nearest-edge ligament is thinner than the minimum wall thickness, risking a fragile or cracked edge.",
+      "severity": "major"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "9556537a44907822",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-07-21T09:15:22.993936+00:00"
+  }
+}

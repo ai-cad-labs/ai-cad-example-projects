@@ -1,0 +1,5 @@
+Assembly color legend (part -> stroke color):
+  pinion: red (RGB 220,40,40)
+  gear: blue (RGB 40,40,220)
+  shaft_pinion: green (RGB 40,160,40)
+  shaft_gear: orange (RGB 220,140,20)

@@ -1,0 +1,53 @@
+{
+  "eval_type": "dfm",
+  "target_path": "assembly/bulb",
+  "manufacturing_process": "",
+  "pass_label": "merged_dual_pass",
+  "rules_evaluated": 2,
+  "rules_passed": 1,
+  "rules_failed": 1,
+  "rules_uncertain": 0,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The wireframe views (Top and Iso) reveal a large, fully enclosed internal cavity within the spherical head of the part. There is no visible opening or access path from the exterior, making it impossible for a tool to get inside to create this feature.",
+      "recommendation": "The part must be redesigned to allow for the creation of the internal cavity. Options include: 1) Add an opening to the cavity. 2) Design the part as two halves (e.g., split vertically) that can be manufactured separately and then assembled."
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "The part's geometry, as seen in the Front, Top, and Right views, is symmetrical about its central axis. This is a positive design feature that simplifies setup and fixturing.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "manufacturing": "[cnc_machining, injection_molding]",
+      "look_for": "Wireframe views showing internal cavities completely sealed off from the exterior.",
+      "description": "Avoid fully enclosed internal voids that make the part unmanufacturable by most standard processes.",
+      "pass_criteria": "All internal cavities have a clear opening to the exterior, allowing for tooling or material removal.",
+      "id": "PROPOSED-001",
+      "category": "geometry",
+      "severity": "critical",
+      "fail_criteria": "The part contains one or more fully enclosed internal voids with no openings."
+    },
+    {
+      "description": "Avoid fully enclosed internal voids that cannot be accessed for manufacturing or post-processing.",
+      "id": "PROPOSED-001",
+      "look_for": "Wireframe views showing internal features with no corresponding openings on the exterior of the part.",
+      "category": "geometry",
+      "severity": "critical",
+      "fail_criteria": "The part contains a fully enclosed void with no access from the outside.",
+      "pass_criteria": "All internal cavities are accessible from the exterior via openings large enough for tooling, material removal (e.g., unsintered powder), or core/mold components.",
+      "manufacturing": "cnc"
+    }
+  ]
+}
