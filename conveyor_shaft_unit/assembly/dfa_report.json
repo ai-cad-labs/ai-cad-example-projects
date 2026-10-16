@@ -1,0 +1,179 @@
+{
+  "eval_type": "dfa",
+  "target_path": "projects/conveyor_shaft_unit/assembly",
+  "manufacturing_process": "",
+  "pass_label": "assembly_global",
+  "rules_evaluated": 11,
+  "rules_passed": 4,
+  "rules_failed": 4,
+  "rules_uncertain": 3,
+  "overall_verdict": "fail",
+  "results": [
+    {
+      "rule_id": "DFA-001",
+      "rule_description": "Minimize total part count \u2014 challenge whether each part is truly independent",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: distinct colored bodies sharing material with no relative motion or service need. SAW: the color census across all 8 views resolves to a pillow-block style housing (red) with an integral base flange and two base bosses, a stepped shaft (blue) spanning the full length with two reduced end journals, an end cover plate (green, far right in right_clean), a seal or spacer ring (orange, at the right housing face), a collar or inner spacer (purple, at the left housing face), two bearing races visible as concentric blue/teal/orange rings in top_clean, plus 8-10 fasteners. CAVEAT ON IDENTITY: these names are inferred from color separation only; no part source was read. Regardless of naming, each distinct body has an independent reason to exist \u2014 the shaft rotates relative to the housing, the bearings are different material and are consumables, the cover is removable for bearing service, the ring is a different material, and fasteners are separable by definition. No two adjacent same-material static bodies could be unioned: the housing base is already integral rather than a bolted-on foot, which is the combination this rule would otherwise flag.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-002",
+      "rule_description": "Parts should self-locate via geometric features (chamfers, pins, shoulders, bosses)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: shoulders, spigots, registers, counterbores at each mating interface. SAW: the shaft (blue) in front_clean and right_clean is clearly stepped \u2014 small end journal, step up to a bearing seat, then full-diameter center section \u2014 so each bearing lands against a machined shoulder rather than floating axially. top_clean shows a nested concentric ring stack (green outer flange circle, red bore circles, brown/orange ring, blue/teal bearing rings) consistent with a counterbored bearing pocket carrying a register diameter, not a plain flat face. In right_clean the green cover plate sits inset relative to the red housing outline at the right face, reading as a spigot register. The base has two raised bosses under the bolt holes giving a defined seating plane. SCOPE LIMIT: this verdict covers the three load-bearing interfaces I could resolve (shaft-to-bearing, bearing-to-housing-bore, cover-to-housing-face); interfaces hidden inside the congested right-end stack were not individually confirmed.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-003",
+      "rule_description": "Avoid flexible, fragile, or slippery parts that are difficult to handle and orient",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: thin plate-like bodies, slender wires, or parts whose aspect ratio suggests floppiness. SAW: the thinnest body is the orange ring at the right housing face (right_clean, roughly 10-12 px thick against a ~230 px diameter) \u2014 a proportion that is still self-supporting, not shim stock or a paper gasket. The green cover plate has substantial section (~25 px thick against ~520 px height). The shaft is a stout stepped bar and the housing is a massive body. All fasteners are standard hex-head bolts with graspable heads visible in iso_clean. No spring, wire, foil, or thin-sheet element appears in any view.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-004",
+      "rule_description": "Design for top-down assembly so gravity assists part insertion",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: the dominant insertion axis versus the gravity axis implied by the base. SAW: the base flange and its two downward-projecting bolt bosses (red, bottom of right_clean and iso_clean, with magenta and red fastener features pointing DOWN below the feet) establish the mounting plane as horizontal and the shaft axis as HORIZONTAL. Every major component \u2014 shaft, both bearings, the orange ring, the green cover \u2014 must therefore be inserted along a horizontal axis, not from above. The base fasteners in right_clean and right_wireframe show hex features BELOW the feet (magenta at bottom-left ~x305, red at bottom-right ~x870), indicating those bolts are driven upward from underneath against gravity. Only the two top-face bolts (cyan ~x375 and brown ~x810, entering the housing top in right_clean) are true top-down insertions: roughly 2 of 10+ fasteners and 0 of 4 major components enter from above.",
+      "recommendation": "The horizontal component axis is inherent to a pillow-block architecture and largely unavoidable; the base-bolt direction is not. Make the base holes through-holes counterbored from the TOP so bolts drop in from above into tapped frame holes: .faces('>Z').workplane().pushPoints(base_pts).cboreHole(d_clear, d_cbore, cbore_depth) on the base, and raise the bolt cq.Location z so the head seats in the counterbore."
+    },
+    {
+      "rule_id": "DFA-005",
+      "rule_description": "Sufficient clearance around fasteners for wrench/driver access",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "LOOKED FOR: open swing volume around every visible bolt head. SAW two distinct access problems. (1) BASE BOLTS \u2014 in right_clean the two base fasteners (magenta ~x305, red ~x870) present their hex features directly beneath the base feet, in the gap between the foot underside and the mounting frame. No counterbore, spotface or wrench pocket is visible, and the render shows that gap as essentially zero; a socket cannot be introduced there once the unit is set down. (2) FLANGE/COVER BOLTS \u2014 front_clean shows the upper-left (brown, ~x497,y127) and upper-right (teal, ~x933,y128) flange bolts on the same bolt circle as the green cover flange, while right_clean shows the green cover, the orange ring and a red boss stacked at ~x915-1050 immediately adjacent to those locations; the brown fastener column at ~x780-845 in right_clean passes within roughly 30 px of the red housing wall at ~x890. In iso_clean the magenta and red top-boss bolts sit less than one head diameter apart at their bases and shoulder against the red cylindrical boss they mount on. No wrench-clearance relief, spotface or counterbore appears anywhere in the 8 views.",
+      "recommendation": "Critical. Counterbore the base holes from the top face so heads are captured and driven from above, eliminating the under-foot socket requirement entirely. For the flange and cover bolts, verify at least 1.5x across-flats of radial clear space between each bolt axis and the nearest housing wall or adjacent boss; where the brown bolt crowds the housing wall, either increase the bolt-circle diameter or cut a relief: .faces('>Z').workplane().pushPoints(bolt_pts).circle(1.6*across_flats).cutBlind(-spotface_depth). Re-render an isolated view per fastener zone to confirm swing volume before closing this."
+    },
+    {
+      "rule_id": "DFA-006",
+      "rule_description": "Avoid requiring part reorientation during the assembly sequence",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: fastener and component insertion vectors pointing in mutually exclusive directions. SAW at least four distinct directions across the 8 views: (a) +Z downward for the two top bolts entering the housing top face (cyan ~x375, brown ~x810 in right_clean); (b) -Z upward for the two base bolts whose hex features sit below the feet; (c) horizontal along the shaft axis from the right for the shaft, bearings, orange ring and green cover at the housing right face; (d) horizontal from the opposite end for the purple body at the housing left face (~x250-325 in right_clean). Driving top bolts, then flipping the unit to reach under-foot bolts, then standing it to insert the shaft axially is three fixture setups minimum.",
+      "recommendation": "The axial shaft, bearing and cover insertion is inherent to the architecture and acceptable. The avoidable reorientation is the -Z base bolt: converting those to top-counterbored through-bolts (same change as DFA-004) removes the flip, leaving one axial setup plus one top-down setup, which is the realistic floor for a horizontal pillow block."
+    },
+    {
+      "rule_id": "DFA-007",
+      "rule_description": "Standardize fastener types \u2014 minimize unique fastener count",
+      "verdict": "uncertain",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: differing head sizes and shank diameters across the fastener population. SAW: in top_clean the four flange bolt holes (upper-left, upper-right, lower-left, lower-right on the bolt circle) all render at the same outer diameter (~56 px) and same inner diameter (~30 px), so the flange set is internally consistent. In iso_clean, however, two clearly different bolt scales appear: the four tall base and flange bolts (orange ~x220, purple ~x350, teal ~x525, brown ~x660) have shank widths of roughly 55-60 px, while the two small bolts on the top bosses (magenta ~x355,y130 and red ~x525,y215) have shank widths of roughly 25-30 px, about half. That is at minimum two distinct sizes. I cannot determine whether the two small top bolts match each other, nor whether the base and flange bolts share a size, because the colorized per-part render carries no dimensions and the views share no common scale annotation. Two sizes would pass this rule; three or more would fail, and the renders cannot discriminate.",
+      "recommendation": "Cannot resolve from renders alone. Needed: external/bom.md, or the fastener diameter constants in assembly.py. If the small top-boss bolts are a different thread from the flange and base bolts, consolidate to one size (M6 or M8 throughout) unless they are non-structural features such as grease fittings or set screws, in which case they are outside this rule and the structural count stands at two."
+    },
+    {
+      "rule_id": "DFA-008",
+      "rule_description": "Interference fits and press fits should have lead-in chamfers for guided insertion",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: lead-in edges at the shaft ends, at the shaft bearing-seat steps, and at the bearing bore mouths. SAW: no chamfer edge pair is visible at any press-fit interface. The shaft's left end in front_clean closes with a crisp corner at both ~y235 and ~y385 with no diagonal lead-in segment; the right end at ~x1250 in right_clean closes the same way. The shaft step transitions (~x230 and ~x440 in front_clean) are drawn as square shoulders with no visible chamfer or undercut relief. On the bore side, the bearing bore mouths in top_clean appear as concentric circles with no intermediate chamfer circle between bore ID and face. CONFIDENCE LIMIT, stated because it bounds this verdict: a 0.5 mm chamfer at this render scale produces two edges only a few pixels apart, which the stroke weight can merge into a single line \u2014 so this is an observation of visual absence, not a proof of geometric absence. The rule's own pass criterion requires chamfers to be VISIBLE, and none are, so fail is the correct mapping of what the renders show; a source read could still overturn it.",
+      "recommendation": "First verify against source \u2014 grep the shaft and housing part.py for .chamfer( before changing geometry, since chamfering an already-chamfered edge is a common CadQuery execution failure. If genuinely absent, add lead-ins: .faces('>X').edges('%CIRCLE').chamfer(0.5) and .faces('<X').edges('%CIRCLE').chamfer(0.5) on the shaft, plus a chamfer on each housing bearing-bore mouth, and an undercut or relief groove at each shaft shoulder so the bearing inner race seats flat rather than riding a corner radius."
+    },
+    {
+      "rule_id": "DFA-009",
+      "rule_description": "Assembly mating surfaces must be unobstructed by other parts or features",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "LOOKED FOR: any component whose straight-line path to its seat is crossed by an already-placed body. SAW: the right end of the housing in right_clean is densely stacked \u2014 reading left to right along the shaft centerline: the orange ring (~x855-890), a red housing boss (~x890-920), a brown inner ring (~x945-995), the green cover plate (~x972-1018), and a green tab projecting further right (~x1020-1050), with the blue shaft passing through all of them and emerging at ~x1070-1250. The green cover plate's bore visibly surrounds the blue shaft. Whether the cover could be slid on before the shaft's full-diameter center section was in place cannot be determined: the colorized overlay shows final positions only, there is no section cut, and right_wireframe carries 6+ overlapping dashed outlines between ~x855 and ~x1050, too congested to trace an individual bore diameter. The same congestion blocks the left end, where the purple body encircles the shaft at ~x250-325. I cannot certify an unobstructed path for the cover, the purple body, or either bearing.",
+      "recommendation": "Needs an axial half-section render (cut on the XZ plane through the shaft centerline, parts colorized), or the bore and OD constants from each part.py. Specifically required: the green cover plate bore ID versus the shaft center-section OD, and the housing connecting-bore ID versus each bearing OD. This critical rule is unresolved and the assembly must not be certified until it is answered."
+    },
+    {
+      "rule_id": "DFA-010",
+      "rule_description": "Bolt patterns should have consistent, standard spacing for common tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: geometric regularity within each bolt group. SAW: top_clean shows the main flange pattern as four holes at approximately (195,271), (551,271), (195,635), (551,635) \u2014 a square pattern, ~356 px on both axes, centered on the green flange circle at ~(373,453), with all four equidistant from center (~252 px) at 90-degree increments, i.e. a proper 4-bolt circle. front_clean confirms the same four at ~(489,127), (933,128), (489,490), (933,490), again rectangular and symmetric. The two base bolts in top_clean (~x145 and ~x595) are symmetric about the same vertical centerline. Adjacent flange holes are separated by ~356 px against a hole OD of ~56 px, a 6:1 ratio, ample for simultaneous socket engagement. No irregular or crowded spacing appears within any single pattern.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFA-011",
+      "rule_description": "Every pre-assembled component must fit through every bore, passage and opening on its insertion path to its seat - check the swept envelope along the path, not just the diameter of the final seat.",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: each shaft-mounted component's swept envelope against every internal diameter between its entry face and its seat. SAW: top_clean resolves the concentric diameter stack at the right face as, outside in: green flange OD ~650 px, red bore circles at ~410 and ~370 px, a brown ring at ~300 px, blue/teal bearing rings at ~230 and ~200 px, innermost open bore ~200 px. That ordering is consistent with a stepped housing bore narrowing inward, which is the correct geometry for a bearing pushed in from the face onto an internal shoulder. But this rule requires comparing a component's largest silhouette against every diameter it must traverse, and the renders cannot supply that: top_clean is a single end-on view that collapses the axial dimension entirely, so the axial station of each diameter is unknown, and whether the left bearing must traverse the right-hand bore (or the reverse) cannot be determined. right_wireframe should show this but the hidden-line density between ~x855 and ~x1050 makes the internal diameters untraceable. The shaft's center section (blue, full diameter, ~x320-1070 in right_clean) is visibly larger than its end journals, so any component required to travel onto the center section from an end would be blocked \u2014 but no view or document confirms whether any component is specified to do that.",
+      "recommendation": "Needs an axial half-section render (XZ plane through the shaft centerline, parts colorized) plus the documented sequence from assembly.md. Then compare, per component: bearing OD and ring OD against every housing bore diameter between entry face and seat, and the cover plate bore ID against the shaft center-section OD. Probationary tier so this does not itself fail the assembly, but it is the same unresolved question as DFA-009 and should be closed by the same artifact."
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-001",
+      "category": "access",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "Lubrication, inspection and grease-fitting ports must be reachable with the unit installed in its service orientation, without removing adjacent parts.",
+      "look_for": "Small bosses, nipples or plugs projecting from the housing (often top or side face) and whether anything mounted above or beside them blocks a grease gun or inspection probe.",
+      "pass_criteria": "Every lubrication or inspection port has a clear straight approach of at least one fitting length plus tool length in its service orientation.",
+      "fail_criteria": "Any port whose approach is blocked by an adjacent boss, bolt head, cover or the mounting structure, requiring partial disassembly to service.",
+      "severity": "major"
+    },
+    {
+      "id": "PROPOSED-002",
+      "category": "access",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "A fastener installed through a foot, flange or mounting plate must be drivable from the side of the joint that remains accessible after the unit is mounted.",
+      "look_for": "The axial position of each fastener head relative to the mounting plane: is the head above the foot (accessible) or beneath it (trapped between foot and frame)?",
+      "pass_criteria": "Every mounting fastener head sits on the exposed side of the joint, or is a captive stud with the nut on the exposed side.",
+      "fail_criteria": "Any fastener head located in the gap between a foot and its mounting surface, where a tool cannot reach once the unit is set down.",
+      "severity": "critical"
+    },
+    {
+      "id": "PROPOSED-003",
+      "category": "geometry",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "A rotating shaft supported by two bearings must have exactly one axially located (fixed) bearing and one free bearing to allow thermal growth.",
+      "look_for": "Shoulders, retaining rings, covers and collars at each bearing: is each bearing constrained on both faces, or is one allowed to float axially in its housing bore?",
+      "pass_criteria": "One bearing is axially clamped on both inner and outer race; the other is clamped on the inner race only and free to slide in the housing bore.",
+      "fail_criteria": "Both bearings are axially constrained on both races (thermal growth induces axial preload and premature failure), or neither is, leaving the shaft free to walk.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-004",
+      "category": "tolerances",
+      "manufacturing": [
+        "assembly"
+      ],
+      "description": "A press-fit or close-tolerance joint must declare which member carries the interference, so only one of the mating pair is held to the tight tolerance.",
+      "look_for": "Shaft-to-bearing-bore and bearing-OD-to-housing-bore interfaces, and whether the design documents which side is the interference member.",
+      "pass_criteria": "Each fit names one interference member and one clearance member with stated tolerance classes.",
+      "fail_criteria": "Both members of a press fit are specified at nominal with no tolerance split, making the resulting fit indeterminate.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "77ba29b0da16c3a5",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-10-08T19:09:16.809570+00:00"
+  }
+}

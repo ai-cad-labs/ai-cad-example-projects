@@ -1,0 +1,331 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/conveyor_shaft_unit/assembly/cover",
+  "manufacturing_process": "CNC_milling",
+  "pass_label": "single_pass",
+  "rules_evaluated": 24,
+  "rules_passed": 11,
+  "rules_failed": 4,
+  "rules_uncertain": 9,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-001",
+      "rule_description": "Minimum wall thickness >= 1.5mm for CNC milled parts",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The part is a circular end cover: a flange disc with a smaller-diameter concentric spigot/pilot boss projecting from one face, and a central through-bore. In front_clean and right_clean the flange reads as a thin rectangle in profile (roughly 1:11 thickness-to-diameter by pixel measure) and the spigot projects a further comparable amount. The thinnest wall is the annulus between the central bore and the spigot OD, visible in top_wireframe as the gap between the solid bore circle and the first dashed concentric circle. That gap is a substantial fraction of the bore radius, so proportionally it does not look fragile. BUT no absolute dimension is available anywhere in the inputs - the renders are viewport-auto-scaled with no scale bar, no bounding box, no dimension table. A disc that is 120mm across passes this rule easily; the identical render at 12mm across fails it. I cannot convert pixels to millimetres, so I cannot render a defensible pass on a rule whose criterion is literally '1.5mm'.",
+      "recommendation": "Supply absolute dimensions beside the renders (bounding box plus flange thickness, spigot wall thickness, bore diameter) so mm-denominated rules can be judged on numbers. Interim: confirm in constraints.md that flange thickness and the bore-to-spigot-OD annular wall are both >= 1.5mm."
+    },
+    {
+      "rule_id": "DFM-CNC-002",
+      "rule_description": "Pocket depth-to-width ratio should not exceed 4:1",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for pockets, counterbores, slots and cavities. top_wireframe and iso_wireframe show two pairs of dashed concentric circles between the bore and the bolt circle - these are the hidden edges of the spigot step (the projecting boss seen in profile in front_clean/right_clean), not pocket floors. front_wireframe and right_wireframe show a simple stepped two-rectangle profile: there is no blind recess anywhere in the section. The only recess-like feature is the step between flange face and spigot face, which is a wide shallow shoulder, nowhere near 4:1. No pocket exceeds the ratio because the part contains no pockets.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-004",
+      "rule_description": "Avoid undercuts and features inaccessible to standard 3-axis end mills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Checked both profile views (front_wireframe, right_wireframe) for re-entrant geometry. The section is strictly monotonic in diameter from the spigot face back to the flange face: spigot OD then flange OD, with a single square shoulder and no material overhanging any lower face. All four bolt holes read as straight cylinders fully through the flange (the dashed verticals in front_wireframe run the full flange thickness). The central bore is a straight through-cylinder. Every surface is reachable by a vertical tool path in two setups (one per face), which is normal flange practice. No T-slot, dovetail, or hooked feature anywhere.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Four bolt holes on a square bolt circle, clearly visible in top_clean and iso_clean. Their diameter in top_clean is roughly 0.07 of the flange diameter; the flange thickness in right_clean is roughly 0.09 of the flange diameter. That makes the hole depth comparable to - in fact slightly larger than but within the same order as - the hole diameter, giving a depth-to-diameter ratio near 1.3:1. The central bore is far larger in diameter than the flange is thick, so its ratio is well below 1:1. Both are an order of magnitude inside the 10:1 limit. This verdict rests on a ratio of two measurements taken from the same renders, so it is scale-independent and does not depend on absolute dimensions.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-006",
+      "rule_description": "Avoid thin ribs and webs (< 2mm thick at depth > 4x thickness)",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "Looked for standing ribs, fins and gussets in iso_clean and both profile views. There are none - the part is a plain stepped disc. The only standing feature is the spigot boss, which is a short large-diameter annular collar: in right_clean its projection is clearly less than its own radial wall thickness, giving a height-to-thickness ratio well under 1:1, nowhere near the 4:1 vibration threshold. Nothing in this geometry can chatter or deflect as a rib.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-007",
+      "rule_description": "All edges should be accessible for deburring operations",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Enumerated every machined edge: the flange OD, the flange back face rim, the shoulder where the spigot meets the flange face, the spigot OD, the spigot end face rim, the central bore entry on both faces, and the eight bolt-hole entries (four holes, two faces each). Every one of these is on an exterior or open-annular surface, fully exposed in iso_clean. There are no enclosed cavities, no internal corners buried below an overhang, no blind intersections. A deburring tool or brush reaches all of them.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "uncertain",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "The four bolt holes are through-holes, not blind holes: front_wireframe and right_wireframe show their dashed walls running the full flange thickness with no terminating floor, and top_clean shows them as plain open circles. A cover plate's holes are normally clearance holes with the thread in the mating housing, in which case this rule does not bind at all. But nothing in the images establishes whether these are clearance or tapped - a tapped through-hole in this flange would have thread engagement equal to the flange thickness, which at the measured proportion (flange thickness roughly 1.3x hole diameter) is BELOW the 1.5x requirement. Whether that matters depends entirely on an intent the renders cannot carry.",
+      "recommendation": "State in constraints.md whether these four holes are clearance (thread in the mating housing - rule not applicable) or tapped. If tapped, flange thickness must reach at least 1.5x the nominal bolt diameter; at the proportions observed it does not, so either thicken the flange locally with a boss or move the thread to the mating part."
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Every feature was traced to a tool: flange OD and spigot OD by turning or a contour end mill, the shoulder face by a face mill or end mill from the spigot side, the central bore by boring or a circular interpolation, the four bolt holes by a drill from either face. The bolt holes sit in open flange area with clear approach from both sides (top_clean shows nothing obstructing them). The annular shoulder around the spigot is a wide open face in iso_clean with no wall crowding it. No feature is shadowed by other geometry from every direction.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "top_clean shows the four bolt holes on an exact square pattern (90 degree spacing) on a bolt circle concentric with both the flange OD and the central bore. The whole part is a body of revolution apart from that four-fold pattern. This is near-ideal for fixturing: chuck on the OD or on the spigot, drill four holes on one index. There is no asymmetric feature anywhere demanding an extra setup.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-004",
+      "rule_description": "Closed-loop bearing holes intended for assembly over captive shafts must be split into two pieces with fastening features.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "The central bore is a continuous closed ring (top_clean), so the question is whether it must pass over a captive shaft. This is a bolted END COVER on a conveyor shaft unit: a cover slides onto the shaft END along the axis before the shaft is captured between its bearings, and is retained by the four bolts into the housing face. Nothing in the geometry suggests it must be fitted over an already-captive journal (no crank throw, no offset, no eccentric). An axially-installable closed ring is correct and standard here; splitting it would add a joint line through a sealing face for no reason.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The rule targets 3D-printed parts; this part is declared CNC_milling, so the layer-delamination mechanism does not apply. Evaluated the geometric half anyway: the only protrusion is the spigot boss, and it is a short, very large-diameter collar sitting on a disc of comparable thickness - a stubby pedestal, not a cantilever. Its height-to-thickness ratio is well under 1:1 and it carries no bending load. The sharp 90 degree shoulder in front_wireframe is a stress concentrator in principle, but with this stiffness ratio and this load path there is nothing to delaminate or crack.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Searched all four perspectives for hinge knuckles, pin bosses, pivot lugs or any rotating joint feature. There are none - the part is a static bolted cover with no articulated interface. Rule is not applicable; recorded as pass by vacuity rather than by inspection of a passing feature.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This is not a piston - it is a flanged end cover (outer flange with bolt circle, projecting pilot spigot, central shaft bore). A piston has no bolt flange and no central through-bore for a shaft. The spigot OD in iso_clean is smooth with no circumferential grooves, which is correct for a pilot register whose job is radial location against a housing bore, not a sliding seal. Rule not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This part is a strong candidate for turning (it is a body of revolution plus a drilled bolt pattern) even though the declared process is CNC_milling, so the chucking-deformation question is live. The concern is gripping on the flange OD or the spigot OD while boring the centre: a disc whose thickness is roughly 1/11 of its diameter is proportionally plate-like, and thin plate-like discs do distort under three-jaw pressure and can go out of flatness, which matters here because the flange face is a sealing/mating face. Whether this is real depends on absolute size and material, neither of which is available: at 120mm diameter in steel it is a non-issue, at 300mm in aluminium with light walls it is a real workholding problem.",
+      "recommendation": "Provide the flange diameter, flange thickness and material. If the diameter-to-thickness ratio is high and the material soft, specify soft jaws with a large wrap angle or a face-clamp fixture on the bolt holes, and finish the sealing face in the final clamped state."
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "No connecting rod geometry present - no big end, no small end, no beam. The part is an axisymmetric cover disc. Rule not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin to balance rotational inertia.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "No crankshaft web and no crankpin. The part is a static bolted cover, not a rotating member: its mass distribution is already axisymmetric apart from the four-fold bolt pattern, and it does not rotate in service. Rule not applicable.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-002",
+      "rule_description": "A cantilevered plate carrying a bearing bore should be supported by a gusset or rib when its unsupported height exceeds ~4x its thickness",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for a vertical plate standing off a base flange and carrying a bore. The geometry here is the opposite arrangement: the bore sits in the plane of the flange itself, directly surrounded by material on all sides and bolted flat against the housing at four points. There is no cantilever, no free height, and no bending moment at a root - any radial load at the bore reacts in shear and bearing straight into the four bolts a short distance away. The 4:1 height-to-thickness test has no height to measure.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-001",
+      "rule_description": "A rotating part mounted on a shaft must include an explicit torque-transmitting feature (keyway, D-flat, spline, or a documented interference fit) rather than a plain smooth bore.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The central bore is indeed a perfectly plain circle with no keyway, flat or spline - confirmed in top_clean (single clean circle) and top_wireframe (no notch breaking the bore outline). But the rule's gating condition is 'a rotating part mounted on a shaft that must transmit torque'. This is a stationary cover bolted to a housing; the shaft passes THROUGH its bore and must rotate freely relative to it. A keyway here would be a defect, not a fix - it would key the cover to the shaft and spin it against its own bolts. A smooth bore is the correct and required geometry.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-003",
+      "rule_description": "Rotating parts must have their blade or vane trailing edges left with a finite minimum thickness rather than tapering to a knife edge.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "No blades or vanes present. Checked the flange OD in front_clean and right_clean for a tapering section: the outer rim terminates in a square full-thickness edge, with the two profile lines parallel right to the outside diameter, not converging. No knife edge anywhere on the part.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-004",
+      "rule_description": "Curved or swept channel walls on a 3-axis milled part must be checked for a constant-cross-section vertical sweep; a channel whose narrowest point is smaller than the tool needed to reach its full depth is not 3-axis machinable.",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "probationary",
+      "observation": "Looked in top_clean and top_wireframe for channels between curved walls. There are none - the annular shoulder around the spigot is an open face, not a channel (it has a wall on one side only, the spigot OD, and is open to the flange rim beyond). The widest-point / deepest-point coincidence the rule hunts for cannot occur because there is no enclosed channel. Every annular surface is open to the tool from directly above across its full width.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-005",
+      "rule_description": "High-speed rotating assemblies should carry a balancing provision (a designated material-removal ring, balance boss, or documented balance-grade requirement).",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "This cover does not rotate - it is bolted to the stationary housing while the shaft turns inside its bore. A balance provision on a static part would be meaningless. Rule's gating condition ('a part whose whole function is to rotate at speed') is not met.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-DFM-SCALE-001",
+      "rule_description": "Absolute-dimension rules (wall thickness, thread depth, hole size minimums) must be evaluated against reported model dimensions, not against render proportions, because renders are auto-scaled to the viewport and carry no scale reference.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "This is the meta-rule and it fails squarely. The evaluation inputs consist of eight PNG renders and nothing else - no bounding box, no dimension table, no annotated views, no scale bar. Three rules in this rulebook state their criteria in millimetres (DFM-CNC-001 at 1.5mm wall, DFM-CNC-006 at 2mm rib, DFM-CNC-008 at 1.5x diameter thread depth, and PROPOSED-DFM-CNC-010 at 0.5-1.5mm chamfer). For each of those the only honest verdict from pixels alone is a guess about the part's overall size. I marked DFM-CNC-001 and DFM-CNC-008 uncertain precisely because of this gap rather than papering over it with a confident pass.",
+      "recommendation": "Have the executor emit a dimensions sidecar beside the renders: overall bounding box, plus the key feature dimensions each mm-denominated rule needs (minimum wall thickness found, flange thickness, bore diameter, bolt hole diameter, chamfer sizes if any). Pass that file into the evaluator prompt alongside the images. Until then, every mm-denominated rule should be structurally forced to 'uncertain' rather than left to the evaluator's discretion."
+    },
+    {
+      "rule_id": "PROPOSED-DFM-CNC-010",
+      "rule_description": "Bores that receive a shaft, bearing, or seal should carry a lead-in chamfer at the entry edge to prevent seal lip damage and galling during assembly.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The central bore receives the conveyor shaft and is the most likely home for a lip seal or a running clearance. In top_clean the bore is a single sharp circle with no concentric companion circle just outside it; in iso_clean the same single edge appears with no second ellipse; in front_wireframe and right_wireframe the bore's dashed wall meets the face at a square corner with no short angled lead-in segment. The flange OD and spigot OD likewise show square corners with no edge break. The part has no chamfers anywhere. Assembling a shaft or pressing a seal through a sharp 90 degree bore mouth risks shaving the seal lip and raising a burr into the running clearance.",
+      "recommendation": "Add a lead-in chamfer at the bore entry on the shaft-insertion face, e.g. .faces('>Z').workplane().circle(bore_d/2).chamfer is not available on a workplane, so select the bore edge directly: .edges('%CIRCLE and >Z').chamfer(0.8). Add the same on the opposite face if the shaft can enter from either side, and break the flange and spigot OD edges while you are there."
+    },
+    {
+      "rule_id": "PROPOSED-DFM-CNC-011",
+      "rule_description": "Bolt holes in a bolted flange must leave adequate edge distance \u2014 at least 1.5x hole diameter from hole centre to the nearest free edge \u2014 to avoid tear-out and to seat the fastener head fully on material.",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Measured in top_clean, where all distances are in the same pixel space so the ratio is scale-independent. Hole diameter is approximately 65px. Distance from hole centre to the flange OD along the radial direction is approximately 170px, which is 2.6x diameter - comfortably past the 1.5x bar on the outboard side. But the inboard side fails: the distance from each hole centre to the SPIGOT STEP edge (the first dashed concentric circle in top_wireframe, which is the shoulder where the raised boss meets the flange face) measures approximately 75px, only about 1.15x the hole diameter. Worse, in top_wireframe and iso_wireframe the dashed step circle visibly passes directly THROUGH or tangent to the bolt-hole circles at all four positions - the holes break into the shoulder. A bolt head or washer seated there would sit partly on the flange face and partly over the step, with uneven bearing and a tear-out path into the step.",
+      "recommendation": "Either move the bolt circle outward so each hole centre clears the spigot step edge by at least 1.5x hole diameter, or reduce the spigot/step outer diameter so the step edge falls inboard of the bolt circle by the same margin. In CadQuery: increase the bolt-circle radius in the .polarArray(...) or .pushPoints(...) call, or shrink the boss circle radius before .extrude(). Then re-render top_wireframe and confirm the dashed step circle no longer intersects any bolt-hole circle."
+    },
+    {
+      "rule_id": "PROPOSED-DFA-002",
+      "rule_description": "A rotationally symmetric bolt pattern on a part with orientation-dependent internal features must carry an anti-rotation key (an offset hole, a dowel, or a keyway) so it cannot be installed in a wrong clocking.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "The bolt pattern is 4-fold symmetric (90 degree spacing, confirmed in top_clean). Every other feature on the part is fully axisymmetric: the flange OD, the spigot OD and its shoulder, and the central bore are all bodies of revolution. There is no drain port, no grease passage, no keyway, no asymmetric recess, no vent. All four clockings are therefore functionally identical and no wrong orientation exists to protect against. Note this verdict becomes false the moment a drain or grease port is added - re-evaluate if one is.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-META-RULEGAP-001",
+      "rule_description": "When a part's declared manufacturing process has no process-specific active rules, the evaluation must say so as a first-class signal rather than let an evaluator express the gap by distorting a generic rule's verdict.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "The declared process is CNC_milling and the rulebook does carry process-specific active coverage for it: DFM-CNC-001, 002, 004, 005, 006, 007 and 008 are all CNC-scoped and active. That is seven process-specific active rules, so the gating condition (zero coverage) is not met. Noting the adjacent observation for the record: a large share of the probationary rules evaluated here (piston rings, connecting-rod taper, crankshaft counterweights, hinge knuckles, turned thin walls) are scoped to part archetypes this cover is not, so they pass by vacuity rather than by inspection - that is rulebook noise, not a coverage gap, but it does dilute the signal in the results array.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-DFM-CNC-012",
+      "category": "features",
+      "manufacturing": [
+        "CNC_milling",
+        "CNC_turning"
+      ],
+      "description": "A pilot spigot or register boss on a bolted cover must be dimensioned as a located fit against the mating housing bore, and the register length should be short relative to its diameter to avoid an over-constrained double fit.",
+      "look_for": "A concentric boss projecting from the bolted face, visible as a second step in the profile views and as a concentric hidden circle inside the bolt circle in the face-on wireframe. Compare the register's axial projection against its diameter, and check whether the constraints name a fit class for the register OD.",
+      "pass_criteria": "The register's axial length is short relative to its diameter (a shallow locating land, not a long sliding journal), and the constraints state a fit class (e.g. h7/H7) for the register OD against the housing bore.",
+      "fail_criteria": "A long register that will bind or over-constrain against the housing bore, or any register OD with no fit specification anywhere in the constraints - leaving the single most assembly-critical dimension on the part to a default tolerance.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-DFM-CNC-013",
+      "category": "features",
+      "manufacturing": [
+        "CNC_milling",
+        "CNC_turning"
+      ],
+      "description": "A part with no chamfer or edge break anywhere on any edge should be flagged, because a completely sharp-edged model is almost always an omission rather than a design intent.",
+      "look_for": "Across all four clean views, count the edges that show a secondary concentric line or short angled segment indicating an edge break. A part with zero such indications on OD, bore, bosses and hole entries is fully sharp.",
+      "pass_criteria": "At least the handling edges and all assembly-interface edges (bore entries, register OD, outer rim) carry a chamfer or radius.",
+      "fail_criteria": "Zero chamfers or radii on the entire part. Sharp edges are a handling hazard, a burr source, a paint-adhesion problem on outside corners, and on an assembly interface they prevent clean insertion - observed here: every edge on this cover is square.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-DFA-003",
+      "category": "access",
+      "manufacturing": [
+        "CNC_milling",
+        "CNC_turning",
+        "casting"
+      ],
+      "description": "A bolted cover over a shaft bore must leave the bolt heads accessible to a driving tool without the mating shaft, coupling, or adjacent component obstructing the socket swing.",
+      "look_for": "The radial position of the bolt circle relative to the central bore, and whether anything mounted on the protruding shaft (coupling hub, sprocket, bearing retainer) would sit over the bolt heads.",
+      "pass_criteria": "Each bolt head has clear axial access with socket-wall clearance all around, or the cover is designed to be fitted before the shaft-mounted component.",
+      "fail_criteria": "A bolt circle close enough to the bore that a shaft-mounted hub of normal diameter would shroud the bolt heads, making the cover non-serviceable without stripping the drive - a defect invisible in part-level views and only catchable by asking what sits on the shaft.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-DFM-GEN-004",
+      "category": "tolerances",
+      "manufacturing": [
+        "CNC_milling",
+        "CNC_turning"
+      ],
+      "description": "A face that seals, registers, or bolts flat against a mating part must be identified in the constraints as a controlled face with a flatness and surface-finish requirement, not left as a default machined surface.",
+      "look_for": "Which faces of the part contact another part in service (the bolted flange face, the register shoulder, any seal land), and whether the constraints name a flatness tolerance or finish for them.",
+      "pass_criteria": "Every mating or sealing face is named in the constraints with a flatness and finish requirement, and the fixturing implied by the part's shape permits finishing it in one clamped state.",
+      "fail_criteria": "A sealing or bolted face with no flatness or finish callout. On a thin disc this is doubly risky because chucking distortion can take a face out of flat after it was machined, and nothing in the model records the requirement that would catch it.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "ea175b88d4e83c14",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-10-08T18:39:38.682799+00:00"
+  }
+}

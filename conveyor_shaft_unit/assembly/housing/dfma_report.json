@@ -1,0 +1,250 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/conveyor_shaft_unit/assembly/housing",
+  "manufacturing_process": "casting",
+  "pass_label": "single_pass",
+  "rules_evaluated": 15,
+  "rules_passed": 11,
+  "rules_failed": 4,
+  "rules_uncertain": 0,
+  "overall_verdict": "pass",
+  "results": [
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "Looked for recessed features, internal cavities, deep holes and any feature hidden behind other geometry, then traced a tool and an entry direction for each machined feature family rather than scanning for an obvious blocker. SAW: (1) top_clean/top_wireframe show the dia-80 bore open clear through the part end to end (the central circle is unobstructed, and iso_clean shows daylight through the bore), so both dia-80 H7 bores and the dia-72 central passage are reachable by a line-boring bar entering on the Z axis from either end; the two internal step faces (z=+66.0 and z=-64.5) sit 29.0 mm and 30.5 mm inboard of their respective end faces, a trivial reach for a facing insert on that bar. (2) iso_clean shows all four cover-bolt holes as open circles on the fully exposed dia-130 drive-end face, which is the outermost feature at +Z with nothing in front of it; the 6.8 tapping drill x 20.0 deep is 2.9:1 and enters axially unobstructed, and with the bolt circle at r=52 inside a rim at r=65 there is 13 mm of radial rim for socket clearance. (3) iso_clean/iso_wireframe show both dia-24 grease bosses standing proud at the top of the part with clear open space above them; constraints.md records that boss height was raised to Y=+70 specifically because the dia-130 boss reaches Y=+65 and was burying them, i.e. the one genuine access defect in this geometry was found and corrected before this evaluation. The dia-4 feed drilling runs only Y=+46 to Y=+40 and travels down a bore already opened to 6.8 by the tapping drill. (4) front_clean shows the four dia-14 foot holes as fully open circles; measured against the plate outline they sit at X=+/-45, Z=+/-55, which places them outboard of the pedestal (X=+/-35), so drilling from -Y is completely unobstructed and the pedestal does not shadow them. (5) The foot underside and the drive-end boss face are external planar surfaces with open approach. Deepest drilling in the part is 2.9:1. No feature was found that lacks a standard tool and an unobstructed path.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "Looked for overall symmetry, feature placement patterns and whether any asymmetry forces an avoidable extra setup. SAW: top_clean shows the part mirror-symmetric about the vertical centreline (YZ plane at X=0) with no exceptions - body cylinder concentric, bolt circle clocked at 45/135/225/315 deg so it mirrors, the top boss on the centreline, the base flange and its holes symmetric left-to-right. front_clean shows the four foot holes as a clean rectangular pattern symmetric about both axes. The feature families group into very few setups: both dia-80 bores share one axis and are line-bored together in a single setup (constraints.md: 'Both bores line-bored in one setup; coaxiality 0.020 TIR'), the four M8 holes all enter from the single +Z face, both grease bosses enter from +Y, and all four foot holes plus the foot underside work from -Y. The asymmetries that do exist are all along Z and all functionally mandated rather than arbitrary: only the drive end carries the dia-130 cover boss because only the drive end is covered, and the two bore steps are deliberately placed differently (z=+66.0 backing the DE outer ring vs z=-64.5 leaving the FE ring a required 1.5 mm float). No symmetric alternative would serve those functions. The bolt circle is additionally clocked to 45 deg increments expressly so no hole falls over the foot pedestal, which is a symmetry-preserving choice made in favour of manufacturability.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for protrusions meeting thin walls without a transition feature. SAW: iso_clean shows both dia-24 grease bosses rising 20 mm proud of the dia-100 body and meeting the curved outer wall as a bare cylinder-into-cylinder intersection with no radius, gusset or rib visible at either base; right_clean shows the same two bosses in elevation, their flanks meeting the body curve at a sharp arched junction. iso_clean also shows the dia-130 cover boss meeting the dia-100 body as a square 15 mm radial step with no radius, and the pedestal meeting the body with a sharp junction. This is confirmed as deliberate rather than accidental: constraints.md states 'NO fillets anywhere, including at the pedestal-to-body and boss-to-body junctions. Production drawings would carry R5-R8 there; deferred project-wide', part.py's docstring repeats it, and Must-NOT item 1 forbids .fillet() entirely. The wall the bosses land on is 10.0 mm over the bores. I am reporting this against the rule's literal, process-neutral PASS/FAIL wording, which the geometry plainly meets on the FAIL side; the rule's stated RATIONALE (layer delamination) is 3D-printing-specific and does not transfer to grey cast iron, so treat the delamination reasoning as inapplicable while the geometric condition is real. For grey iron the equivalent mechanism is a shrinkage hot spot and a stress raiser at the un-radiused root, which is the subject of proposed rule PROPOSED-CAST-RADII-001 below.",
+      "recommendation": "No change to part.py is warranted on this rule alone, because the omission is a recorded project-wide deferral rather than a design error - do not add .fillet() here, it would violate Must-NOT item 1. Route this instead to the casting-specific rule proposed below, and to the production drawing where R5-R8 at the boss-to-body, pedestal-to-body and dia-130-boss-to-body junctions is already the stated intent. If the deferral is ever lifted project-wide, the three junctions to radius are: dia-24 boss roots at z=+/-70, the dia-130 boss step at z=+75, and the pedestal-to-body merge at Y=-50."
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for square or rectangular hinge blocks with sharp corners near a pivot point in all eight views. SAW: no hinge, no knuckle, no pivot and no rotating mating part anywhere in the geometry. top_clean/top_wireframe show a closed annular housing section; iso_clean shows a one-piece cast body with a bolted cover interface (four M8 holes on a flat face), which is a static clamped joint, not an articulating one. Constraints.md confirms the only interfaces are two bearings, a shaft via those bearings, a bolted cover, foot bolts and grease nipples - none articulating. The triggering geometry this rule screens for is structurally absent, so the rule is vacuously satisfied.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for an outer cylindrical surface functioning as a piston and for circumferential ring grooves on it. SAW: the part is a stationary bearing housing, not a piston. The dia-100 outer cylinder in iso_clean and right_clean is an external cast surface that does not reciprocate in any bore; there is no mating cylinder in the assembly. The nearest thing to a sealing interface is the dia-80 H7 bore, which receives bearing outer rings and a cover spigot, neither of which is a piston seal. The rule's triggering part class is absent, so it is vacuously satisfied. Flagging the inverse risk for any downstream repair agent: adding a ring groove to the dia-80 bore to 'satisfy' this rule would destroy the bearing seat.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for very thin radial or axial sections that could crush in a chuck or deflect away from a cutting tool. SAW: the declared process is casting, and the secondary machining is line boring from a supported bar with the part clamped by its 190 x 120 x 15 mm foot plate (visible as the full-length base in front_clean and right_clean), not chucking in a lathe - so the chuck-crush mechanism does not arise. Checking the deflection half anyway: top_clean shows a substantial annular section between the dia-80 bore and the dia-100 outer wall, measuring 10.0 mm of grey iron over the bores and 14.0 mm over the dia-72 passage, on an approximately 11 kg body. A 10 mm wall on a dia-100 cast iron cylinder, clamped along a 190 mm foot, is stiff relative to boring loads. The thinnest section anywhere in the part is the 8.6 mm grease-boss wall, which carries no boring load. No thin-wall deformation risk identified.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for a beam connecting a big end and a small end, and for its width profile. SAW: no connecting rod and no beam of any kind. iso_clean shows a single closed cylindrical body on a pedestal and foot; there is no two-ended linkage member. The pedestal (constraints: X=-35..+35, Y=-60..-40, Z=-88..+88) is a constant-section support rib carrying a static compressive and bending load into the foot, not a reciprocating beam between two bores, so the tapered-beam criterion does not apply. Triggering part class absent, rule vacuously satisfied.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin to balance rotational inertia",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for a crank web and the mass distribution opposite a crankpin. SAW: no crankshaft, no web, no crankpin, and no eccentric feature of any kind. All eight views show a body that is concentric about a single straight Z axis (top_clean shows perfectly concentric circles at the bore). Furthermore this part is stationary - it is the housing that carries the bearings, and the rotating member is the separate shaft. Rotational inertia balancing is not a property of this part. Triggering part class absent, rule vacuously satisfied.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-002",
+      "rule_description": "A cantilevered plate carrying a bearing bore should be supported by a gusset or rib when its unsupported height exceeds ~4x its thickness",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for a vertical plate holding a bore standing on a base flange with a bare 90-degree junction, and compared free height against plate thickness. SAW: the bore is not carried in a plate at all. top_clean shows the bore enclosed in a full closed annular section (a complete 360-degree cylinder), which is far stiffer in bending than any plate, and iso_clean/right_clean show that cylinder running the entire 190 mm length of the part rather than standing as a thin upright. The load path from bore to base is not a bare junction either: a solid pedestal rib (constraints: 70 mm wide across X, 20 mm deep in Y, running 176 mm along Z from z=-88 to z=+88) is unioned into the body and ties it to the foot plate over almost the whole part length - visible in right_clean as the continuous banded section above the foot. The rule's own PASS clause is therefore satisfied on both counts: the governing height-to-thickness ratio is nowhere near 4:1 (the pedestal is 20 mm tall against 70 mm wide), and a full-length rib ties the body to the base. The one residual at this junction is the absence of a radius where the pedestal merges into the body at Y=-50, which is covered separately by PROPOSED-3DP-002 above and the casting-radii rule proposed below.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-001",
+      "rule_description": "A rotating part mounted on a shaft must include an explicit torque-transmitting feature rather than a plain smooth bore",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked at the central bore profile in top_clean and the bore lines in front_wireframe/iso_wireframe to see whether a plain circle carries a keyway, flat or spline. SAW: top_clean shows a perfectly circular smooth bore with no keyway, flat or spline - but this part does not rotate and must not transmit torque. It is the stationary housing; the rotating member is the separate shaft, and the dia-80 bores are bearing OUTER-ring seats. Their specified fit is H7, a transition/locating fit for a rotating-inner-ring load, and the far-end seat is deliberately required to let its outer ring slide 1.5 mm axially (constraints Must-NOT item 4: 'Do not clamp the far-end outer ring'). A torque-transmitting feature here would be an active defect, not a fix. The rule's PASS condition is met by the explicit fit specification being present in the constraints (dia-80 H7, ES/EI +0.030/0, stated for both bores). Explicit guard for any downstream repair agent: do NOT add a keyway, D-flat or spline to these bores - it would violate Must-NOT item 3 and wreck the bearing seats.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-003",
+      "rule_description": "Rotating parts must have their blade or vane trailing edges left with a finite minimum thickness rather than tapering to a knife edge",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Looked for convergence of upper and lower profile curves at an outer diameter in front_clean and right_clean. SAW: no blades, no vanes, no aerofoil sections, and no converging profiles anywhere in the eight views. All outer surfaces terminate in square edges or specified 1 x 45 deg chamfers (constraints names exactly four shipping chamfers: both dia-80 bore mouths at z=+/-95 and both bearing shoulder roots). The minimum wall anywhere in the part is 8.6 mm, two orders above a knife edge, and the part does not rotate. Triggering geometry absent, rule vacuously satisfied.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-005",
+      "rule_description": "High-speed rotating assemblies should carry a balancing provision (a designated material-removal ring, balance boss, or documented balance-grade requirement)",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "Looked for a flat annular land on a backplate or hub face where balance material could be removed, and for a stated balance grade. SAW: neither is present, and neither is needed - this part is the stationary housing and does not rotate at any speed. The rule's own scope statement is 'a part whose whole function is to rotate at speed', which this part's function contradicts: its function is to hold two bearing outer rings fixed relative to a mounting foot. Balance provisions belong on the shaft, which is a separate part in this assembly. Rule not applicable to this part class, vacuously satisfied.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-CAST-SCOPE-001",
+      "rule_description": "SCOPE WIDENING: DFM-MOLD-002 (draft) and DFM-MOLD-001 (wall thickness variation) must list casting in their manufacturing arrays, because no active-tier rule fires on a casting part beyond the two process-agnostic DFM-GEN rules",
+      "verdict": "fail",
+      "severity": "critical",
+      "tier": "probationary",
+      "observation": "I did not take this rule's premise on trust - I enumerated every rule in rules/dfm_rules.json directly. CONFIRMED: DFM-MOLD-001 (tier=active, severity=critical) and DFM-MOLD-002 (tier=active, severity=critical) both carry manufacturing=['injection_molding'] and nothing else. Scanning the whole book, exactly one rule anywhere contains 'casting' in its manufacturing array - PROPOSED-004 - and it is tier=retired, so it cannot fire. The count of ACTIVE rules scoped to casting is therefore zero, and the only two active rules that can fire on this part are DFM-GEN-002 and DFM-GEN-003, both manufacturing=[] generics. This is not an abstract gap; it makes two measurable conditions in THIS part structurally undetectable. (a) Draft: constraints.md states 'Draft 2 deg on all as-cast vertical faces is a tooling requirement and is NOT modelled', part.py's docstring repeats 'NO FILLETS and NO DRAFT', and Must-NOT item 10 forbids draft in the CAD - so every as-cast vertical face in the model sits at 0 deg (the dia-130 boss OD, both dia-24 boss ODs, the pedestal flanks at X=+/-35, the foot plate edges), all visible as dead-parallel lines in right_clean and front_clean. (b) Wall uniformity: the modelled section runs from 8.6 mm (grease boss wall around the 6.8 drill) to 25.0 mm (dia-130 boss radial section, r=40 bore to r=65 rim), a 2.9:1 spread, with a 10.0 mm body wall stepping to that 25.0 mm boss across a square corner at z=+75 - a 150% jump that DFM-MOLD-001's <25% variation criterion would reject outright if it were scoped to casting. Both conditions are real, both are visible in the renders, and neither can be reported by the current rulebook.",
+      "recommendation": "This is a RULEBOOK change, not a geometry change - do not modify part.py in response to it. In rules/dfm_rules.json, add 'casting' to the manufacturing array of DFM-MOLD-001 and DFM-MOLD-002, or (preferred, because the numeric thresholds differ by process) promote the two casting-specific rules proposed below so that casting gets its own draft and section-ratio criteria rather than inheriting injection-moulding numbers. Grey iron tolerates section variation better than thermoplastic, so a casting-specific wall rule should use a ratio threshold (e.g. adjacent sections within 2:1) rather than DFM-MOLD-001's 25%."
+    },
+    {
+      "rule_id": "PROPOSED-CAST-PARTING-001",
+      "rule_description": "A cast part must declare its parting plane and label each precision feature as-cast or post-cast machined, so castability can be distinguished from machinability",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Checked both halves of this rule against constraints.md and the part.py docstring. HALF ONE - PASSES, and well: every precision feature carries an explicit production route. Constraints.md > Manufacturing lists 'stress relieve after casting; line-bore both dia 80 H7 bores and both dia 72 steps in one setup; face the drive-end boss; drill and tap 4 x M8; drill 4 x dia 14 foot holes; drill and tap 2 x M8x1 grease bosses plus the dia 4 feeds; machine the foot underside'. That accounts for every tolerance-bearing surface in the part, and the fit callouts section adds the tolerances (dia-80 H7, 0.020 TIR coaxiality, 0.025 and 0.015 perpendicularity, foot flat 0.1, centre height +/-0.2). The visually suspicious features - the bore counterbore steps and the tapped bosses that cannot be produced as-cast - are all explicitly on the machined list, so the concern this rule's look_for raises is actually answered. HALF TWO - FAILS: there is no parting-plane or draw-direction statement anywhere. A targeted grep for parting plane / parting line / parting direction across constraints.md returns exactly one hit, Must-NOT item 10, 'No as-cast draft, no core prints, no parting-line features in the CAD model' - which is a statement that parting features are absent from the model, the opposite of a declaration of which way the part draws. The consequence is specific: because the draw direction is undeclared, the set of faces that need the stated 2 deg of draft cannot be enumerated by anyone, and so the deferred draft requirement cannot be checked when it is eventually applied. The geometry admits more than one plausible split (a horizontal cope/drag through the shaft axis, or an axial split normal to Z), and they imply different core counts and different drafted-face sets - notably the dia-130 collar at z=+75..+95 is a full 360 deg collar 15 mm proud of a dia-100 body, which behaves very differently under the two choices. The rule's PASS bar requires both halves and only one is met.",
+      "recommendation": "One paragraph in constraints.md closes this, with no geometry change. Add a 'Casting layout' subsection under Manufacturing stating: (1) the parting plane and draw direction (the natural candidate for a pillow-block of this shape is the horizontal plane through the shaft axis, Y=0, cope up / drag down, which lets both dia-24 grease bosses draw up and the pedestal and foot draw down); (2) the cores required - at minimum one cylindrical core along Z for the dia-72 through passage and the two dia-80 bore pockets; (3) the explicit list of as-cast vertical faces that will carry the deferred 2 deg draft once applied, which the draw direction above makes enumerable. Leave the existing per-feature machining list as-is - it already satisfies the second half of this rule."
+    },
+    {
+      "rule_id": "PROPOSED-META-RULEGAP-001",
+      "rule_description": "When a part's declared manufacturing process has no process-specific active rules, the evaluation must say so as a first-class signal rather than let an evaluator express the gap by distorting a generic rule's verdict",
+      "verdict": "fail",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "Measured the quantity this rule names. Counted directly in rules/dfm_rules.json: the number of tier=active rules whose manufacturing array includes 'casting' is ZERO. The declared process for this part is casting (constraints.md 'Primary process: casting', material grey cast iron EN-GJL-250). Every active verdict in this report therefore comes from the two manufacturing=[] generics, DFM-GEN-002 and DFM-GEN-003, and both of those genuinely pass on their own merits - I traced tool access feature-by-feature and setup count family-by-family rather than passing them by default. That is exactly the dangerous shape this rule is written to catch: the active-tier portion of this report is a clean two-for-two pass, which a downstream repair agent or the severity-weighted regression gate will read as 'this casting has been checked for castability'. It has not been. Nothing in the pipeline examined draft, section ratio, hot spots, parting feasibility, core requirements, or fillet radii, because no instrument exists that looks at them for this process. I am reporting the gap here as its own named finding rather than expressing it by downgrading DFM-GEN-002 or DFM-GEN-003, which would have been the distortion this rule forbids - and note that the condition is still true as a report-level property, since nothing in the emitted JSON schema carries a rulebook-coverage field for a consumer to read.",
+      "recommendation": "Two changes, neither to part.py. (1) Immediate: fix the coverage itself by actioning PROPOSED-CAST-SCOPE-001 above, which converts this from a structural blind spot into ordinary rule failures. (2) Structural: give the evaluation output a first-class coverage signal so this cannot recur silently for the next uncovered process - add a 'process_rule_coverage' field to the DFMAEvaluation schema carrying the count of active rules scoped to the declared process, and have the deterministic post-validation step that derives overall_verdict downgrade any 'pass' to 'conditional_pass' with an explicit coverage warning when that count is zero. That makes the gap mechanical rather than dependent on an evaluator noticing it, which is the only version of this rule that will hold once nobody is looking."
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-CAST-RADII-001",
+      "category": "geometry",
+      "manufacturing": [
+        "casting",
+        "sand_casting",
+        "investment_casting"
+      ],
+      "description": "Cast junctions where a boss, rib or flange meets a wall must carry a fillet radius, and a junction that sits directly beneath a tapped or load-bearing machined feature must carry one without exception, because the un-radiused root is a shrinkage hot spot and porosity in a thread is a functional failure.",
+      "look_for": "Bosses, ribs, pedestals and proud flanges meeting a wall at a bare sharp angle in the isometric and elevation views. Then ask the second question that makes this rule bite: does any machined precision feature - a tapped hole, a bearing seat, a sealing face - land in or immediately above that junction's thermal mass?",
+      "pass_criteria": "Every cast junction carries a visible fillet, typically R5-R8 for sections in the 10-25 mm range, OR the model documents a project-wide radii deferral AND the production drawing requirement, AND no tapped or load-bearing machined feature sits inside an un-radiused hot spot.",
+      "fail_criteria": "Sharp cast junctions at boss-to-wall, rib-to-wall or flange-step-to-wall. Escalate to critical when a tapped hole is drilled into the resulting hot spot: on this part the four M8 threads at bolt circle 104 are tapped 16 mm deep into the dia-130 boss whose 25 mm section meets the 10 mm body wall at a square step at z=+75, placing the thread engagement squarely in the region most likely to carry shrinkage porosity.",
+      "severity": "critical",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-CAST-SECTION-001",
+      "category": "geometry",
+      "manufacturing": [
+        "casting",
+        "sand_casting",
+        "investment_casting"
+      ],
+      "description": "Adjacent sections in a casting should stay within roughly 2:1 thickness, and transitions between unequal sections should be tapered or radiused rather than stepped, so the part solidifies progressively instead of trapping isolated liquid pockets.",
+      "look_for": "Measure the governing wall at each distinct region and compute the ratio between the thickest and thinnest, then specifically look for step changes where a thick section abuts a thin one across a square corner.",
+      "pass_criteria": "Max-to-min section ratio at or below about 2:1, with transitions between unequal sections tapered or radiused.",
+      "fail_criteria": "Ratio above 2:1, or any square step where a section more than doubles. This part measures 8.6 mm (grease boss wall) to 25.0 mm (dia-130 boss at the bolt circle), a 2.9:1 spread, with a 10.0 to 25.0 mm square step at z=+75 and a 10.0 mm wall merging into the 20 mm pedestal at Y=-50.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-CAST-DRAW-001",
+      "category": "tolerances",
+      "manufacturing": [
+        "casting",
+        "sand_casting",
+        "die_casting"
+      ],
+      "description": "A cast part must declare its draw direction even when draft itself is deferred and unmodelled, because without a declared draw the set of faces requiring draft cannot be enumerated and the deferral can therefore never be discharged or audited.",
+      "look_for": "A stated draw direction or parting plane in constraints.md or the part docstring. A statement that draft is 'deferred' or 'not modelled' is NOT a substitute and should be treated as triggering this rule rather than satisfying it.",
+      "pass_criteria": "The draw direction is named, and either every as-cast face parallel to it carries draft, or the faces that will carry the deferred draft are explicitly enumerated.",
+      "fail_criteria": "Zero draft modelled and no draw direction stated, so no reader can determine which faces are affected. On this part every as-cast vertical face is at 0 deg and the draw is undeclared, making the stated '2 deg on all as-cast vertical faces' requirement uncheckable.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-META-DEFERRED-001",
+      "category": "access",
+      "manufacturing": [],
+      "description": "A DFMA report must surface manufacturing requirements that the part's own constraints declare as deliberately deferred and unmodelled, so that a clean verdict reads as 'no defects found in what was checked' rather than 'the manufacturing definition is complete'.",
+      "look_for": "Scan constraints.md and the part docstring for deferral language - 'deferred', 'not modelled', 'production drawings would carry', 'project-wide' - and cross-check each deferred item against the rules that actually fired.",
+      "pass_criteria": "No deferred manufacturing requirements exist, or every deferred requirement is echoed in the report as an explicit open item with its production-stage owner.",
+      "fail_criteria": "The constraints declare deferred manufacturing content that the report is silent about. This part defers both junction radii (R5-R8, named in constraints) and 2 deg draft, documents both honestly and deliberately, and neither appears anywhere in the fired rule set - so the deferrals are invisible to the regression gate and to every downstream agent that reads only the report.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-CAST-EDGE-001",
+      "category": "features",
+      "manufacturing": [
+        "casting",
+        "sand_casting"
+      ],
+      "description": "Clearance holes for torqued fasteners in a brittle cast material need more edge material than the same hole in steel, because grey iron spalls rather than yields under a bolt head bearing near a free edge.",
+      "look_for": "Measure centre-to-free-edge distance on every through-hole in a cast flange or foot, and compare it against the hole diameter and the bolt head or washer footprint rather than against the hole alone.",
+      "pass_criteria": "Centre-to-edge at least 1.5x hole diameter in grey iron, and the bolt head or washer footprint fully landed on material with margin.",
+      "fail_criteria": "Centre-to-edge below about 1.5x hole diameter in a brittle casting. On this part the foot holes are dia 14 at X=+/-45 in a plate ending at X=+/-60, giving 15.0 mm centre-to-edge (1.07x D) and only 8.0 mm of grey iron outboard of the hole wall; an M12 washer at roughly 24 mm across will overhang or sit flush to the free edge. Noting that constraints.md measures and accepts this consciously, so the finding is a flag for the reviewer rather than an unexamined error.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "ff9fdc58996f94aa",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-10-08T18:44:15.834080+00:00"
+  }
+}

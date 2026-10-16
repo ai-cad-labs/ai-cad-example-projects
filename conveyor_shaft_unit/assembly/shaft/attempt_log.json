@@ -1,0 +1,2 @@
+{"agent":"cad_designer","attempt":1,"action":"fresh design","result":"in progress","notes":"single revolve of closed profile, no booleans, no fillets"}
+{"agent":"cad_designer","attempt":1,"action":"fresh design","result":"success","notes":"single revolve of one closed (radius,z) profile on XZ, no booleans no fillets. bbox 48x48x300, vol 408899.7 mm3, 1 solid, collar-to-circlip span 18.000 exact. API note: revolve axis args are LOCAL coords, so global Z is (0,0)->(0,1), NOT (0,0,0)->(0,0,1) which is the plane normal. 0 fix cycles, renderer dimension_check pass."}

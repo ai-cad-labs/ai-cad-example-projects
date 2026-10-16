@@ -19,11 +19,16 @@ The point of the gallery is to let you watch the machine think.
 
 ![The lead exhibit in shaded isometric: a centrifugal compressor assembly with backswept impeller in green, bearing housing in red, grooved pulley-shaft behind](impeller_assembly/iso_filled.png)
 
-*The lead exhibit:
+*The cover exhibit:
 a six-component centrifugal compressor assembly
 the system designed from a hand-drawn sketch;
 [`impeller_assembly`](impeller_assembly/) holds the sketch, the brief,
-and every artifact in between.*
+and every artifact in between.
+The gallery's most mechanically demanding run is
+[`conveyor_shaft_unit`](conveyor_shaft_unit/):
+a two-bearing shaft support unit from a one-paragraph text brief,
+whose part drawings and assembly views are the ones the flagship README uses
+to show what a run looks like up close.*
 
 ---
 
@@ -32,6 +37,7 @@ and every artifact in between.*
 | Project | What it shows | Render | Design spec | The debrief |
 |---|---|---|---|---|
 | [`impeller_assembly`](impeller_assembly/) | **The hero run, and the gallery's first image-input project**: a hand-drawn sketch became a 6-component centrifugal compressor with its 0.8000 mm running clearance measured five independent ways, and the system twice refused DFM advice that would have straightened the user's backswept blades, defending design intent against its own tooling. | [Shaded ISO](impeller_assembly/iso_filled.png) | [`goals.md`](impeller_assembly/goals.md) | [`run_reflection.md`](impeller_assembly/run_reflection.md) |
+| [`conveyor_shaft_unit`](conveyor_shaft_unit/) | **The mechanically intensive run, and the one where the system caught itself**: a 40 mm conveyor shaft on two 6208 bearings in a cast two-bore housing with a bolted seal cover, from a one-paragraph brief with no sketch. Three parts right first time with no repair loop; every brief-named dimension re-measured on the solids; sourcing found the specified bearing cannot reach the asked service life and escalated instead of upsizing; a faulty gate verdict was overruled on measured grounds; and after the reviewer said ship, the run's own verification confirmed two installation criticals and found a third, downgrading the status in writing. | [Shaded ISO](conveyor_shaft_unit/iso_filled.png) | [`goals.md`](conveyor_shaft_unit/goals.md) | [`run_reflection.md`](conveyor_shaft_unit/run_reflection.md) |
 | [`piston_crank`](piston_crank/) | The 5-part IC-engine core assembled at top-dead-center: a fit/clearance dimension chain locked in the plan that held end-to-end, plus a deliberate mid-run self-checkpoint and cold resume. | [ISO wireframe](piston_crank/assembly/renders/iso_wireframe.png) | [`goals.md`](piston_crank/goals.md) | [`run_reflection.md`](piston_crank/run_reflection.md) |
 | [`spur_gear`](spur_gear/) | A meshing involute gear pair: when the reference gear method proved numerically fragile, the run adapted to a point-sampled involute and proved the mesh with a deterministic interference test (0.00 mm³ at the correct half-tooth phase). | [ISO wireframe](spur_gear/assembly/renders/iso_wireframe.png) | [`goals.md`](spur_gear/goals.md) | [`run_reflection.md`](spur_gear/run_reflection.md) |
 | [`treasure_chest`](treasure_chest/) | The clean control baseline: a 4-part chest shipped by 13 agents with zero failures and zero repair cycles, and three manufacturability findings deferred with written reasoning rather than repaired on reflex. | [ISO wireframe](treasure_chest/assembly/renders/iso_wireframe.png) | [`goals.md`](treasure_chest/goals.md) | [`run_reflection.md`](treasure_chest/run_reflection.md) |

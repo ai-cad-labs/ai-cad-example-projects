@@ -1,0 +1,265 @@
+{
+  "eval_type": "dfm",
+  "target_path": "projects/conveyor_shaft_unit/assembly/shaft",
+  "manufacturing_process": "CNC_turning",
+  "pass_label": "single_pass",
+  "rules_evaluated": 17,
+  "rules_passed": 15,
+  "rules_failed": 1,
+  "rules_uncertain": 1,
+  "overall_verdict": "conditional_pass",
+  "results": [
+    {
+      "rule_id": "DFM-CNC-005",
+      "rule_description": "Hole depth-to-diameter ratio should not exceed 10:1 for standard drills",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: drilled through-holes and blind holes in the four wireframe views, which render hidden edges as grey dotted lines (verified as the renderer's hidden-line style by the grey dotted rear-face circles clearly visible in iso_wireframe and top_wireframe). SAW: front_wireframe and right_wireframe show only thin solid silhouette and step-boundary lines across the full ~1200 px part length, with zero dotted axial line pairs that an internal hole would produce; top_wireframe shows no circle inside the innermost solid step circle. The part carries no holes of any kind. VACUOUS pass - nothing proves a hole was sized well, only that no hole exists for the ratio to bind on. CAVEAT on the shared premise: this verdict and three others (DFM-TURN-001, DFM-TURN-003, DFM-CNC-008) all rest on the single inference that absent dotted lines means absent internal geometry. That inference is corroborated once, by the diameter-ratio arithmetic in DFM-TURN-001, and is not independently re-derived here.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-CNC-008",
+      "rule_description": "Tapped hole thread depth >= 1.5x nominal bolt diameter",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "LOOKED FOR: any threaded or bolt hole - end-face tapped holes for a retaining washer, radial set-screw holes in the pulley/bearing lands, or cross-holes. SAW: the two axial views (top_clean, top_wireframe) show only concentric circles with no hole features on the visible end face; front and right wireframes show no hidden-line evidence of any radial hole breaking any cylindrical surface. Zero tapped holes exist. VACUOUS pass, sharing the hidden-line premise flagged under DFM-CNC-005. Functional corollary: a conveyor shaft with no tapped hole and no set-screw provision has no fastener-based retention anywhere - see PROPOSED-SHAFT-002.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-001",
+      "rule_description": "Minimum internal bore diameter >= 3mm for standard boring bars",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: an axial bore or centre hole. SAW: the part is solid. Cross-view check, which is the one piece of INDEPENDENT corroboration for the no-bore conclusion rather than a restatement of it - in top_clean the outermost circle measures ~910 px across and the innermost solid circle ~635 px, a ratio of 0.70; the front view gives minimum-step diameter / flange diameter = 145/194 = 0.75. The two agree within my measurement error, so the innermost circle in the axial view is the smallest OUTER step seen end-on, not a bore, and nothing is drawn inside it. A bore would appear as a distinctly smaller additional circle; there is none. No internal bore exists. VACUOUS pass.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-002",
+      "rule_description": "Length-to-diameter ratio should not exceed 8:1 to avoid deflection",
+      "verdict": "uncertain",
+      "severity": "major",
+      "tier": "active",
+      "observation": "LOOKED FOR: overall slenderness against the smallest turned diameter. SAW: in front_clean the part spans x=50 to x=1250 (~1200 px overall length). Six concentric steps, measured as vertical extents about the ~y=145 axis: left end journal ~146 px, then ~170 px, then ~166 px, a thin raised flange at ~194 px (the largest diameter), the long main body at ~186 px, and the right end journal ~160 px. right_clean independently confirms the same set in mirrored order (~143, ~172, ~168, ~198 flange, ~188 body, ~157). PRECISION CAVEAT: these are eye-read coordinates off line art against a ~3 px line weight, so each figure carries roughly +/-3-5 px, and they should be read as ranges, not measurements. Proportional L/D on the MINIMUM diameter the rule names = 1200/145 = ~8.3:1, with the error band giving an interval of roughly 7.9:1 to 8.7:1 - straddling the 8:1 limit, with the central estimate on the failing side. On the main body it is 1200/186 = ~6.5:1 and on the flange ~6.2:1. The renders carry no dimensions or scale bar, so I cannot resolve the 4% margin by which the central estimate exceeds the limit. I am explicitly NOT calling this a pass: the measured value sits on the wrong side of the line and only the error band keeps it from being a failure.",
+      "recommendation": "Read the actual step diameters and overall length from part.py and compute L/D on the smallest journal exactly - one file read converts this uncertain into a determinate verdict and simultaneously resolves the low-confidence shoulder-height item in PROPOSED-SHAFT-003. If the ratio exceeds 8:1, either shorten the end journals, raise the minimum journal diameter, or split the turning into supported sections. Regardless of which side of 8:1 it lands on, a shaft at this slenderness must be turned between centres or with a steady rest - plan centre-drilled end faces and state the support method in constraints.md so the setup is not assumed to be a simple chuck-only job."
+    },
+    {
+      "rule_id": "DFM-TURN-003",
+      "rule_description": "Internal features must be accessible from one end of the workpiece",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "LOOKED FOR: internal grooves, internal shoulders, or steps inside a bore that would be trapped between two closed sides. SAW: no bore exists (see DFM-TURN-001 for the corroborated evidence), therefore no internal features exist. Every feature on this part is an external turned surface on the OD. There is no enclosed volume anywhere in the geometry. VACUOUS pass - the rule has nothing to bind on rather than having been satisfied by good design.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-TURN-004",
+      "rule_description": "Groove width >= 3mm for standard grooving/parting tools",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: narrow recessed features - O-ring seats, circlip grooves, undercuts, relief grooves at shoulder roots. SAW: zero grooves. The narrowest feature on the part is a RAISED rib, not a recess: in front_clean a thin collar occupies x=443 to x=470 (~27 px axial width, ~2.3% of overall length) at ~194 px diameter, standing proud of the ~186 px main body on its right and the ~166 px land on its left. Because it is a protrusion, it is produced by turning away the adjacent lands rather than by plunging a grooving tool, and both adjacent reliefs are wide open (a ~75 px land to the left, a ~500 px body to the right), so no narrow-blade tooling is implicated. No recessed feature of any width exists. Noted separately: the complete absence of circlip grooves is itself a finding, carried under PROPOSED-TURN-001 rather than distorting this rule's verdict.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-002",
+      "rule_description": "All features must have adequate clearance for manufacturing tool access",
+      "verdict": "pass",
+      "severity": "critical",
+      "tier": "active",
+      "observation": "LOOKED FOR: any surface a turning, facing, or grooving tool could not physically reach. SAW: every surface in all four views is either a concentric OD cylinder or a flat annular shoulder face normal to the axis. The one potential trap is the raised flange at ~194 px diameter sitting mid-part, larger than everything on both sides of it: the ~166 px land to its left is reachable by approaching from the left end and the ~186 px body to its right by approaching from the right end, so the tool never has to pass over the flange to reach either. Both flange flanks are open annular faces with full side clearance. No feature is shadowed by other geometry. Access is satisfied, at the cost of requiring two setups (noted under DFM-GEN-003), which is normal for a stepped shaft.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "DFM-GEN-003",
+      "rule_description": "Prefer symmetric features to reduce setup operations and fixturing complexity",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: asymmetry forcing setups a symmetric design would avoid. SAW: the part is perfectly rotationally symmetric about its axis (top_clean shows only concentric circles - no flats, no off-axis features), which is the symmetry that matters most for turning: a single chucking orientation, no indexing. Axially the part is asymmetric - the step sequence differs end to end and the largest-diameter flange sits mid-part - but that asymmetry is functionally required for a shaft carrying different components at different stations. Two setups (flip to face and finish the second end) is the irreducible minimum for any stepped shaft, not a cost introduced by this design. Pass on the setup axis. SEPARATE OBSERVATION the rule does not cover but which belongs on the record: the two END JOURNALS ARE NOT THE SAME DIAMETER - ~146 px left vs ~160 px right in front_clean, confirmed independently as ~143 px and ~157 px in right_clean, a consistent ~10% difference across two views that exceeds my measurement error. That means two different bearing part numbers and two spares lines for one shaft. Legitimate for a drive-end/idle-end design, but it is a standardization decision nobody has been asked to confirm - raised as PROPOSED-SHAFT-005.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-005",
+      "rule_description": "Turned parts should be rotationally symmetric; non-symmetric features require secondary milling operations.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: flats, slits, keyways, off-axis holes, or any feature that would require a mill or a live tool. SAW: top_clean, the axial view, is the decisive evidence - it shows a set of cleanly concentric circles with no interruption, notch, chord, or hole anywhere on the circumference. iso_clean confirms every step transition is a complete, unbroken circular arc. This part is fully rotationally symmetric and can be produced entirely on a 2-axis lathe with no secondary milling. Strong pass, verified against the view that would expose a violation. Tension worth flagging to the repair agent: adding the torque-transmission feature that PROPOSED-SHAFT-002 calls for would BREAK this pass and introduce a milling setup. That is a real trade, not an oversight - functional necessity should win, and the setup cost should be stated rather than discovered.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-001",
+      "rule_description": "Cylindrical pins intended for floating assembly should have retaining ring grooves or other axial retention features.",
+      "verdict": "fail",
+      "severity": "minor",
+      "tier": "active",
+      "observation": "LOOKED FOR: retaining ring grooves near the journal ends, cross-holes for a pin or cotter, or threads for a locknut. SAW: none of the three. Scanning all four views along the full length, every surface is a plain cylinder or a shoulder face; there is no recess, no hole, and no thread anywhere. The part is not a smooth cylinder - it has shoulders, and the mid-part flange is clearly an axial locator - but a shoulder constrains a mating component in ONE direction only. Nothing stops a bearing inner race or a pulley hub from walking off either end journal in the outboard direction. Function read from the project and part names (conveyor_shaft_unit/shaft) plus the journal-and-shoulder geometry, so the bearings-and-hub reading is inference, not render-proven - hence minor severity as a warning rather than a block. RULE-TEXT DEFECT, reported because it will recur on every stepped part: this rule's two criteria are mutually unsatisfiable here. Pass requires presence of grooves or holes (absent). Fail requires a smooth cylinder (false - the part has shoulders). A stepped shaft meets neither, so the verdict had to be decided on substance rather than on the stated criteria.",
+      "recommendation": "Add a retaining-ring groove just outboard of each component seat (CadQuery: cut the groove into the revolved sketch profile directly, or .faces('>Z').workplane(offset=-seat_end).circle(groove_r).cutBlind), sized to a standard DIN 471 / ANSI external ring for the journal diameter. Keep groove width at or above 3mm where the ring standard allows, so DFM-TURN-004 stays satisfied. Alternatively thread one end for a locknut and tab washer. Confirm with the assembly_resolver which seats are located and which must float for thermal growth before adding grooves to both ends - over-constraining both bearings is its own defect. SEPARATELY, for the rule lifecycle: rewrite this rule's fail_criteria to 'no retaining groove, cross-hole, thread, or two-directional shoulder pair on any component seat' so it decides stepped shafts as well as plain pins."
+    },
+    {
+      "rule_id": "PROPOSED-3DP-002",
+      "rule_description": "Functional protrusions attached to thin walls should have fillets or ribs to distribute stress and prevent layer delamination.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: protrusions meeting thin walls at sharp unreinforced angles. SAW: the part has no thin walls - it is a solid turned bar with no hollow or plate-like sections anywhere - and no protrusions attached to walls; the only protruding feature is the mid-part flange, which rises from a solid shaft core, not from a wall. The rule is also scoped to additive manufacturing (layer delamination) while the declared process is CNC_turning, so its failure mechanism cannot occur. Vacuous pass on both grounds. Deliberately NOT used as a vehicle for the separate and real observation that every shoulder on this shaft is a sharp 90-degree corner - that is a rotating-bending fatigue mechanism, not layer adhesion, and is filed as PROPOSED-SHAFT-001 instead of being smuggled into this verdict.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-ASSY-002",
+      "rule_description": "Hinge knuckles must have rounded profiles concentric with the pivot pin to allow rotation without collision.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: hinge knuckles, square blocks near a pivot, or any rotating-joint interface. SAW: no hinge features of any kind. The part is a single-piece stepped shaft with no lugs, knuckles, or mating rotation interfaces; every cross-section is a full circle (top_clean), so there are no square corners anywhere to clash during rotation. Rule out of scope for this part. Vacuous pass.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-001",
+      "rule_description": "Pistons must have circumferential ring grooves for sealing.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: whether any step could be a piston land requiring sealing rings. SAW: no step on this part reads as a piston. The step profile is a stepped shaft - two slender end journals flanking progressively larger lands and a long main body - with no single large-diameter land of the proportions a piston crown would have, and no bore for it to run in. There is no sealing duty visible in the geometry. The declared assembly is a conveyor shaft unit, not a cylinder. Rule out of scope. Vacuous pass.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-TURN-006",
+      "rule_description": "Thin-walled turned parts should have sufficient thickness to prevent deformation during machining.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: thin radial or axial sections that could crush in a chuck or deflect away from the tool. SAW: the part is solid throughout (no bore, see DFM-TURN-001), so there is no wall to be thin - a chuck grips a solid section at every possible clamping station. The one axially narrow feature, the ~27 px wide raised flange, protrudes only ~4 px radially above the adjacent main body (~194 px vs ~186 px diameter), making it a short, stubby, well-supported rib rather than a thin disc that could deflect. Pass. Deliberately kept out of this verdict: the part's overall slenderness IS a genuine deflection risk, but that is DFM-TURN-002's mechanism (workpiece bending between supports) and is recorded there as uncertain rather than double-counted here.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-002",
+      "rule_description": "Connecting rod beams should taper from the big end to the small end to optimize stress distribution.",
+      "verdict": "pass",
+      "severity": "minor",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: a beam section joining two bosses of different sizes. SAW: no connecting-rod geometry. The part has no beam, no big end, and no small end - it is a body of revolution whose every cross-section is a full circle (top_clean), where a connecting rod would show a non-circular section in the axial view. Rule out of scope for this part. Vacuous pass.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-FUNC-003",
+      "rule_description": "Crankshaft webs should incorporate counterweights opposite the crankpin to balance rotational inertia.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: an offset crankpin journal and the webs connecting it, which would demand counterweighting. SAW: this is definitively not a crankshaft - top_clean shows every step as a circle CONCENTRIC with every other, with no eccentric journal and no offset axis anywhere; iso_clean shows all step transitions sharing one centreline. With no offset mass there is no rotating imbalance for a counterweight to correct. Rule out of scope. Vacuous pass, and the concentricity check that establishes it is a real positive observation, not an assumption.",
+      "recommendation": ""
+    },
+    {
+      "rule_id": "PROPOSED-META-RULEGAP-001",
+      "rule_description": "When a part's declared manufacturing process has no process-specific active rules, the evaluation must say so as a first-class signal rather than let an evaluator express the gap by distorting a generic rule's verdict.",
+      "verdict": "pass",
+      "severity": "major",
+      "tier": "probationary",
+      "observation": "LOOKED FOR: whether the declared process CNC_turning has active rules scoped to it. SAW: four active turning-scoped rules were present and evaluated - DFM-TURN-001 (bore diameter), DFM-TURN-002 (L/D ratio), DFM-TURN-003 (internal access), DFM-TURN-004 (groove width) - plus the active turning-scoped PROPOSED-TURN-005 and the probationary PROPOSED-TURN-006. This pass is NOT generic-only and the rule's criterion is met with margin. READ THE PASS COUNT WITH THIS CAVEAT, which is the headline number's correction and not a footnote: rules_passed=15 of 17 reads as an 88% clean bill and is not one. Seven passes are out-of-domain rules (3DP, hinge, piston, connecting-rod, crankshaft) and five more are vacuous because the part has no holes, bores, or grooves. Only DFM-TURN-002, DFM-GEN-002, DFM-GEN-003 and PROPOSED-TURN-005 exercised real geometry. Twelve of fifteen passes assert nothing about this part's quality. The rulebook covers the process but is thin on rotating-shaft engineering duty, which is where all five proposed rules land.",
+      "recommendation": ""
+    }
+  ],
+  "proposed_rules": [
+    {
+      "id": "PROPOSED-SHAFT-001",
+      "category": "geometry",
+      "manufacturing": [
+        "CNC_turning",
+        "CNC_milling"
+      ],
+      "description": "Diameter transitions on a rotating shaft must carry a shoulder fillet; a sharp re-entrant corner at a step is the dominant fatigue-crack origin in service.",
+      "look_for": "Each step where the diameter changes, inspected in the front and right wireframe views and in the isometric. Check whether the shoulder face meets the smaller cylinder at a sharp 90-degree corner or through a blended radius. RESOLUTION NOTE that makes this rule checkable from dimensionless renders: because the required fillet is a fraction of diameter (r ~ 0.05d), its pixel size is scale-invariant in a render scaled to fit the part - 0.05 x a 186 px body diameter is ~9 px, well above typical line weight - so a correctly-sized fillet IS resolvable at any physical part size, and its absence from the render is evidence, not an artifact.",
+      "pass_criteria": "Every load-carrying diameter transition shows a visible fillet at the shoulder root, conventionally at least 0.05x the smaller shaft diameter, or an undercut relief where a mating component must seat flush against the shoulder.",
+      "fail_criteria": "Any diameter transition on a rotating, bending-loaded shaft shows a sharp unfilleted 90-degree internal corner at a scale where a correctly-sized fillet would be visible. Observed on this part: all five step transitions in front_clean and right_clean render as sharp corners with no radius, including the two end-journal steps that sit under the highest bending-moment reversal. Note the project's AGENTS.md defers fillets deliberately because they cause CadQuery failures - so this is expected at this stage and must not be silently carried to export.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-SHAFT-002",
+      "category": "features",
+      "manufacturing": [
+        "CNC_turning",
+        "CNC_milling"
+      ],
+      "description": "A shaft that must transmit torque to or from a mounted component requires a positive torque-transmission feature; plain cylindrical journals transmit torque only by friction and will slip under load.",
+      "look_for": "A keyway, machined flat for a set screw, spline, cross-pin hole, threaded end, or taper on the lands where a pulley, sprocket, coupling, or drive member mounts. The axial view is decisive: any such feature breaks the circular section.",
+      "pass_criteria": "At least one positive torque-transmission feature is present on each land carrying driving or driven torque, or the design documents an interference/shrink fit sized for the rated torque.",
+      "fail_criteria": "Every mounting land is a plain concentric cylinder with no keyway, flat, spline, pin hole, or thread. Observed on this part: top_clean shows a perfectly uninterrupted circular section at every station, so no land can transmit torque other than by friction. This feature would break the part's current full rotational symmetry and require a secondary milling setup - a real cost that belongs in the design decision rather than being discovered at the mill.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-SHAFT-003",
+      "category": "geometry",
+      "manufacturing": [
+        "CNC_turning"
+      ],
+      "description": "A shoulder used to axially locate a rolling-element bearing or hub must be tall enough to seat against the component's face rather than against its corner radius.",
+      "look_for": "The radial height of each shoulder, measured as half the difference between the two adjacent step diameters, compared against the seated component's corner radius.",
+      "pass_criteria": "Shoulder radial height is at least the mating component's maximum corner radius plus a seating margin, which for a rolling bearing typically means several millimetres rather than a fraction of one.",
+      "fail_criteria": "A shoulder intended to locate a component is so shallow that the component rides on its own corner radius. Observed on this part at LOW CONFIDENCE, needing dimensional verification: two adjacent lands measure ~170 px and ~166 px in front_clean and ~172 px and ~168 px in right_clean, a ~2% diameter step giving a radial shoulder of about 2 px, which is at the edge of resolution against a ~3 px line weight. Two independent views agree a step exists, but its true height must be read from part.py before this is treated as a defect - the same file read that resolves DFM-TURN-002.",
+      "severity": "major",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-SHAFT-004",
+      "category": "features",
+      "manufacturing": [
+        "CNC_turning"
+      ],
+      "description": "Shaft ends and press-fit journal entries should carry a lead-in chamfer to guide the mating bore, prevent galling of the fit, and remove the handling hazard of a sharp edge.",
+      "look_for": "The junction between each end face and its outer cylindrical surface, and the leading edge of any interference-fit land, inspected in the isometric and the two end-on views. Same scale-invariance as PROPOSED-SHAFT-001 applies: a conventional 1x45-degree chamfer is roughly 0.025-0.05 of the journal diameter, so ~5-9 px in a fit-scaled render and therefore resolvable at any physical size.",
+      "pass_criteria": "Each shaft end and press-fit entry shows a chamfer, conventionally 1x45 to 2x45 degrees scaled to the journal diameter.",
+      "fail_criteria": "End faces meet the outside diameter at a sharp square edge at a scale where a conventional chamfer would be visible. Observed on this part: iso_clean shows both terminal faces meeting their cylinders at an unbroken sharp corner, and front_clean and right_clean show square ends at x=50 and x=1250 with no chamfer line. Cheap to add in the same turning operation as the facing cut.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    },
+    {
+      "id": "PROPOSED-SHAFT-005",
+      "category": "features",
+      "manufacturing": [
+        "CNC_turning"
+      ],
+      "description": "Where a shaft carries the same class of component at both ends, the two seats should share one diameter unless a functional reason requires otherwise, so the assembly consumes one bearing part number rather than two.",
+      "look_for": "Compare the diameters of the two end journals across at least two orthogonal views. Flag any difference larger than the measurement error of the renders.",
+      "pass_criteria": "Both end journals share a diameter, or constraints.md states the functional reason they differ (for example a drive end sized for coupling torque against a free idle end).",
+      "fail_criteria": "The two end journals differ in diameter with no documented reason, doubling the bearing part count and the spares inventory for one shaft. Observed on this part: ~146 px and ~160 px in front_clean, confirmed as ~143 px and ~157 px in right_clean - a consistent ~10% difference across two independent views, comfortably above measurement error. This is plausibly intentional for a drive-end/idle-end design, which is exactly why it needs confirming rather than assuming.",
+      "severity": "minor",
+      "tier": "probationary",
+      "confidence": 0.5,
+      "times_applied": 0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "source": "Auto-proposed by DFMA evaluation LLM"
+    }
+  ],
+  "_meta": {
+    "ruleset_hash": "cdd329b95ce012ba",
+    "engine": "claude-cli",
+    "evaluated_at": "2026-10-08T18:45:56.834862+00:00"
+  }
+}
